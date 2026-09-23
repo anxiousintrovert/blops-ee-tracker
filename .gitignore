@@ -1,0 +1,11 @@
+**/bin/
+**/obj/
+work/
+outputs/
+dist/
+.vs/
+*.user
+*.suo
+# Local-only test helper that grants equipment for private Ascension testing.
+src/Gsc/ee_tracker_test_gersh.gsc
+src/Gsc/Install-TestGershGrant.ps1

@@ -1,0 +1,5 @@
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:00:00Z","sessionId":"ascension-demo-001","type":"session_started","source":"simulator"}
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:00:01Z","sessionId":"ascension-demo-001","type":"snapshot","map":"zombie_cosmodrome","round":12,"playerCount":2,"powerOn":true,"source":"simulator"}
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:00:02Z","sessionId":"ascension-demo-001","type":"mod_loaded","variantEvidence":{"kind":"ModLoaded","value":"any_player_ee"},"source":"simulator"}
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:00:03Z","sessionId":"ascension-demo-001","type":"quest_signal","signal":"stock.success.target_teleported","source":"simulator_fixture","signalValue":"fixture only; stock flag name confirmed offline, live observer unverified"}
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:00:04Z","sessionId":"ascension-demo-001","type":"quest_signal","signal":"ascension.monkey_button_interaction","source":"simulator_fixture","signalValue":"interaction observed, not step completion"}

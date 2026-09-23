@@ -1,0 +1,6 @@
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:10:00Z","sessionId":"moon-panels-preview","type":"session_started","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:10:01Z","sessionId":"moon-panels-preview","type":"snapshot","map":"zombie_moon","round":12,"playerCount":2,"powerOn":true,"source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:10:02Z","sessionId":"moon-panels-preview","type":"quest_signal","signal":"stock.success.power_on","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:10:03Z","sessionId":"moon-panels-preview","type":"quest_signal","signal":"stock.success.ss1","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:10:04Z","sessionId":"moon-panels-preview","type":"quest_signal","signal":"stock.success.security_1_done","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:10:05Z","sessionId":"moon-panels-preview","type":"quest_signal","signal":"stock.success.security_3_done","source":"simulator_fixture"}

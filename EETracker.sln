@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EETracker.Core", "src\EETracker.Core\EETracker.Core.csproj", "{46D602E7-4194-4571-AB49-DDF39DBB3981}"
+EndProject
+Project("{60DC8134-EBA5-43B8-BCC9-BB4BC16C2548}") = "EETracker.App", "src\EETracker.App\EETracker.App.csproj", "{773278C9-8237-47E5-9763-35D47B3DB8B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EETracker.Tests", "tests\EETracker.Tests\EETracker.Tests.csproj", "{92A1A19F-C36A-471D-AB53-EF29A224D3E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46D602E7-4194-4571-AB49-DDF39DBB3981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46D602E7-4194-4571-AB49-DDF39DBB3981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46D602E7-4194-4571-AB49-DDF39DBB3981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46D602E7-4194-4571-AB49-DDF39DBB3981}.Release|Any CPU.Build.0 = Release|Any CPU
+		{773278C9-8237-47E5-9763-35D47B3DB8B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{773278C9-8237-47E5-9763-35D47B3DB8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{773278C9-8237-47E5-9763-35D47B3DB8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{773278C9-8237-47E5-9763-35D47B3DB8B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92A1A19F-C36A-471D-AB53-EF29A224D3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92A1A19F-C36A-471D-AB53-EF29A224D3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92A1A19F-C36A-471D-AB53-EF29A224D3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92A1A19F-C36A-471D-AB53-EF29A224D3E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	EndGlobal

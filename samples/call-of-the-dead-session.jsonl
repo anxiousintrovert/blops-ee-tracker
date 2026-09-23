@@ -1,0 +1,8 @@
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:00Z","sessionId":"cotd-demo-001","type":"session_started","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:01Z","sessionId":"cotd-demo-001","type":"snapshot","map":"zombie_coast","round":8,"playerCount":2,"powerOn":true,"source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:02Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.power_on","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:03Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.ffs","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:04Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.ffd","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:05Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.hg0","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:06Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.hg2","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:07Z","sessionId":"cotd-demo-001","type":"quest_progress","signal":"coast.generators","progress":2,"progressMax":4,"source":"simulator_fixture"}

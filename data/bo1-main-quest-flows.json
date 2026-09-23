@@ -1,0 +1,866 @@
+{
+  "schemaVersion": 1,
+  "gameId": "bo1",
+  "researchStatus": "partial-offline-game-script-audit-all-bo1-main-quests",
+  "stepIdRule": "Every node ID is globally unique and namespaced by game, map, quest, and node. Shared guidance is not duplicated: a node may be referenced by multiple paths.",
+  "sourceReferences": [
+    {
+      "id": "codzombie_bo1_main_quests",
+      "url": "https://codzombie.com/games/black-ops"
+    },
+    {
+      "id": "codzombie_ascension",
+      "url": "https://www.codzombie.com/quests/ascension-casimir-mechanism"
+    },
+    {
+      "id": "mmmrkennedy_ascension",
+      "url": "https://mmmrkennedy.com/games/BO1/ascension/ascension_guide"
+    },
+    {
+      "id": "zombiescodex_call_of_the_dead",
+      "url": "https://www.zombiescodex.com/black-ops/call-of-the-dead/"
+    },
+    {
+      "id": "xcibe95x_call_of_the_dead",
+      "url": "https://xcibe95x.com/articles/bo1-call-of-the-dead-easter-egg-guide"
+    },
+    {
+      "id": "mmmrkennedy_shangri_la",
+      "url": "https://mmmrkennedy.com/games/BO1/shangri_la/shangri_la_guide"
+    },
+    {
+      "id": "codzombiesguides_moon",
+      "url": "https://www.codzombiesguides.com/main-quests/black-ops-1/moon/"
+    },
+    {
+      "id": "codzombie_moon",
+      "url": "https://codzombie.com/quests/moon-richtofens-grand-scheme"
+    },
+    {
+      "id": "hadi77ksa_any_player_ee_v2_3_1",
+      "url": "https://github.com/Hadi77KSA/T5-Any-Player-EE-Scripts/tree/v2.3.1"
+    },
+    {
+      "id": "local_stock_ascension_gsc",
+      "kind": "local-offline-extraction",
+      "container": "zone/common/zombie_cosmodrome.ff",
+      "containerSha256": "2680EB4A44CED7D8AEA7F85ACD12C888C42E337C4711ADC050870087DA795F04",
+      "asset": "maps/zombie_cosmodrome_eggs.gsc",
+      "extractedWith": "OpenAssetTools Unlinker v0.33.0"
+    },
+    {
+      "id": "local_stock_call_of_the_dead_gsc",
+      "kind": "local-offline-extraction",
+      "container": "zone/common/zombie_coast.ff",
+      "containerSha256": "318BD8D03FD4F660E75B35C6A26F0107547973BA38EF549A52D75A4F74AEF8E3",
+      "patch": "zone/common/zombie_coast_patch.ff",
+      "patchSha256": "D0A3F755034DD750A9DA5ABBB73D3B68F2630AC51DAAD77E69D34738998E679C",
+      "asset": "maps/zombie_coast_eggs.gsc",
+      "extractedWith": "OpenAssetTools Unlinker v0.33.0"
+    },
+    {
+      "id": "local_stock_shangri_la_gsc",
+      "kind": "local-offline-extraction",
+      "container": "zone/common/zombie_temple.ff",
+      "containerSha256": "FA7FDCD37FDE992CE8506E7C7C35B3184792EDDDB7AEF83952FA48625C5EE4B4",
+      "patch": "zone/common/zombie_temple_patch.ff",
+      "patchSha256": "F21C08D870230ADFDFD1CD39DAB87E8BBDEBE645CBCAFDBD7B7BB87DA52021FA4",
+      "asset": "maps/zombie_temple_sq.gsc",
+      "extractedWith": "OpenAssetTools Unlinker v0.33.0"
+    },
+    {
+      "id": "local_stock_moon_gsc",
+      "kind": "local-offline-extraction",
+      "container": "zone/common/zombie_moon.ff",
+      "containerSha256": "05917F5E2FFCF2DCF2F9FC420DF7C12C736CB9E2BB8413480E095E2DF0815A3F",
+      "patch": "zone/common/zombie_moon_patch.ff",
+      "patchSha256": "D85D734136005363014E0E2BA76299CB00222728561D23C37788C159A3EC3560",
+      "asset": "maps/zombie_moon_sq.gsc and maps/zombie_moon_sq_*.gsc",
+      "extractedWith": "OpenAssetTools Unlinker v0.33.0"
+    }
+  ],
+  "maps": [
+    {
+      "mapId": "ascension",
+      "displayName": "Ascension",
+      "mapCode": "zombie_cosmodrome",
+      "quests": [
+        {
+          "questId": "casimir_mechanism",
+          "displayName": "Casimir Mechanism",
+          "kind": "main",
+          "sourceIds": [
+            "codzombie_bo1_main_quests",
+            "codzombie_ascension",
+            "mmmrkennedy_ascension",
+            "hadi77ksa_any_player_ee_v2_3_1",
+            "local_stock_ascension_gsc"
+          ],
+          "requirements": {
+            "vanilla": [
+              "Turn on the power.",
+              "Get a Gersh Device for the transformer and final step.",
+              "Get a Pack-a-Punched Ray Gun and Thundergun; Matryoshka Dolls are also needed on some routes."
+            ],
+            "any_player_ee": [
+              "Turn on the power.",
+              "Get a Gersh Device for the transformer and final step.",
+              "Get a Pack-a-Punched Ray Gun and Thundergun; Matryoshka Dolls are also needed on some routes."
+            ],
+            "any_player_ee_sr": [
+              "Turn on the power.",
+              "Get a Gersh Device for the transformer and final step.",
+              "Get a Pack-a-Punched Ray Gun and Thundergun; Matryoshka Dolls are also needed on some routes."
+            ],
+            "unknown": [
+              "Turn on the power.",
+              "Get a Gersh Device for the transformer and final step.",
+              "Get a Pack-a-Punched Ray Gun and Thundergun; Matryoshka Dolls are also needed on some routes."
+            ]
+          },
+          "implementationNotes": [
+            "The stock quest script initializes six handlers concurrently. The source header documents their intended order, but the handlers do not all enforce a strict prior-flag dependency; treat each flag as that node's success state, and confirm physical access requirements separately."
+          ],
+          "nodes": [
+            {
+              "id": "bo1.ascension.casimir_mechanism.01.teleport_device",
+              "title": "Teleport the Gersh Device",
+              "instruction": "Throw a Gersh Device at the sparking transformer near the base entrance. Follow it to the lander in the Storage area.",
+              "completionCue": "The transformer reaches the Storage area and the quest advances.",
+              "sourceFlag": "target_teleported",
+              "detection": "stock-GSC-success-flag-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "id": "bo1.ascension.casimir_mechanism.02.activate_terminal",
+              "title": "Activate the Casimir terminal",
+              "instruction": "Turn on the power, then use the terminal in the Storage area.",
+              "completionCue": "The terminal changes to the Casimir symbol and the quest advances.",
+              "sourceFlag": "rerouted_power",
+              "detection": "stock-GSC-success-flag-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "id": "bo1.ascension.casimir_mechanism.03.monkey_buttons",
+              "title": "Activate the monkey-round switches",
+              "instruction": "During a Space Monkey round, press the reward switches beside the perk machines.",
+              "completionCue": "The switches activate and the quest advances.",
+              "sourceFlag": "switches_synced",
+              "detection": "stock-GSC-success-flag-confirmed-offline; sync_button_pressed-is-interaction-only",
+              "variantNotes": {
+                "any_player_ee": "The installed v2.3.1 source changes the required count using any_player_ee_cosmodrome_buttons; its default fallback uses current player count.",
+                "any_player_ee_sr": "The documented SR settings configure four buttons and add 100000 ms; confirm active configuration before applying.",
+                "unknown": "Do not infer a button count or timeout from the interaction signal."
+              }
+            },
+            {
+              "id": "bo1.ascension.casimir_mechanism.04.pressure_plate",
+              "title": "Hold the pressure plate",
+              "instruction": "Have every player stay inside the pressure area by the rocket pad for two minutes. Leaving the area resets the timer.",
+              "completionCue": "The timer finishes and the quest advances.",
+              "sourceFlag": "pressure_sustained",
+              "detection": "stock-GSC-success-flag-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "id": "bo1.ascension.casimir_mechanism.05.luna_passkey",
+              "title": "Spell LUNA with the landers",
+              "instruction": "Call the lander to collect L, U, N, and A in order: Spawn to Stamin-Up, Stamin-Up to Spawn, Spawn to Speed Cola, then Speed Cola to Stamin-Up. A missed letter resets the sequence.",
+              "completionCue": "All four letters register.",
+              "sourceFlag": "passkey_confirmed",
+              "detection": "stock-GSC-success-flag-confirmed-offline; live-observer-unverified",
+              "variantNotes": {
+                "any_player_ee": "The installed v2.3.1 source enables solo letter pickup under its configured player threshold; co-op gating is otherwise unchanged.",
+                "unknown": "Do not infer a solo pickup rule unless the variant/config is confirmed."
+              }
+            },
+            {
+              "id": "bo1.ascension.casimir_mechanism.06.weapon_combo",
+              "title": "Complete the weapon combination",
+              "instruction": "Throw a Gersh Device at the marked point. While the portal is open, hit it with the Pack-a-Punched Ray Gun and Thundergun, then use Matryoshka Dolls if needed.",
+              "completionCue": "The portal releases Gersh and the reward sequence begins.",
+              "sourceFlag": "weapons_combined",
+              "detection": "stock-GSC-success-flag-confirmed-offline; live-observer-unverified",
+              "variantNotes": {
+                "any_player_ee": "Installed v2.3.1 source initializes the Doll check as satisfied for the configured solo threshold; weapon damage and success flag remain map-script logic.",
+                "unknown": "Do not assume the Doll requirement is waived without confirmed variant/config evidence."
+              }
+            }
+          ],
+          "path": [
+            "bo1.ascension.casimir_mechanism.01.teleport_device",
+            "bo1.ascension.casimir_mechanism.02.activate_terminal",
+            "bo1.ascension.casimir_mechanism.03.monkey_buttons",
+            "bo1.ascension.casimir_mechanism.04.pressure_plate",
+            "bo1.ascension.casimir_mechanism.05.luna_passkey",
+            "bo1.ascension.casimir_mechanism.06.weapon_combo"
+          ]
+        }
+      ]
+    },
+    {
+      "mapId": "call_of_the_dead",
+      "displayName": "Call of the Dead",
+      "mapCode": "zombie_coast",
+      "quests": [
+        {
+          "questId": "stand_in_ensemble_cast",
+          "displayName": "Stand-in / Ensemble Cast",
+          "kind": "main",
+          "sourceIds": [
+            "codzombie_bo1_main_quests",
+            "zombiescodex_call_of_the_dead",
+            "xcibe95x_call_of_the_dead",
+            "hadi77ksa_any_player_ee_v2_3_1",
+            "local_stock_call_of_the_dead_gsc"
+          ],
+          "requirements": {
+            "vanilla": [
+              "Turn on the power.",
+              "Get a V-R11 from the Mystery Box.",
+              "Stand-In is the solo quest; Ensemble Cast is the four-player quest."
+            ],
+            "any_player_ee": [
+              "Turn on the power.",
+              "Get a V-R11 from the Mystery Box.",
+              "Stand-In is the solo quest; Ensemble Cast is the four-player quest."
+            ],
+            "any_player_ee_sr": [
+              "Turn on the power.",
+              "Get a V-R11 from the Mystery Box.",
+              "Stand-In is the solo quest; Ensemble Cast is the four-player quest."
+            ],
+            "unknown": [
+              "Turn on the power.",
+              "Get a V-R11 from the Mystery Box.",
+              "Stand-In is the solo quest; Ensemble Cast is the four-player quest."
+            ]
+          },
+          "nodes": [
+            {
+              "id": "bo1.call_of_the_dead.main.01.power",
+              "title": "Power the ship",
+              "instruction": "Reach the ship's upper control room and activate the power switch.",
+              "completionCue": "Power is on",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "power_on"
+            },
+            {
+              "id": "bo1.call_of_the_dead.main.02.ultimis_door",
+              "title": "Contact the trapped crew",
+              "instruction": "Knife the sealed Ultimis door below the PhD room to start the crew dialogue.",
+              "completionCue": "Crew dialogue starts",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "ffs"
+            },
+            {
+              "id": "bo1.call_of_the_dead.main.03.fuse",
+              "title": "Install the door fuse",
+              "instruction": "Find the fuse in one of the nearby PhD-room locations, install it in the fusebox beside the door, then knife the door again.",
+              "completionCue": "Door mechanism responds",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "ffd"
+            },
+            {
+              "id": "bo1.call_of_the_dead.main.04.holy_grenade",
+              "title": "Destroy the four generators",
+              "instruction": "Destroy all four red security generators with explosives, then knife the door when prompted.",
+              "completionCue": "All four generators are dark and the door stage advances.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "appliesTo": null,
+              "sourceConflict": null,
+              "sourceFlag": "hgd",
+              "trackers": [
+                { "title": "SECURITY GENERATORS", "signal": "coast.generators", "maximum": 4, "checkpoints": [
+                  { "label": "Generator 1", "signal": "hg0" }, { "label": "Generator 2", "signal": "hg1" },
+                  { "label": "Generator 3", "signal": "hg2" }, { "label": "Generator 4", "signal": "hg3" }
+                ] }
+              ]
+            },
+            {
+              "id": "bo1.call_of_the_dead.ensemble.05.vodka",
+              "title": "Ensemble Cast — catch Nikolai's vodka",
+              "instruction": "One player knocks the frozen bottle from a railing while another catches it before it breaks; deliver it to the tube beside the door.",
+              "completionCue": "Bottle delivered / dialogue advances",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "appliesTo": [
+                "ensemble_cast"
+              ],
+              "sourceFlag": "bd"
+            },
+            {
+              "id": "bo1.call_of_the_dead.ensemble.06.art_critic",
+              "title": "Ensemble Cast — complete Art Critic",
+              "instruction": "Four portraits show four places. Have one player stand on each matching pressure plate; the lighthouse signal advances when all required positions are occupied.",
+              "completionCue": "Art Critic stage completes and the lighthouse signal sequence begins.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "appliesTo": [
+                "ensemble_cast"
+              ],
+              "sourceFlag": "aca"
+            },
+            {
+              "id": "bo1.call_of_the_dead.main.07.bring_up_sub",
+              "title": "Bring up the submarine",
+              "instruction": "Read the lighthouse Morse signal, set the ship wheel and telegraph operator as shown, then listen for the horn and submarine response.",
+              "completionCue": "The submarine surfaces and answers with its horn.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "variantNotes": {
+                "stand_in": "Enables lighthouse beam.",
+                "ensemble_cast": "Required before foghorn sequence."
+              },
+              "sourceFlag": "mcs",
+              "appliesTo": [
+                "stand_in"
+              ],
+              "trackers": [ { "title": "SUBMARINE RESPONSE", "signal": "coast.submarine", "maximum": 3, "checkpoints": [
+                { "label": "Ship controls aligned", "signal": "shs" }, { "label": "Submarine surfaced", "signal": "sr" },
+                { "label": "Submarine sequence answered", "signal": "ss" }
+              ] } ]
+            },
+            {
+              "id": "bo1.call_of_the_dead.ensemble.07.musical_chairs",
+              "title": "Ensemble Cast — complete Musical Chairs",
+              "instruction": "Use the lighthouse Morse signal to set the ship controls. After the submarine surfaces, use its horn pattern to activate the matching lighthouse sound beacons.",
+              "completionCue": "The ship/submarine horn-and-beacon sequence succeeds.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "appliesTo": [
+                "ensemble_cast"
+              ],
+              "sourceFlag": "mcs"
+              ,"trackers": [ { "title": "SUBMARINE AND BEACON SEQUENCE", "signal": "coast.beacon_sequence", "checkpoints": [
+                { "label": "Ship controls aligned", "signal": "shs" }, { "label": "Submarine surfaced", "signal": "sr" },
+                { "label": "Beacon sequence accepted", "signal": "bp" }
+              ] } ]
+            },
+            {
+              "id": "bo1.call_of_the_dead.ensemble.08.pure_harmony",
+              "title": "Solve Pure Harmony",
+              "instruction": "Use the Vril map clues to set the lighthouse dials to 2-7-4-6: yellow, orange, blue, and purple from top to bottom.",
+              "completionCue": "The lighthouse acknowledges the code.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "appliesTo": [
+                "ensemble_cast"
+              ],
+              "sourceFlag": "mm"
+              ,"trackers": [ { "title": "LIGHTHOUSE DIALS IN HARMONY", "signal": "coast.pure_harmony", "maximum": 4 } ]
+            },
+            {
+              "id": "bo1.call_of_the_dead.main.09.vr11_golden_rod",
+              "title": "Raise and recover the Golden Rod",
+              "instruction": "Shoot a zombie with the V-R11 at the lighthouse base so it rises in the green beam. Damage the human until it drops limp before reaching the top; collect the Golden Rod.",
+              "completionCue": "Golden Rod appears at lighthouse base",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "re"
+            },
+            {
+              "id": "bo1.call_of_the_dead.main.10.free_crew",
+              "title": "Free the crew",
+              "instruction": "Insert the Golden Rod into the transfer tube beside the door, wait for the full dialogue, then knife the sparking fusebox when prompted.",
+              "completionCue": "Crew leaves; Wunderwaffe DG-2 reward appears",
+              "detection": "stock-GSC-notify-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "coast_easter_egg_achieved"
+            }
+          ],
+          "paths": {
+            "stand_in": [
+              "bo1.call_of_the_dead.main.01.power",
+              "bo1.call_of_the_dead.main.02.ultimis_door",
+              "bo1.call_of_the_dead.main.03.fuse",
+              "bo1.call_of_the_dead.main.04.holy_grenade",
+              "bo1.call_of_the_dead.main.07.bring_up_sub",
+              "bo1.call_of_the_dead.main.09.vr11_golden_rod",
+              "bo1.call_of_the_dead.main.10.free_crew"
+            ],
+            "ensemble_cast": [
+              "bo1.call_of_the_dead.main.01.power",
+              "bo1.call_of_the_dead.main.02.ultimis_door",
+              "bo1.call_of_the_dead.main.03.fuse",
+              "bo1.call_of_the_dead.main.04.holy_grenade",
+              "bo1.call_of_the_dead.ensemble.05.vodka",
+              "bo1.call_of_the_dead.ensemble.06.art_critic",
+              "bo1.call_of_the_dead.ensemble.07.musical_chairs",
+              "bo1.call_of_the_dead.ensemble.08.pure_harmony",
+              "bo1.call_of_the_dead.main.09.vr11_golden_rod",
+              "bo1.call_of_the_dead.main.10.free_crew"
+            ]
+          },
+          "scriptSignals": [
+            {
+              "signal": "coast_easter_egg_achieved",
+              "meaning": "Map main quest completion event from zombie_coast_achievement.gsc",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "ffs, ffd",
+              "meaning": "Door fuse progression; ffd is set after the fuse is installed",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "hgs, hg0-hg3, hgd",
+              "meaning": "Holy Grenade sequence and four generator targets; hgd is the completion flag",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "bd",
+              "meaning": "Vodka delivery completion",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "aca",
+              "meaning": "Art Critic pressure-plate stage completion",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "mcs",
+              "meaning": "Musical Chairs progression flag",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "mm",
+              "meaning": "Pure Harmony dial sequence success flag",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "power_on",
+              "meaning": "Ship power state",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mapId": "shangri_la",
+      "displayName": "Shangri-La",
+      "mapCode": "zombie_temple",
+      "quests": [
+        {
+          "questId": "time_travel_will_tell",
+          "displayName": "Time Travel Will Tell",
+          "kind": "main",
+          "sourceIds": [
+            "codzombie_bo1_main_quests",
+            "mmmrkennedy_shangri_la",
+            "hadi77ksa_any_player_ee_v2_3_1",
+            "local_stock_shangri_la_gsc"
+          ],
+          "requirements": {
+            "vanilla": [
+              "Turn on the power.",
+              "Get the 31-79 JGb215 (Baby Gun) and upgrade it to the Fractalizer.",
+              "Bring Spikemores and an explosive weapon."
+            ],
+            "any_player_ee": [
+              "Turn on the power.",
+              "Get the 31-79 JGb215 (Baby Gun) and upgrade it to the Fractalizer.",
+              "Bring Spikemores and an explosive weapon."
+            ],
+            "any_player_ee_sr": [
+              "Turn on the power.",
+              "Get the 31-79 JGb215 (Baby Gun) and upgrade it to the Fractalizer.",
+              "Bring Spikemores and an explosive weapon."
+            ],
+            "unknown": [
+              "Turn on the power.",
+              "Get the 31-79 JGb215 (Baby Gun) and upgrade it to the Fractalizer.",
+              "Bring Spikemores and an explosive weapon."
+            ]
+          },
+          "nodes": [
+            {
+              "id": "bo1.shangri_la.time_travel.01.eclipse",
+              "title": "Enter the Eclipse",
+              "instruction": "After turning on the power, press the buttons around Quick Revive together.",
+              "completionCue": "The Eclipse begins.",
+              "detection": "stock-GSC-state-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "eclipse_started"
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.02.brock_gary",
+              "title": "Speak to Brock and Gary",
+              "instruction": "In the past, interact with the explorers behind the wall near the MPL.",
+              "completionCue": "Explorers respond",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "oafc_switch_pressed"
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.03.symbol_tiles",
+              "title": "Match the temple tiles",
+              "instruction": "Press the button beside the mine cart to raise the tiles. Match all 12 pairs between the mine-cart side and rope-bridge side.",
+              "completionCue": "The Eclipse ends and the first crystal appears.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "oafc_plot_vo_done"
+              ,"trackers": [ { "title": "MATCHED TILE PAIRS", "signal": "temple.tiles", "maximum": 12 } ]
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.04.waterslide",
+              "title": "Clear the waterslide plate",
+              "instruction": "During the Eclipse, hold the grate while a player rides down the waterslide and activates the lever.",
+              "completionCue": "The Eclipse ends and the second crystal appears.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "dgcwf_plot_vo_done"
+              ,"trackers": [ { "title": "PRESSURE PLATE", "signal": "temple.slide_plate", "checkpoints": [ { "label": "Lever activated", "signal": "dgcwf_sw1_pressed" } ] } ]
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.05.shrink_ball",
+              "title": "Shrink and launch the crystal",
+              "instruction": "Get the 31-79 JGb215 (Baby Gun). Knock the ball down with an explosive, shrink it, knife it down the slide, then launch it with the geyser.",
+              "completionCue": "The Eclipse ends and the third crystal appears.",
+              "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "sq_LGS_over"
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.06.ignite_gas",
+              "title": "Ignite the gas leaks",
+              "instruction": "Open the tunnel valve four times. Lure a Napalm Zombie through the three leaking pipes, then pull the nearby lever.",
+              "completionCue": "Eclipse ends and Crystal 4 appears",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "ptt_plot_vo_done"
+              ,"trackers": [ { "title": "GAS LEAKS", "signal": "temple.gas_pipes", "checkpoints": [ { "label": "Valve opened", "signal": "sq_ptt_dial_dialed" }, { "label": "Final lever pulled", "signal": "sq_ptt_level_pulled" } ] } ]
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.07.plug_holes",
+              "title": "Plug the waterfall tunnel",
+              "instruction": "Use one Spikemore at each of the four wall holes on the waterfall tunnel, then press the brick at the pool bottom.",
+              "completionCue": "Eclipse ends and Crystal 5 appears",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "std_plot_vo_done"
+              ,"trackers": [ { "title": "WATERFALL TUNNEL HOLES", "signal": "temple.tunnel_holes", "maximum": 4, "checkpoints": [
+                { "label": "Opening 1", "signal": "std_target_1" }, { "label": "Opening 2", "signal": "std_target_2" },
+                { "label": "Opening 3", "signal": "std_target_3" }, { "label": "Opening 4", "signal": "std_target_4" }
+              ] } ]
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.08.teepee_symbols_dials",
+              "title": "Set the mud-room dials",
+              "instruction": "Melee the 12 symbol tiles around the map, destroy the outside teepee with an explosive, then set the four mud-room dials to 4, 3, 16, 1.",
+              "completionCue": "Eclipse ends and Crystal 6 appears",
+              "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "sq_bttp2_over"
+              ,"trackers": [ { "title": "CORRECT DIALS", "signal": "temple.dials" } ]
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.09.correct_gongs",
+              "title": "Find the four correct gongs",
+              "instruction": "Upgrade the Baby Gun to the Fractalizer. Test the eight gongs and keep the four that ring with the right tone. The correct gongs change each match.",
+              "completionCue": "All four correct gongs ring and the crystals glow.",
+              "detection": "stock-GSC-four-correct-gongs-counter-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "temple_gongs_complete",
+              "trackers": [ { "title": "CORRECT GONGS RINGING", "signal": "temple.gongs", "maximum": 4 } ]
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.10.catch_dynamite",
+              "title": "Catch Brock's dynamite",
+              "instruction": "While the crystals glow, shoot the crystal above the mine-cart geyser with the Fractalizer and stand beneath the falling dynamite to catch it.",
+              "completionCue": "Dynamite held",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "given_dynamite"
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.11.shrink_meteor",
+              "title": "Shrink the meteor",
+              "instruction": "Shoot the mud-room crystal with the Fractalizer so the beam chain reaches and shrinks the meteor above Pack-a-Punch.",
+              "completionCue": "Meteor shrinks",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "meteorite_shrunk"
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.12.give_dynamite",
+              "title": "Give Brock the dynamite",
+              "instruction": "Reach the Pack-a-Punch wall, wait for Brock's dialogue, hand over the dynamite, then have all players leave the stairs to end the Eclipse.",
+              "completionCue": "Eclipse ends; wall opens",
+              "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "sq_BaG_over"
+            },
+            {
+              "id": "bo1.shangri_la.time_travel.13.collect_focusing_stone",
+              "title": "Collect the Focusing Stone",
+              "instruction": "Outside the Eclipse, return to the Pack-a-Punch altar and pick up the Focusing Stone.",
+              "completionCue": "Stone collected; quest complete",
+              "detection": "stock-GSC-notify-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "temple_sidequest_achieved"
+            }
+          ],
+          "path": [
+            "bo1.shangri_la.time_travel.01.eclipse",
+            "bo1.shangri_la.time_travel.02.brock_gary",
+            "bo1.shangri_la.time_travel.03.symbol_tiles",
+            "bo1.shangri_la.time_travel.04.waterslide",
+            "bo1.shangri_la.time_travel.05.shrink_ball",
+            "bo1.shangri_la.time_travel.06.ignite_gas",
+            "bo1.shangri_la.time_travel.07.plug_holes",
+            "bo1.shangri_la.time_travel.08.teepee_symbols_dials",
+            "bo1.shangri_la.time_travel.09.correct_gongs",
+            "bo1.shangri_la.time_travel.10.catch_dynamite",
+            "bo1.shangri_la.time_travel.11.shrink_meteor",
+            "bo1.shangri_la.time_travel.12.give_dynamite",
+            "bo1.shangri_la.time_travel.13.collect_focusing_stone"
+          ],
+          "scriptSignals": [
+            {
+              "signal": "temple_sidequest_achieved",
+              "meaning": "Main sidequest completion notification",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "stage_completed(\"sq\", level._last_stage_started)",
+              "meaning": "Generic internal stage completion; the observer listens for named stock completion events and emits only mapped events",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "meteorite_shrunk, gongs_resonating, trap_destroyed",
+              "meaning": "Intermediate event/state cues only; not a complete one-to-one quest progress representation",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "oafc_switch_pressed, oafc_plot_vo_done, dgcwf_plot_vo_done, ptt_plot_vo_done, std_plot_vo_done, given_dynamite",
+              "meaning": "Stock stage flags used to report tile, slide, gas, tunnel, and dynamite milestones",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "sq_LGS_over, sq_bttp2_over, sq_BaG_over",
+              "meaning": "Named stock helper stage completion notifications",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mapId": "moon",
+      "displayName": "Moon",
+      "mapCode": "zombie_moon",
+      "quests": [
+        {
+          "questId": "richtofens_grand_scheme",
+          "displayName": "Richtofen's Grand Scheme",
+          "kind": "main",
+          "sourceIds": [
+            "codzombie_bo1_main_quests",
+            "codzombiesguides_moon",
+            "codzombie_moon",
+            "hadi77ksa_any_player_ee_v2_3_1",
+            "local_stock_moon_gsc"
+          ],
+          "requirements": {
+            "vanilla": [
+              "Turn on the power and have Richtofen in the game.",
+              "Get a Hacker, P.E.S., Wave Gun, Q.E.D.s, and a Gersh Device.",
+              "The Vril Device (Golden Rod) and Focusing Stone may depend on earlier quest progress."
+            ],
+            "any_player_ee": [
+              "Turn on the power and have Richtofen in the game.",
+              "Get a Hacker, P.E.S., Wave Gun, Q.E.D.s, and a Gersh Device.",
+              "The Vril Device (Golden Rod) and Focusing Stone may depend on earlier quest progress."
+            ],
+            "any_player_ee_sr": [
+              "Turn on the power and have Richtofen in the game.",
+              "Get a Hacker, P.E.S., Wave Gun, Q.E.D.s, and a Gersh Device.",
+              "The Vril Device (Golden Rod) and Focusing Stone may depend on earlier quest progress."
+            ],
+            "unknown": [
+              "Turn on the power and have Richtofen in the game.",
+              "Get a Hacker, P.E.S., Wave Gun, Q.E.D.s, and a Gersh Device.",
+              "The Vril Device (Golden Rod) and Focusing Stone may depend on earlier quest progress."
+            ]
+          },
+          "nodes": [
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.01.setup_and_power",
+              "title": "Prepare Moon",
+              "instruction": "Turn on the power. Collect a P.E.S. and Hacker from the laboratories, and make sure Richtofen and the quest equipment are available.",
+              "completionCue": "Power is on and the required equipment is ready.",
+              "detection": "stock-GSC-power-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "power_on"
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.02.samantha_says_initial",
+              "title": "Complete the first Samantha Says sequence",
+              "instruction": "At the four Area 51/Receiving Bay computers, repeat each displayed colour sequence. Later rounds increase the sequence length; a failure restarts the sequence.",
+              "completionCue": "Computers turn off",
+              "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "ss1"
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.03.hack_lab_panels",
+              "title": "Hack the laboratory panels",
+              "instruction": "Start the panel challenge with the Hacker, find and hack four of the eight lit panels before the timer ends, then press the four wall buttons in quick succession.",
+              "completionCue": "All wall buttons remain lit",
+              "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "sq_osc_over"
+              ,"trackers": [ { "title": "SECURITY PANELS HACKED", "signal": "moon.security_panels", "maximum": 4, "checkpoints": [
+                { "label": "Panel 1", "signal": "security_1_done" }, { "label": "Panel 2", "signal": "security_2_done" },
+                { "label": "Panel 3", "signal": "security_3_done" }, { "label": "Panel 4", "signal": "security_4_done" }
+              ] } ]
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.04.excavator_and_vril_sphere",
+              "title": "Recover and guide the Vril Sphere",
+              "instruction": "Wait for Excavator Pi to breach Tunnel 6, hack it away, then move the sphere from the tunnel through the route to the MPD interface. Use the required weapons at the satellite dish and Stamin-Up ceiling stops.",
+              "completionCue": "Sphere seats in the MPD interface",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "complete_be_1"
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.05.open_mpd",
+              "title": "Open the MPD",
+              "instruction": "Fill the first soul tube with nearby zombie kills, then pull the lever when it fills.",
+              "completionCue": "The MPD opens.",
+              "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "sq_sc_over"
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.06.retrieve_hex_plates",
+              "title": "Retrieve the hexagonal plates",
+              "instruction": "At Area 51, knock the plates from the shelf with an explosive, then throw a Gersh Device to send them to the teleporter. Bring them back to the Moon spawn area.",
+              "completionCue": "The plates arrive beside the spawn computer.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "c_built",
+              "appliesTo": null
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.07.connect_s_cable",
+              "title": "Find and connect the S-shaped cable",
+              "instruction": "Search the laboratory floors and nearby exterior for the S cable; install it between the spawn computer and plate assembly.",
+              "completionCue": "Cable connects computer and plate assembly",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "w_placed",
+              "appliesTo": null
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.08.charge_vril_generator",
+              "title": "Charge the Vril Device",
+              "instruction": "Richtofen places the Golden Rod between the connected plates. Use the computer until the device is charged.",
+              "completionCue": "The Vril Device glows and can be picked up.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "vg_charged",
+              "appliesTo": null,
+              "trackers": [ { "title": "VRIL DEVICE", "signal": "moon.vril_generator", "checkpoints": [ { "label": "Vril Device placed", "signal": "vg_placed" } ] } ]
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.09.four_soul_tubes",
+              "title": "Fill the four MPD soul tubes",
+              "instruction": "Feed each of the four corner tubes with nearby zombie kills.",
+              "completionCue": "All four tubes full",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "second_tanks_drained"
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.10.soul_swap",
+              "title": "Swap Richtofen and Samantha",
+              "instruction": "Place the charged Vril Device in the MPD to switch their souls.",
+              "completionCue": "The soul-swap sequence completes.",
+              "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "soul_swap_done"
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.11.maxis_says",
+              "title": "Complete the computer sequence",
+              "instruction": "Throw a Q.E.D. at the Black Egg to move it beside the computers, then repeat the longer colour sequence.",
+              "completionCue": "The computer sequence completes.",
+              "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "sq_ss2_over"
+            },
+            {
+              "id": "bo1.moon.richtofens_grand_scheme.12.launch_rockets",
+              "title": "Launch the rockets",
+              "instruction": "When prompted, throw a Gersh Device beside the Vril Sphere and computers. Let the countdown and finale play.",
+              "completionCue": "The rockets launch and the quest finale begins.",
+              "detection": "stock-GSC-notify-confirmed-offline; live-observer-unverified",
+              "sourceFlag": "moon_sidequest_big_bang_achieved"
+            }
+          ],
+          "paths": {
+            "vanilla": [
+              "bo1.moon.richtofens_grand_scheme.01.setup_and_power",
+              "bo1.moon.richtofens_grand_scheme.02.samantha_says_initial",
+              "bo1.moon.richtofens_grand_scheme.03.hack_lab_panels",
+              "bo1.moon.richtofens_grand_scheme.04.excavator_and_vril_sphere",
+              "bo1.moon.richtofens_grand_scheme.05.open_mpd",
+              "bo1.moon.richtofens_grand_scheme.06.retrieve_hex_plates",
+              "bo1.moon.richtofens_grand_scheme.07.connect_s_cable",
+              "bo1.moon.richtofens_grand_scheme.08.charge_vril_generator",
+              "bo1.moon.richtofens_grand_scheme.09.four_soul_tubes",
+              "bo1.moon.richtofens_grand_scheme.10.soul_swap",
+              "bo1.moon.richtofens_grand_scheme.11.maxis_says",
+              "bo1.moon.richtofens_grand_scheme.12.launch_rockets"
+            ],
+            "any_player_ee": [
+              "bo1.moon.richtofens_grand_scheme.01.setup_and_power",
+              "bo1.moon.richtofens_grand_scheme.02.samantha_says_initial",
+              "bo1.moon.richtofens_grand_scheme.03.hack_lab_panels",
+              "bo1.moon.richtofens_grand_scheme.04.excavator_and_vril_sphere",
+              "bo1.moon.richtofens_grand_scheme.05.open_mpd",
+              "bo1.moon.richtofens_grand_scheme.06.retrieve_hex_plates",
+              "bo1.moon.richtofens_grand_scheme.07.connect_s_cable",
+              "bo1.moon.richtofens_grand_scheme.08.charge_vril_generator",
+              "bo1.moon.richtofens_grand_scheme.09.four_soul_tubes",
+              "bo1.moon.richtofens_grand_scheme.10.soul_swap",
+              "bo1.moon.richtofens_grand_scheme.11.maxis_says",
+              "bo1.moon.richtofens_grand_scheme.12.launch_rockets"
+            ],
+            "any_player_ee_sr": [
+              "bo1.moon.richtofens_grand_scheme.01.setup_and_power",
+              "bo1.moon.richtofens_grand_scheme.02.samantha_says_initial",
+              "bo1.moon.richtofens_grand_scheme.03.hack_lab_panels",
+              "bo1.moon.richtofens_grand_scheme.04.excavator_and_vril_sphere",
+              "bo1.moon.richtofens_grand_scheme.05.open_mpd",
+              "bo1.moon.richtofens_grand_scheme.06.retrieve_hex_plates",
+              "bo1.moon.richtofens_grand_scheme.07.connect_s_cable",
+              "bo1.moon.richtofens_grand_scheme.08.charge_vril_generator",
+              "bo1.moon.richtofens_grand_scheme.09.four_soul_tubes",
+              "bo1.moon.richtofens_grand_scheme.10.soul_swap",
+              "bo1.moon.richtofens_grand_scheme.11.maxis_says",
+              "bo1.moon.richtofens_grand_scheme.12.launch_rockets"
+            ]
+          },
+          "variantRules": {
+            "any_player_ee": "Use the Any Player EE path only when the mod variant is positively identified. Confirm Richtofen has the mod-provided Vril Generator; the flow then bypasses the vanilla plate/cable acquisition and charging nodes. Do not mark skipped vanilla nodes as completed.",
+            "any_player_ee_sr": "Unsupported by the supplied SR release description; remain Unknown/unsupported rather than inheriting Ascension/Shangri-La rules."
+          },
+          "scriptSignals": [
+            {
+              "signal": "ss1, sq_osc_over, sq_sc_over, vg_charged, sq_sc2_over, sq_ss2_over, be2",
+              "meaning": "Main controller gates and helper-stage completion events",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "soul_swap_done",
+              "meaning": "Soul-swap milestone, separate from the ending",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "moon_sidequest_big_bang_achieved",
+              "meaning": "Final Big Bang Theory event during the rocket ending",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "soul_tank_progress, samantha_color, richtofen_cue",
+              "meaning": "Four active soul tank fill counters, stable Samantha Says terminal color output, and Richtofen's stock near-device dialogue trigger",
+              "status": "source-confirmed-offline; live-observer-unverified"
+            },
+            {
+              "signal": "any_player_ee_moon_generator",
+              "meaning": "Any Player EE previous-map eligibility override; it does not remove the Moon controller vg_charged gate",
+              "status": "v2.3.1 source-confirmed; effective runtime value unverified"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "crossMapDependencies": [
+    {
+      "id": "bo1.crossmap.moon.golden_rod",
+      "from": "bo1.call_of_the_dead.stand_in_ensemble_cast",
+      "to": "bo1.moon.richtofens_grand_scheme",
+      "artifact": "Golden Rod / Vril Generator",
+      "variantRule": "Any Player EE page states Moon forces the Generator regardless of previous-map EE completion; keep dependency bypass explicit and evidence-backed."
+    },
+    {
+      "id": "bo1.crossmap.moon.focusing_stone",
+      "from": "bo1.shangri_la.time_travel_will_tell",
+      "to": "bo1.moon.richtofens_grand_scheme",
+      "artifact": "Focusing Stone",
+      "variantRule": "Confirm the exact BO1 profile/lobby prerequisite against installed game behavior; do not conflate this with the mod's Vril Generator setting."
+    }
+  ]
+}

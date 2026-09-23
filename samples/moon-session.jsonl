@@ -1,0 +1,13 @@
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:00Z","sessionId":"moon-soul-preview","type":"session_started","source":"simulator"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:01Z","sessionId":"moon-soul-preview","type":"snapshot","map":"zombie_moon","round":16,"playerCount":2,"powerOn":true,"source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:02Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.power_on","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:03Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.ss1","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:04Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.sq_osc_over","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:05Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.complete_be_1","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:06Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.sq_sc_over","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:07Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.c_built","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:08Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.w_placed","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:08.500Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.vg_placed","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:09Z","sessionId":"moon-soul-preview","type":"quest_signal","signal":"stock.success.vg_charged","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:10Z","sessionId":"moon-soul-preview","type":"soul_tank_progress","soulTankFill":[13,24,7,18],"soulTankMaxFill":[25,25,25,25],"source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:11Z","sessionId":"moon-soul-preview","type":"richtofen_cue","signalValue":"Richtofen approaches the Vril Device; his tank-stage dialogue begins.","source":"simulator_fixture"}

@@ -1,0 +1,8 @@
+{"schemaVersion":1,"timestampUtc":"2026-09-23T16:00:00Z","sessionId":"moon-samantha-preview","type":"session_started","source":"simulator"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T16:00:01Z","sessionId":"moon-samantha-preview","type":"snapshot","map":"zombie_moon","round":8,"playerCount":2,"powerOn":true,"source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T16:00:02Z","sessionId":"moon-samantha-preview","type":"quest_signal","signal":"stock.success.power_on","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T16:00:03Z","sessionId":"moon-samantha-preview","type":"samantha_color","signalValue":"RED","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T16:00:04Z","sessionId":"moon-samantha-preview","type":"samantha_color","signalValue":"GREEN","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T16:00:05Z","sessionId":"moon-samantha-preview","type":"samantha_color","signalValue":"BLUE","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T16:00:06Z","sessionId":"moon-samantha-preview","type":"samantha_color","signalValue":"YELLOW","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T16:00:07Z","sessionId":"moon-samantha-preview","type":"richtofen_cue","signalValue":"Richtofen approaches the Vril Device; his tank-stage dialogue begins.","source":"simulator_fixture"}

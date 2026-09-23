@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><UseWPF>true</UseWPF><EnableWindowsTargeting>true</EnableWindowsTargeting><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+  <ItemGroup><ProjectReference Include="..\EETracker.Core\EETracker.Core.csproj" /></ItemGroup>
+  <ItemGroup><Resource Include="Assets\*.png" /></ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\samples\**\*" Link="samples\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\data\bo1-main-quest-flows.json" Link="data\bo1-main-quest-flows.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\tracker.gsc" Link="gsc\tracker.gsc" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\tracker_coast.gsc" Link="gsc\tracker_coast.gsc" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\tracker_temple.gsc" Link="gsc\tracker_temple.gsc" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\tracker_moon.gsc" Link="gsc\tracker_moon.gsc" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\Install-EETrackerObserver.ps1" Link="gsc\Install-EETrackerObserver.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\Uninstall-EETrackerObserver.ps1" Link="gsc\Uninstall-EETrackerObserver.ps1" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

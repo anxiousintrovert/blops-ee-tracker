@@ -1,0 +1,5 @@
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:20:00Z","sessionId":"shangri-demo-001","type":"session_started","source":"simulator"}
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:20:01Z","sessionId":"shangri-demo-001","type":"snapshot","map":"zombie_temple","round":11,"playerCount":2,"powerOn":true,"source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:20:02Z","sessionId":"shangri-demo-001","type":"quest_signal","signal":"stock.success.eclipse_started","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:20:03Z","sessionId":"shangri-demo-001","type":"quest_signal","signal":"stock.success.oafc_switch_pressed","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-22T18:20:04Z","sessionId":"shangri-demo-001","type":"quest_progress","signal":"temple.tiles","progress":8,"progressMax":12,"source":"simulator_fixture"}
