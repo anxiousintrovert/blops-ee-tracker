@@ -57,8 +57,17 @@ public sealed class QuestEngine
             _transitMaxisActionStarted = false;
             _lunaLettersCollected = null; _lunaSequenceReset = false;
             _soulTankFill = null; _soulTankMaxFill = null; _samanthaColors = ""; _richtofenCue = ""; _lastSamanthaColor = null;
+            _map = NormalizeMap(e.Map ?? "Waiting for game");
         }
-        if (e.Type == "session_ended") { _connected = false; _sessionEnded = true; _connectionInterrupted = false; _pressureSecondsRemaining = null; _pressureTimerActive = null; }
+        if (e.Type == "session_ended")
+        {
+            _connected = false; _sessionEnded = true; _connectionInterrupted = false; _map = "Waiting for game";
+            _round = null; _players = null; _power = null; _variant = GameVariant.Unknown;
+            _completed.Clear(); _observed.Clear(); _sideEggSteps.Clear(); _progress.Clear(); _selectedPath = null;
+            _transitProfiles.Clear(); _bo2Profiles.Clear(); _playerInventories.Clear(); _questParts.Clear();
+            _pressureSecondsRemaining = null; _pressureTimerActive = null; _lunaLettersCollected = null; _soulTankFill = null; _soulTankMaxFill = null;
+            _samanthaColors = ""; _richtofenCue = "";
+        }
         if (e.Type == "transport_status")
         {
             _connected = e.SignalValue == "connected";
@@ -126,6 +135,11 @@ public sealed class QuestEngine
             }
             if (e.ProgressMax is { } turbineMaximum && turbineCount >= turbineMaximum)
                 _completed.Add("bo2.transit.tower_of_babble.maxis.turbines");
+        }
+        if (e.Type == "observer_loaded" && _map == "Waiting for game")
+        {
+            _connected = true;
+            _sessionEnded = false;
         }
         if (e.Type == "player_inventory" && e.Game is { Length: > 0 } game && e.PlayerSlot is { } inventorySlot)
         {
@@ -250,13 +264,15 @@ public sealed class QuestEngine
         var previous = current is null ? null : ordered.TakeWhile(n => n.Id != current.Id).LastOrDefault();
         var signalObserved = _observed.Contains("ascension.monkey_button_interaction");
         var progression = ordered.Select(n => new QuestStep(n.Id, n.Title,
-            n.Id == current?.Id ? n.Instruction : n.Instruction,
+            FormatPlayerCountGuidance(n, pathName, null, includeAll: true),
             _completed.Contains(n.Id) ? "Complete" : n.Id == current?.Id ? "Current" : "Upcoming",
             n.Detection)).ToArray();
         var trackers = current is null ? Array.Empty<StepTrackerState>() : BuildTrackers(current);
         var preparation = ResolveRequirements(quest, pathName);
         var objective = current?.Title ?? (quest is null ? "Choose a supported map" : branchChoiceRequired ? "Choose a side" : waitingForCoastPlayers ? "Detecting Call of the Dead players" : "Quest complete");
-        var instruction = current?.Instruction ?? (quest is null ? "Map flow unavailable for this session." : branchChoiceRequired ? "Both route openings are shown below. The first branch-specific quest signal will identify which route the game is following." : waitingForCoastPlayers ? "The game will select Stand-In or Ensemble Cast when the player count is detected." : "All tracked quest steps have completion signals.");
+        var instruction = current is null
+            ? (quest is null ? "Map flow unavailable for this session." : branchChoiceRequired ? "Both route openings are shown below. The first branch-specific quest signal will identify which route the game is following." : waitingForCoastPlayers ? "The game will select Stand-In or Ensemble Cast when the player count is detected." : "All tracked quest steps have completion signals.")
+            : FormatPlayerCountGuidance(current, pathName, _players, includeAll: false);
         if (isMobEnding && detectedMobEnding is null && current is null)
         {
             objective = "Reach the final showdown";
@@ -320,6 +336,36 @@ public sealed class QuestEngine
         return result;
     }
 
+    private string FormatPlayerCountGuidance(FlowNode node, string? pathName, int? playerCount, bool includeAll)
+    {
+        if (node.PlayerCountGuidance.Count == 0) return node.Instruction;
+        // A lobby size is not evidence that the host loaded a third-party gameplay mod.
+        // Keep those conditional notes in Full Quest, but only promote them into the live
+        // objective when the observer supplied affirmative Any Player EE evidence.
+        var modConfirmed = _variant is GameVariant.AnyPlayerEe or GameVariant.AnyPlayerEeSr;
+        if (!includeAll && !modConfirmed) return node.Instruction;
+        var applicable = node.PlayerCountGuidance.Where(rule =>
+            (rule.Path is null || pathName is null || string.Equals(rule.Path, pathName, StringComparison.Ordinal)) &&
+            (includeAll || playerCount is null || (playerCount >= rule.MinPlayers && (rule.MaxPlayers is null || playerCount <= rule.MaxPlayers)))).ToArray();
+        if (applicable.Length == 0) return node.Instruction;
+        var notes = applicable.Select(rule =>
+        {
+            var range = rule.MaxPlayers is null
+                ? $"{rule.MinPlayers}+ players"
+                : rule.MinPlayers == rule.MaxPlayers
+                    ? $"{rule.MinPlayers} player{(rule.MinPlayers == 1 ? "" : "s")}"
+                    : $"{rule.MinPlayers}-{rule.MaxPlayers} players";
+            var route = rule.Path is null ? "" : $" · {rule.Path}";
+            return $"{rule.Mod}{route} · {range}: {rule.Instruction}";
+        });
+        var heading = includeAll
+                ? "PLAYER-COUNT GUIDANCE · only applies when the named mod is loaded"
+                : $"PLAYER-COUNT GUIDANCE · {playerCount} player{(playerCount == 1 ? "" : "s")} · only applies when the named mod is loaded";
+        var visibleNotes = playerCount is null || includeAll
+            ? notes
+            : applicable.Select(rule => $"{rule.Mod}{(rule.Path is null ? "" : $" · {rule.Path}")} · {rule.Instruction}");
+        return node.Instruction + Environment.NewLine + Environment.NewLine + heading + Environment.NewLine + string.Join(Environment.NewLine, visibleNotes);
+    }
     private StepTrackerState[] BuildTrackers(FlowNode current)
     {
         return current.Trackers.Select(tracker => {
@@ -381,7 +427,7 @@ public sealed class QuestEngine
     };
 }
 
-public sealed record FlowNode(string Id, string Title, string Instruction, string? SourceFlag, string Detection, IReadOnlyList<StepProgressTracker> Trackers, IReadOnlyList<FlowChecklist> Checklists);
+public sealed record FlowNode(string Id, string Title, string Instruction, string? SourceFlag, string Detection, IReadOnlyList<StepProgressTracker> Trackers, IReadOnlyList<FlowChecklist> Checklists, IReadOnlyList<FlowPlayerCountGuidance> PlayerCountGuidance);
 public sealed record FlowChecklist(string Title, IReadOnlyList<FlowChecklistItem> Items);
 public sealed record FlowChecklistItem(string Id, string Label, string Location);
 public sealed record QuestFlow(string DisplayName, IReadOnlyList<FlowNode> Nodes, Dictionary<string, string[]> Requirements, string[]? DefaultPath, Dictionary<string, string[]> Paths);
@@ -432,9 +478,18 @@ public static class QuestFlowCatalog
                                     checklistTitle + "|" + item.GetProperty("id").GetString()!, item.GetProperty("label").GetString()!,
                                     item.GetProperty("location").GetString()!)).ToArray()));
                         }
+                    var playerCountGuidance = new List<FlowPlayerCountGuidance>();
+                    if (n.TryGetProperty("playerCountGuidance", out var guidanceArray))
+                        foreach (var guidance in guidanceArray.EnumerateArray())
+                            playerCountGuidance.Add(new FlowPlayerCountGuidance(
+                                guidance.GetProperty("mod").GetString()!,
+                                guidance.TryGetProperty("path", out var guidancePath) ? guidancePath.GetString() : null,
+                                guidance.GetProperty("minPlayers").GetInt32(),
+                                guidance.TryGetProperty("maxPlayers", out var maxPlayers) && maxPlayers.ValueKind == JsonValueKind.Number ? maxPlayers.GetInt32() : null,
+                                guidance.GetProperty("instruction").GetString()!));
                     return new FlowNode(n.GetProperty("id").GetString()!, n.GetProperty("title").GetString()!,
                         n.GetProperty("instruction").GetString()!, n.TryGetProperty("sourceFlag", out var flag) ? flag.GetString() : null,
-                        n.TryGetProperty("detection", out var detection) ? detection.GetString() ?? "manual" : "manual", trackers, checklists);
+                        n.TryGetProperty("detection", out var detection) ? detection.GetString() ?? "manual" : "manual", trackers, checklists, playerCountGuidance);
                 }).ToArray();
                 var requirements = new Dictionary<string, string[]>(StringComparer.Ordinal);
                 if (q.TryGetProperty("requirements", out var req))

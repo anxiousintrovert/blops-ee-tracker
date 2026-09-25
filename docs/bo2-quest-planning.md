@@ -4,6 +4,10 @@
 
 This document records the BO2 research, observer implementation, and remaining validation work. All five BO2 main quests now have flow catalog entries and map-scoped Plutonium T6 observers. The route observers use stock quest state to select the observed faction or ending. Observer loading and console telemetry still need a private-match check. The guides below are walkthrough references; stock runtime signals are reviewed separately against local decompiled scripts.
 
+## Any Player EE variant
+
+Player-count-dependent guidance for Hadi77KSA's Plutonium T6 Any Player EE mod is integrated into affected BO2 objectives. See [BO2 Any Player EE guidance](bo2-any-player-ee.md) for the per-map rules, optional Extra scripts, DVAR caveats, and current evidence boundary. These notes do not change stock completion flags or main-quest order.
+
 ## Map and quest catalog
 
 | Map | Main quest | Routes / ending | Super Easter Egg role |
@@ -115,3 +119,4 @@ This is offline script evidence from the installed files, not proof that a compa
 - [Tower of Babble overview](https://www.codzombie.com/quests/tranzit-tower-of-babble) also describes the choice as map-specific and mutually exclusive within the quest.
 
 Guide-derived details can conflict and should be rechecked during the per-map source audit. In particular, claims about profile overwrites when a player joins an in-progress session, Endgame resets, minimum player counts, and exact NAVcard/profile persistence should be verified on the user's target game/runtime before the ledger treats them as hard rules.
+

@@ -25,6 +25,7 @@ init()
 ee_tracker_transit_monitor()
 {
     level endon("end_game");
+    level thread ee_tracker_transit_end_session();
     if (!isdefined(level.ee_tracker_transit_session)) level.ee_tracker_transit_session = randomint(1000000000);
     level.ee_tracker_transit_previous_global = "";
     level.ee_tracker_transit_player_signatures = [];
@@ -174,6 +175,8 @@ ee_tracker_transit_emit_signal(signal)
 {
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"quest_signal\",\"game\":\"bo2\",\"map\":\"zm_transit\",\"sessionId\":\"" + level.ee_tracker_transit_session + "\",\"signal\":\"" + signal + "\",\"source\":\"gsc\"}\n");
 }
+
+ee_tracker_transit_end_session() { level waittill("end_game"); printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"session_ended\",\"game\":\"bo2\",\"map\":\"zm_transit\",\"sessionId\":\"" + level.ee_tracker_transit_session + "\",\"source\":\"gsc\"}\n"); }
 
 ee_tracker_transit_watch_inventory()
 {

@@ -28,7 +28,7 @@ These current-app captures use replay fixtures to show the tracker UI for each s
 
 ## Install
 
-Download the latest portable desktop package and the separate T5/T6 GSC observer package from [GitHub Releases](https://github.com/anxiousintrovert/blops-ee-tracker/releases/latest). The desktop package is self-contained for Windows x64 and includes map data, samples, and observer installers. Follow [the install guide](INSTALL.md) for the step-by-step setup. The BO1 Any Player EE gameplay mod is a separate download from [Hadi77KSA's releases](https://github.com/Hadi77KSA/T5-Any-Player-EE-Scripts/releases); EETracker's observers do not install or include gameplay mods.
+Download the latest portable desktop package and the separate T5/T6 GSC observer package from [GitHub Releases](https://github.com/anxiousintrovert/blops-ee-tracker/releases/latest). The desktop package is self-contained for Windows x64 and includes map data, samples, and observer installers. Follow [the install guide](INSTALL.md) for the step-by-step setup. The BO1 and BO2 Any Player EE gameplay mods are separate downloads; EETracker's observers do not install or include gameplay mods. See [the BO1 release](https://github.com/Hadi77KSA/T5-Any-Player-EE-Scripts/releases), the [BO2 Any Player EE GitHub release](https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Scripts/releases/latest), and the [BO2 player-count guidance](docs/bo2-any-player-ee.md).
 
 Source builds and contributor notes are in [docs/development.md](docs/development.md).
 
@@ -52,3 +52,4 @@ The decorative map banners are original AI-generated environment artwork created
 ## License and trademarks
 
 This initial public repository does not include a software license. Public visibility does not grant permission to redistribute or relicense the project. “Call of Duty” and related game names and marks belong to their respective owners. This is a fan-made companion and is not affiliated with or endorsed by Activision or Plutonium.
+

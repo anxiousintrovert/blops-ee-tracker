@@ -88,7 +88,7 @@ public sealed class JsonlTailSource(string path, TimeSpan? pollInterval = null, 
                                     ? new DateTimeOffset(File.GetLastWriteTimeUtc(path), TimeSpan.Zero)
                                     : DateTimeOffset.UtcNow;
                             }
-                            if (item.Type == "session_ended") disconnected = true;
+                            // A match ending is not a transport ending: keep following the log for the next match.
                         }
                     }
                     if (sawHeartbeat && idleTimeout is { } timeout && DateTimeOffset.UtcNow - lastHeartbeat > timeout && !disconnected)
@@ -128,5 +128,39 @@ public sealed class JsonlTailSource(string path, TimeSpan? pollInterval = null, 
         }
         return null;
     }
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+}
+
+/// <summary>Listens to both game logs until the first match is identified, then follows that game's log.</summary>
+public sealed class AutoGameTelemetrySource(string bo1Path, string bo2Path, TimeSpan? idleTimeout = null) : ITelemetrySource
+{
+    public event Action<TelemetryEvent>? EventReceived;
+    private string? _lockedGame;
+
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        var t5 = Watch(bo1Path, "bo1", linked.Token);
+        var t6 = Watch(bo2Path, "bo2", linked.Token);
+        try { await Task.WhenAll(t5, t6); } finally { linked.Cancel(); }
+    }
+
+    private async Task Watch(string path, string game, CancellationToken token)
+    {
+        var source = new JsonlTailSource(path, idleTimeout: idleTimeout, readExisting: true);
+        source.EventReceived += item =>
+        {
+            var detectedGame = item.Game ?? (game == "bo1" ? "bo1" : item.Map?.StartsWith("zm_", StringComparison.Ordinal) == true ? "bo2" : null);
+            if (_lockedGame is null && detectedGame == game && (item.Type == "session_started" || !string.IsNullOrWhiteSpace(item.Map)))
+                Interlocked.CompareExchange(ref _lockedGame, game, null);
+            if (_lockedGame == game)
+            {
+                EventReceived?.Invoke(item with { Game = item.Game ?? game });
+                if (item.Type == "session_ended") Interlocked.Exchange(ref _lockedGame, null);
+            }
+        };
+        try { await source.StartAsync(token); } finally { await source.DisposeAsync(); }
+    }
+
     public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

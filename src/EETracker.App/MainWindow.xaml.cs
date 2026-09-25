@@ -25,7 +25,7 @@ public partial class MainWindow : Window
     private bool _loadingWalkthrough;
     private bool _loadingPreparation;
     private readonly IReadOnlyList<WalkthroughMapChoice> _walkthroughMaps = WalkthroughMaps();
-    private readonly IReadOnlyDictionary<string, MapQuestItemCatalog> _questItemCatalog = QuestItemCatalog.Load();
+    private readonly IReadOnlyList<MapFlow> _flowCatalog = QuestFlowCatalog.LoadAll();
 
     public MainWindow()
     {
@@ -124,29 +124,27 @@ public partial class MainWindow : Window
         var sessionMap = _walkthroughMaps.FirstOrDefault(item => string.Equals(item.Label, s.Map, StringComparison.OrdinalIgnoreCase));
         if (sessionMap is not null && (_activeGame != sessionMap.GameId || (FullQuestMapBox.SelectedItem as WalkthroughMapChoice)?.Label != sessionMap.Label))
             SelectWalkthroughMapForCurrentState();
-        MapTitle.Text = s.Map.ToUpperInvariant();
+        var waiting = s.Map == "Waiting for game" || s.SessionEnded;
+        MapTitle.Text = waiting ? "WAITING FOR MATCH" : s.Map.ToUpperInvariant();
         QuestTitle.Text = s.QuestName.ToUpperInvariant();
-        ApplyMapBanner(_activeGame, s.Map);
-        RoundText.Text = s.Round?.ToString() ?? "—";
-        PlayersText.Text = s.PlayerCount?.ToString() ?? "—";
-        RouteText.Text = s.RequiresPathChoice ? "ROUTE PENDING" : s.Map == "TranZit" ? s.SelectedPath?.ToUpperInvariant() ?? "ROUTE UNCONFIRMED" : s.Map == "Call of the Dead" ? s.PlayerCount switch { 1 => "STAND-IN", > 1 => "ENSEMBLE CAST", _ => "DETECTING" } : "AUTOMATIC";
-        PowerText.Text = s.PowerOn switch { true => "ON", false => "OFF", _ => "—" };
-        var mapCode = s.Map switch { "Ascension" => "zombie_cosmodrome", "Call of the Dead" => "zombie_coast", "Shangri-La" => "zombie_temple", "Moon" => "zombie_moon", "TranZit" => "zm_transit", "Die Rise" => "zm_highrise", "Buried" => "zm_buried", "Mob of the Dead" => "zm_prison", "Origins" => "zm_tomb", _ => "" };
-        _questItemCatalog.TryGetValue(mapCode, out var itemCatalog);
-        var itemLabels = itemCatalog?.Items.ToDictionary(item => item.Id, item => item.Label, StringComparer.OrdinalIgnoreCase) ?? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        var inventoryRows = s.PlayerInventories.Select(player =>
+        if (waiting)
         {
-            var labels = player.Items.Where(itemLabels.ContainsKey).Select(item => itemLabels[item]).Distinct().ToArray();
-            return $"P{player.PlayerSlot + 1}: {(labels.Length == 0 ? "No tracked quest items" : string.Join(", ", labels))}";
-        })
-            .Concat(s.QuestParts.Select(part => $"{itemCatalog?.Parts.FirstOrDefault(item => item.Id == part.PartId)?.Label ?? part.Label ?? part.PartId}: {part.State}{(part.PlayerSlot is { } carrier ? $" · P{carrier + 1}" : " · team")}{(!string.IsNullOrWhiteSpace(part.PossibleAreas) ? $" · {part.PossibleAreas}" : "")}{(!string.IsNullOrWhiteSpace(part.Origin) ? $" · {part.Origin}" : "")}"))
-            .Concat(itemCatalog?.Parts.Where(part => part.PossibleAreas.Length > 0 && s.QuestParts.All(observed => observed.PartId != part.Id)).Select(part => $"{part.Label}: not confirmed · possible {string.Join(" / ", part.PossibleAreas)}") ?? [])
-            .ToArray();
-        InventoryText.Text = inventoryRows.Length == 0 ? "Waiting for player inventory telemetry" : string.Join("\n", inventoryRows);
+            WaitingMatchOverlay.Visibility = Visibility.Visible;
+            ObjectiveText.Text = s.SessionEnded ? "Match ended" : "Waiting for a match";
+            InstructionText.Text = s.SessionEnded ? "The match has ended. EETracker is listening for the next match." : "Start a Zombies match in Black Ops 1 or Black Ops 2. The tracker will switch to its map when telemetry begins.";
+            QuestTitle.Text = "MATCH MONITOR";
+        }
+        else
+        {
+            WaitingMatchOverlay.Visibility = Visibility.Collapsed;
+            ApplyMapBanner(_activeGame, s.Map);
+            ObjectiveText.Text = s.CurrentObjective;
+            InstructionText.Text = s.Instruction;
+        }
+        RoundText.Text = waiting ? "—" : s.Round?.ToString() ?? "—";
+        PlayersText.Text = waiting ? "—" : s.PlayerCount?.ToString() ?? "—";
         ConnectionText.Text = s.Connected ? "CONNECTED" : s.SessionEnded ? "GAME ENDED" : s.ConnectionInterrupted ? "NO GAME SIGNAL" : "WAITING";
         ConnectionDot.Fill = s.Connected ? (Brush)FindResource("AccentOlive") : (Brush)FindResource("AccentAmber");
-        ObjectiveText.Text = s.CurrentObjective;
-        InstructionText.Text = s.Instruction;
         _loadingPreparation = true;
         var objectiveTracker = s.CurrentTrackers.FirstOrDefault();
         TrackerProgressPanel.Visibility = objectiveTracker is null ? Visibility.Collapsed : Visibility.Visible;
@@ -217,11 +215,17 @@ public partial class MainWindow : Window
         StepTrackers.ItemsSource = s.CurrentTrackers.Select(tracker => new StepTrackerViewModel(tracker)).ToArray();
         StepTrackers.Visibility = s.CurrentTrackers.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
         var currentFlowStep = s.Progression.FirstOrDefault(step => step.Status == "Current");
-        var objectiveChecklist = s.Map == "Origins" && currentFlowStep?.Id == "bo2.origins.setup"
-            ? QuestFlowCatalog.LoadAll().FirstOrDefault(map => map.DisplayName == "Origins")?.Quests.FirstOrDefault()?.Nodes.FirstOrDefault(node => node.Id == currentFlowStep.Id)?.Checklists
+        var currentMapFlow = _flowCatalog.FirstOrDefault(map => map.DisplayName == s.Map);
+        var currentQuestFlow = currentMapFlow?.Quests.FirstOrDefault(quest => quest.DisplayName == s.QuestName)
+            ?? currentMapFlow?.Quests.FirstOrDefault();
+        var currentNode = currentQuestFlow?.Nodes.FirstOrDefault(node => node.Id == currentFlowStep?.Id);
+        var checklistGameId = _walkthroughMaps.FirstOrDefault(item => item.Label == s.Map)?.GameId ?? _activeGame;
+        _loadingPreparation = true;
+        var objectiveChecklist = currentNode?.Checklists
                 .Select(group => new ObjectiveChecklistViewModel(group.Title, group.Items.Select(item => new ObjectiveChecklistItemViewModel(
-                    item.Label, item.Location, _checklistState.GetValueOrDefault($"bo2|Origins|Little Lost Girl|{currentFlowStep.Id}|item|{item.Id}"))).ToArray())).ToArray()
-            : null;
+                    $"{checklistGameId}|{s.Map}|{s.QuestName}|{currentFlowStep!.Id}|item|{item.Id}", item.Label, item.Location,
+                    _checklistState.GetValueOrDefault($"{checklistGameId}|{s.Map}|{s.QuestName}|{currentFlowStep!.Id}|item|{item.Id}"))).ToArray())).ToArray()
+            ?? Array.Empty<ObjectiveChecklistViewModel>();
         ObjectiveChecklistItems.ItemsSource = objectiveChecklist;
         ObjectiveChecklistItems.Visibility = objectiveChecklist is { Length: > 0 } ? Visibility.Visible : Visibility.Collapsed;
         UpdateTrackerLayout();
@@ -454,6 +458,15 @@ public partial class MainWindow : Window
         File.WriteAllText(_checklistPath, JsonSerializer.Serialize(_checklistState, new JsonSerializerOptions { WriteIndented = true }));
     }
 
+    private void ObjectiveChecklistItemToggled(object sender, RoutedEventArgs e)
+    {
+        if (_loadingPreparation || sender is not System.Windows.Controls.CheckBox { DataContext: ObjectiveChecklistItemViewModel vm }) return;
+        vm.IsChecked = ((System.Windows.Controls.CheckBox)sender).IsChecked == true;
+        if (vm.IsChecked) _checklistState[vm.Key] = true; else _checklistState.Remove(vm.Key);
+        Directory.CreateDirectory(Path.GetDirectoryName(_checklistPath)!);
+        File.WriteAllText(_checklistPath, JsonSerializer.Serialize(_checklistState, new JsonSerializerOptions { WriteIndented = true }));
+    }
+
     private static string CheckKey(string game, string map, string quest, string route, string step) => $"{game}|{map}|{quest}|{route}|{step}";
 
     private static string PrepKey(string game, string map, string quest, string scope, string? route, string id) =>
@@ -583,19 +596,14 @@ public partial class MainWindow : Window
     private async Task ConnectSelectedGameAsync()
     {
         var localAppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        var gameFolder = _activeGame == "bo1" ? "t5" : "t6";
-        var plutoniumStorage = Path.Combine(localAppData, "Plutonium", "storage", gameFolder);
-        var fileName = _activeGame == "bo1" ? "ee-tracker.jsonl" : "ee-tracker-bo2.jsonl";
-        var filePath = Path.Combine(plutoniumStorage, "raw", "scriptdata", fileName);
-        PathBox.Text = filePath;
-        var label = _activeGame == "bo1" ? "BO1 game session" : "BO2 game session";
-        if (_activeGame == "bo2")
-        {
-            StartT6Collector();
-            SettingsStatus.Text = "Select BO2 before launching a match on an observer-supported map. T6 collector started; waiting for records.";
-        }
-        await StartSource(new JsonlTailSource(filePath, readExisting: true, idleTimeout: TimeSpan.FromSeconds(7)), label);
-        if (_activeGame == "bo2" && _t6Collector is { HasExited: true })
+        var storage = Path.Combine(localAppData, "Plutonium", "storage");
+        var bo1Path = Path.Combine(storage, "t5", "raw", "scriptdata", "ee-tracker.jsonl");
+        var bo2Path = Path.Combine(storage, "t6", "raw", "scriptdata", "ee-tracker-bo2.jsonl");
+        PathBox.Text = bo1Path;
+        StartT6Collector();
+        SettingsStatus.Text = "Listening for a match in BO1 and BO2.";
+        await StartSource(new AutoGameTelemetrySource(bo1Path, bo2Path, TimeSpan.FromSeconds(7)), "BO1 / BO2 match monitor");
+        if (_t6Collector is { HasExited: true })
             SettingsStatus.Text = "T6 collector exited. Confirm Plutonium console.log exists, then reconnect.";
     }
 
@@ -781,12 +789,18 @@ public sealed class StepTrackerViewModel
     }
 }
 
-public sealed record ObjectiveChecklistItemViewModel(string Label, string Location, bool IsChecked)
+public sealed class ObjectiveChecklistItemViewModel : INotifyPropertyChanged
 {
+    public string Key { get; }
+    public string Label { get; }
+    public string Location { get; }
+    private bool _isChecked;
+    public bool IsChecked { get => _isChecked; set { if (_isChecked == value) return; _isChecked = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Marker))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MarkerBrush))); } }
     public string Marker => IsChecked ? "✓" : "○";
     public Brush MarkerBrush => IsChecked ? Brushes.DarkSeaGreen : Brushes.Gray;
+    public event PropertyChangedEventHandler? PropertyChanged;
+    public ObjectiveChecklistItemViewModel(string key, string label, string location, bool isChecked) { Key = key; Label = label; Location = location; _isChecked = isChecked; }
 }
-
 public sealed record ObjectiveChecklistViewModel(string Title, IReadOnlyList<ObjectiveChecklistItemViewModel> Items);
 
 public sealed class StepTrackerCheckpointViewModel

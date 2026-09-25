@@ -33,6 +33,7 @@ ee_tracker_highrise_inventory_if_changed(slot)
 ee_tracker_highrise_monitor()
 {
     level endon("end_game");
+    level thread ee_tracker_highrise_end_session();
     if (!isdefined(level.ee_tracker_highrise_session)) level.ee_tracker_highrise_session = randomint(1000000000);
     level.ee_tracker_highrise_stage = "";
     level.ee_tracker_highrise_started = 0;
@@ -82,6 +83,8 @@ ee_tracker_highrise_monitor()
         wait 1;
     }
 }
+
+ee_tracker_highrise_end_session() { level waittill("end_game"); printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"session_ended\",\"game\":\"bo2\",\"map\":\"zm_highrise\",\"sessionId\":\"" + level.ee_tracker_highrise_session + "\",\"source\":\"gsc\"}\n"); }
 
 ee_tracker_highrise_profile(player_slot)
 {

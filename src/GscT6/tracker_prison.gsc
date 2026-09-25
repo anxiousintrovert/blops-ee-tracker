@@ -50,6 +50,7 @@ ee_tracker_prison_inventory_if_changed(slot)
 ee_tracker_prison_monitor()
 {
     level endon("end_game");
+    level thread ee_tracker_prison_end_session();
     if (!isdefined(level.ee_tracker_prison_session)) level.ee_tracker_prison_session = randomint(1000000000);
     level.ee_tracker_prison_last_flag = "";
     level.ee_tracker_prison_ending = 0;
@@ -121,6 +122,8 @@ ee_tracker_prison_monitor()
         wait 1;
     }
 }
+
+ee_tracker_prison_end_session() { level waittill("end_game"); printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"session_ended\",\"game\":\"bo2\",\"map\":\"zm_prison\",\"sessionId\":\"" + level.ee_tracker_prison_session + "\",\"source\":\"gsc\"}\n"); }
 
 ee_tracker_prison_watch_935_song()
 {

@@ -312,7 +312,29 @@
               "instruction": "Find the fuse in one of the nearby PhD-room locations, install it in the fusebox beside the door, then knife the door again.",
               "completionCue": "Door mechanism responds",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "ffd"
+              "sourceFlag": "ffd",
+              "checklists": [
+                {
+                  "title": "Fuse search and install",
+                  "items": [
+                    {
+                      "id": "f1",
+                      "label": "Search all likely fuse spawns",
+                      "location": "PhD Flopper area: check around the stair landing/railings, the nearby machinery and the icy path side."
+                    },
+                    {
+                      "id": "f2",
+                      "label": "Install the fuse",
+                      "location": "Fusebox beside the sealed Ultimis door."
+                    },
+                    {
+                      "id": "f3",
+                      "label": "Knife the door again",
+                      "location": "Sealed Ultimis door below PhD Flopper."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.call_of_the_dead.main.04.holy_grenade",
@@ -347,6 +369,38 @@
                     }
                   ]
                 }
+              ],
+              "checklists": [
+                {
+                  "title": "Four security generators",
+                  "items": [
+                    {
+                      "id": "g1",
+                      "label": "Destroy generator 1",
+                      "location": "Across from the Ultimis door."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Destroy generator 2",
+                      "location": "Outside the left window of the Stamin-Up building."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Destroy generator 3",
+                      "location": "In the water behind the ship."
+                    },
+                    {
+                      "id": "g4",
+                      "label": "Destroy generator 4",
+                      "location": "Between two ship parts."
+                    },
+                    {
+                      "id": "g5",
+                      "label": "Recheck any still-glowing generator",
+                      "location": "Return to any red/glowing generator and hit it again if the step has not advanced."
+                    }
+                  ]
+                }
               ]
             },
             {
@@ -358,7 +412,29 @@
               "appliesTo": [
                 "ensemble_cast"
               ],
-              "sourceFlag": "bd"
+              "sourceFlag": "bd",
+              "checklists": [
+                {
+                  "title": "Catch and deliver the vodka",
+                  "items": [
+                    {
+                      "id": "v1",
+                      "label": "Knock down the frozen vodka",
+                      "location": "Upper ship railing; one player shoots/knifes it down while another waits below."
+                    },
+                    {
+                      "id": "v2",
+                      "label": "Catch it before it breaks",
+                      "location": "At the lower landing/walkway below the railing."
+                    },
+                    {
+                      "id": "v3",
+                      "label": "Deliver the bottle",
+                      "location": "Insert into the tube beside the sealed Ultimis door."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.call_of_the_dead.ensemble.06.art_critic",
@@ -369,7 +445,24 @@
               "appliesTo": [
                 "ensemble_cast"
               ],
-              "sourceFlag": "aca"
+              "sourceFlag": "aca",
+              "checklists": [
+                {
+                  "title": "Portrait positions",
+                  "items": [
+                    {
+                      "id": "a1",
+                      "label": "Read the four portrait clues",
+                      "location": "Crew room by the sealed Ultimis door."
+                    },
+                    {
+                      "id": "a2",
+                      "label": "Occupy the four matching pressure plates together",
+                      "location": "Map locations indicated by the portraits: lighthouse, ship, Stamin-Up area and spawn/landing area; keep all four occupied until the signal advances."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.call_of_the_dead.main.07.bring_up_sub",
@@ -405,6 +498,33 @@
                     }
                   ]
                 }
+              ],
+              "checklists": [
+                {
+                  "title": "Radio, steering controls, and submarine response",
+                  "items": [
+                    {
+                      "id": "r1",
+                      "label": "Activate the four radios in order",
+                      "location": "1) Cabinet below Power Room. 2) Barrel in Stamin-Up room. 3) Inside a boat container. 4) Under stairs in Ultimis room."
+                    },
+                    {
+                      "id": "r2",
+                      "label": "Set telegraph levers",
+                      "location": "Ship controls: left lever down once, middle lever untouched, right lever down three times."
+                    },
+                    {
+                      "id": "r3",
+                      "label": "Set the steering wheel",
+                      "location": "Ship wheel: turn right twice so the brown handle points toward 5 oclock."
+                    },
+                    {
+                      "id": "r4",
+                      "label": "Surface the submarine",
+                      "location": "Return to the ship controls and confirm the submarine surfaces before sounding horns."
+                    }
+                  ]
+                }
               ]
             },
             {
@@ -436,12 +556,39 @@
                     }
                   ]
                 }
+              ],
+              "checklists": [
+                {
+                  "title": "Sound the four foghorns in order",
+                  "items": [
+                    {
+                      "id": "h1",
+                      "label": "Sound horn 1",
+                      "location": "Lighthouse base by the water."
+                    },
+                    {
+                      "id": "h2",
+                      "label": "Sound horn 2",
+                      "location": "Just to the right after the icy slide, beside the water."
+                    },
+                    {
+                      "id": "h3",
+                      "label": "Sound horn 3",
+                      "location": "On land just outside the lighthouse doors."
+                    },
+                    {
+                      "id": "h4",
+                      "label": "Sound horn 4",
+                      "location": "Behind the rock straight ahead of the icy slide."
+                    }
+                  ]
+                }
               ]
             },
             {
               "id": "bo1.call_of_the_dead.ensemble.08.pure_harmony",
               "title": "Solve Pure Harmony",
-              "instruction": "Use the Vril map clues to set the lighthouse dials to 2-7-4-6: yellow, orange, blue, and purple from top to bottom.",
+              "instruction": "Ensemble Cast co-op step only (Stand-in/solo skips it). The target reads 2-7-4-6 from top to bottom: Yellow 2, Orange 7, Blue 4, Purple 6. Because turning one dial moves others, follow this sequence exactly: 1) Purple until Purple reads 6. 2) Orange until Blue reads 4. 3) Yellow until Orange reads 7. 4) Turn Yellow until it reads 2, counting every click. 5) Turn Purple the same number of clicks counted in step 4. 6) Turn Blue until it reads 4. Verify the final top-to-bottom reading is 2-7-4-6.",
               "completionCue": "The lighthouse acknowledges the code.",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "appliesTo": [
@@ -471,20 +618,72 @@
                     }
                   ]
                 }
+              ],
+              "checklists": [
+                {
+                  "title": "Co-op dial sequence · target 2-7-4-6",
+                  "items": [
+                    {
+                      "id": "s1",
+                      "label": "Set Purple to 6",
+                      "location": "Bottom level of the lighthouse dial stack."
+                    },
+                    {
+                      "id": "s2",
+                      "label": "Turn Orange until Blue reads 4",
+                      "location": "Orange dial, second level from the top."
+                    },
+                    {
+                      "id": "s3",
+                      "label": "Turn Yellow until Orange reads 7",
+                      "location": "Top-level Yellow dial."
+                    },
+                    {
+                      "id": "s4",
+                      "label": "Turn Yellow to 2 and count the clicks",
+                      "location": "Top-level Yellow dial; record the number of clicks for the next action."
+                    },
+                    {
+                      "id": "s5",
+                      "label": "Turn Purple by the same click count",
+                      "location": "Bottom-level Purple dial; match the exact number of Yellow clicks from step 4."
+                    },
+                    {
+                      "id": "s6",
+                      "label": "Turn Blue until it reads 4; verify 2-7-4-6",
+                      "location": "Blue dial, third level from the top; read all four dials from top to bottom."
+                    }
+                  ]
+                }
               ]
             },
             {
               "id": "bo1.call_of_the_dead.main.09.vr11_golden_rod",
               "title": "Raise and recover the Golden Rod",
-              "instruction": "Shoot a zombie with the V-R11 at the lighthouse base so it rises in the green beam. Damage the human until it drops limp before reaching the top; collect the Golden Rod.",
+              "instruction": "Use the V-R11 on a zombie at the lighthouse base so it rises in the green beam. Shoot the transformed human with explosive damage until it goes limp before reaching the top. Take the Golden Rod from the lighthouse base, return it to the transfer tube by the Ultimis door, then knife the sparking fusebox.",
               "checklists": [
                 {
-                  "title": "Required weapon",
+                  "title": "Raise and return the Golden Rod",
                   "items": [
                     {
-                      "id": "p0",
-                      "label": "V-R11",
-                      "location": "Mystery Box; random weapon cycle."
+                      "id": "v1",
+                      "label": "Transform a zombie with V-R11",
+                      "location": "Lighthouse base, place the zombie in the green beam."
+                    },
+                    {
+                      "id": "v2",
+                      "label": "Use explosive damage to make the human go limp",
+                      "location": "At the lighthouse beam; do this before it reaches the top."
+                    },
+                    {
+                      "id": "v3",
+                      "label": "Pick up the Golden Rod",
+                      "location": "Lighthouse base after the transformed human drops it."
+                    },
+                    {
+                      "id": "v4",
+                      "label": "Insert the rod and knife the fusebox",
+                      "location": "Transfer tube beside the Ultimis door, then the sparking fusebox."
                     }
                   ]
                 }
@@ -645,6 +844,23 @@
                   "signal": "temple.tiles",
                   "maximum": 12
                 }
+              ],
+              "checklists": [
+                {
+                  "title": "Twelve tile pairs",
+                  "items": [
+                    {
+                      "id": "t1",
+                      "label": "Raise the temple tiles",
+                      "location": "Mine-cart area; use the button during the Eclipse."
+                    },
+                    {
+                      "id": "t2",
+                      "label": "Find and match all twelve pairs",
+                      "location": "Twenty-four tiles on the two floor grids: mine-cart/temple side and mud-room/rope-bridge side. Pair symbols dynamically; there is no fixed per-match pair order."
+                    }
+                  ]
+                }
               ]
             },
             {
@@ -665,6 +881,23 @@
                     }
                   ]
                 }
+              ],
+              "checklists": [
+                {
+                  "title": "Waterslide lever coordination",
+                  "items": [
+                    {
+                      "id": "w1",
+                      "label": "Keep three players on the grate",
+                      "location": "Waterslide exit grate at the lower end."
+                    },
+                    {
+                      "id": "w2",
+                      "label": "Ride the slide and activate the lever",
+                      "location": "A fourth player rides down and holds Use on the lever at the right side of the slide exit."
+                    }
+                  ]
+                }
               ]
             },
             {
@@ -673,12 +906,22 @@
               "instruction": "Get the 31-79 JGb215 (Baby Gun). Knock the ball down with an explosive, shrink it, knife it down the slide, then launch it with the geyser.",
               "checklists": [
                 {
-                  "title": "Required weapon",
+                  "title": "Crystal ball and geyser",
                   "items": [
                     {
-                      "id": "p0",
-                      "label": "Fractalizer (Pack-a-Punched 31-79 JGb215)",
-                      "location": "Mystery Box, then Pack-a-Punch."
+                      "id": "b1",
+                      "label": "Knock the crystal ball down",
+                      "location": "Hit it with an explosive from the ledge above."
+                    },
+                    {
+                      "id": "b2",
+                      "label": "Shrink it and knife it along the slide",
+                      "location": "Use the Pack-a-Punched Fractalizer; knife the ball toward the geyser."
+                    },
+                    {
+                      "id": "b3",
+                      "label": "Launch it through the geyser",
+                      "location": "Mud-room geyser; trigger while the ball is positioned over it."
                     }
                   ]
                 }
@@ -690,7 +933,7 @@
             {
               "id": "bo1.shangri_la.time_travel.06.ignite_gas",
               "title": "Ignite the gas leaks",
-              "instruction": "Open the tunnel valve four times. Lure a Napalm Zombie through the three leaking pipes, then pull the nearby lever.",
+              "instruction": "Turn the valve in the tunnel beside the MPL four times. Find the four leaking pipes, lure a Napalm Zombie from the tunnel entrance through the tunnel so each leak ignites, then pull the lever.",
               "completionCue": "Eclipse ends and Crystal 4 appears",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "sourceFlag": "ptt_plot_vo_done",
@@ -706,6 +949,28 @@
                     {
                       "label": "Final lever pulled",
                       "signal": "sq_ptt_level_pulled"
+                    }
+                  ]
+                }
+              ],
+              "checklists": [
+                {
+                  "title": "Ignite all four gas leaks",
+                  "items": [
+                    {
+                      "id": "g1",
+                      "label": "Turn the tunnel valve four times",
+                      "location": "Tunnel beside the MPL."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Lead a Napalm Zombie through the leak route",
+                      "location": "Start of tunnel through the tunnel past all four leaking pipes."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Pull the lever after every leak ignites",
+                      "location": "Tunnel lever near the gas step."
                     }
                   ]
                 }
@@ -742,12 +1007,44 @@
                     }
                   ]
                 }
+              ],
+              "checklists": [
+                {
+                  "title": "Four Spikemore holes",
+                  "items": [
+                    {
+                      "id": "s1",
+                      "label": "Place a Spikemore in hole 1",
+                      "location": "Wall holes in the back-side waterfall tunnel."
+                    },
+                    {
+                      "id": "s2",
+                      "label": "Place a Spikemore in hole 2",
+                      "location": "Wall holes in the back-side waterfall tunnel."
+                    },
+                    {
+                      "id": "s3",
+                      "label": "Place a Spikemore in hole 3",
+                      "location": "Wall holes in the back-side waterfall tunnel."
+                    },
+                    {
+                      "id": "s4",
+                      "label": "Place a Spikemore in hole 4",
+                      "location": "Wall holes in the back-side waterfall tunnel."
+                    },
+                    {
+                      "id": "s5",
+                      "label": "Detonate all four and flush them",
+                      "location": "Detonate one in each hole, then press the brick/button at the waterfall pool."
+                    }
+                  ]
+                }
               ]
             },
             {
               "id": "bo1.shangri_la.time_travel.08.teepee_symbols_dials",
               "title": "Set the mud-room dials",
-              "instruction": "Melee the 12 symbol tiles around the map, destroy the outside teepee with an explosive, then set the four mud-room dials to 4, 3, 16, 1.",
+              "instruction": "Before the dial room, knife all 12 wall panels and destroy the outside snare/teepee with an explosive, then activate the mine-cart radio. In the mud room, set the four dials to 4, 3, 16, 1 according to the wall-order instruction. Do not invent a fixed order for the randomized tile pairs or gongs.",
               "completionCue": "Eclipse ends and Crystal 6 appears",
               "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
               "sourceFlag": "sq_bttp2_over",
@@ -755,6 +1052,33 @@
                 {
                   "title": "CORRECT DIALS",
                   "signal": "temple.dials"
+                }
+              ],
+              "checklists": [
+                {
+                  "title": "Wall panels, snare, radio, and mud-room dials",
+                  "items": [
+                    {
+                      "id": "p1",
+                      "label": "Knife 12 wall panels",
+                      "location": "5 spawn area, 2 mud room, 2 Stakeout room, 2 by the mine cart, and 1 beside the power switch."
+                    },
+                    {
+                      "id": "p2",
+                      "label": "Destroy the snare/teepee with an explosive",
+                      "location": "Outside the mine-cart route; use an explosive on the snare trap."
+                    },
+                    {
+                      "id": "p3",
+                      "label": "Activate the mine-cart radio",
+                      "location": "On top of the mine cart after the panels and snare are cleared."
+                    },
+                    {
+                      "id": "d1",
+                      "label": "Set the four mud-room dials",
+                      "location": "Mud room. Use the quest instruction wall order for values 4, 3, 16, 1; verify the order displayed in-game before turning."
+                    }
+                  ]
                 }
               ]
             },
@@ -764,12 +1088,17 @@
               "instruction": "Upgrade the Baby Gun to the Fractalizer. Test the eight gongs and keep the four that ring with the right tone. The correct gongs change each match.",
               "checklists": [
                 {
-                  "title": "Required weapon",
+                  "title": "Find the four match-specific gongs",
                   "items": [
                     {
-                      "id": "auto0",
-                      "label": "Fractalizer",
-                      "location": "Get 31-79 JGb215 from Mystery Box and Pack-a-Punch it."
+                      "id": "g1",
+                      "label": "Test gongs until the four correct tones are found",
+                      "location": "Eight gong locations around the map; correct four vary each match, so use the Focusing Crystal feedback rather than a fixed sequence."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Break the crystal ball with Fractalizer",
+                      "location": "Top of the mine-cart geyser after the gong tones are accepted."
                     }
                   ]
                 }
@@ -791,12 +1120,17 @@
               "instruction": "While the crystals glow, shoot the crystal above the mine-cart geyser with the Fractalizer and stand beneath the falling dynamite to catch it.",
               "checklists": [
                 {
-                  "title": "Required weapon",
+                  "title": "Catch the dynamite",
                   "items": [
                     {
-                      "id": "auto0",
-                      "label": "Fractalizer",
-                      "location": "Get 31-79 JGb215 from Mystery Box and Pack-a-Punch it."
+                      "id": "d1",
+                      "label": "Shoot the geyser crystal while it glows",
+                      "location": "Crystal above the mine-cart geyser; use Fractalizer."
+                    },
+                    {
+                      "id": "d2",
+                      "label": "Stand below and catch the falling dynamite",
+                      "location": "Beneath the geyser crystal as it drops."
                     }
                   ]
                 }
@@ -811,12 +1145,17 @@
               "instruction": "Shoot the mud-room crystal with the Fractalizer so the beam chain reaches and shrinks the meteor above Pack-a-Punch.",
               "checklists": [
                 {
-                  "title": "Required weapon",
+                  "title": "Shrink the meteor",
                   "items": [
                     {
-                      "id": "p0",
-                      "label": "Fractalizer (Pack-a-Punched 31-79 JGb215)",
-                      "location": "Mystery Box, then Pack-a-Punch."
+                      "id": "m1",
+                      "label": "Shoot the mud-room crystal",
+                      "location": "Crystal in mud room; use Fractalizer to chain the beam."
+                    },
+                    {
+                      "id": "m2",
+                      "label": "Confirm the meteor shrinks",
+                      "location": "Meteor above Pack-a-Punch."
                     }
                   ]
                 }
@@ -831,12 +1170,17 @@
               "instruction": "Reach the Pack-a-Punch wall, wait for Brock's dialogue, hand over the dynamite, then have all players leave the stairs to end the Eclipse.",
               "checklists": [
                 {
-                  "title": "Quest item",
+                  "title": "Give Brock the dynamite and end Eclipse",
                   "items": [
                     {
-                      "id": "auto0",
-                      "label": "Dynamite",
-                      "location": "Earn by shooting the crystal with Fractalizer while a player stands below the spawn-room crystal."
+                      "id": "d1",
+                      "label": "Wait for Brock and hand over dynamite",
+                      "location": "Pack-a-Punch stairs/wall during Eclipse."
+                    },
+                    {
+                      "id": "d2",
+                      "label": "Have all players leave the stairs",
+                      "location": "Everyone exits the Pack-a-Punch stair area to end the Eclipse."
                     }
                   ]
                 }
@@ -1112,11 +1456,33 @@
             {
               "id": "bo1.moon.richtofens_grand_scheme.07.connect_s_cable",
               "title": "Find and connect the S-shaped cable",
-              "instruction": "Search the laboratory floors and nearby exterior for the S cable; install it between the spawn computer and plate assembly.",
+              "instruction": "Search the Labs floors, corners, and tables and the immediately adjoining exterior for the S-shaped cable. It can spawn in several positions; connect it between the spawn computer and the plate assembly.",
               "completionCue": "Cable connects computer and plate assembly",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "sourceFlag": "w_placed",
-              "appliesTo": null
+              "appliesTo": null,
+              "checklists": [
+                {
+                  "title": "Find and connect the S-shaped cable",
+                  "items": [
+                    {
+                      "id": "c1",
+                      "label": "Search Lab floors, corners, and tables",
+                      "location": "All Laboratory levels."
+                    },
+                    {
+                      "id": "c2",
+                      "label": "Check immediately outside the Lab",
+                      "location": "Exterior doorways and nearby ground just outside the Laboratory."
+                    },
+                    {
+                      "id": "c3",
+                      "label": "Connect the cable",
+                      "location": "Between the spawn-area computer and the plate assembly."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.moon.richtofens_grand_scheme.08.charge_vril_generator",
@@ -1142,10 +1508,37 @@
             {
               "id": "bo1.moon.richtofens_grand_scheme.09.four_soul_tubes",
               "title": "Fill the four MPD soul tubes",
-              "instruction": "Feed each of the four corner tubes with nearby zombie kills.",
+              "instruction": "Fill the four corner soul tubes of the MPD with zombie kills. Watch the stock progress and continue only when all four are charged.",
               "completionCue": "All four tubes full",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "second_tanks_drained"
+              "sourceFlag": "second_tanks_drained",
+              "checklists": [
+                {
+                  "title": "Four MPD tubes",
+                  "items": [
+                    {
+                      "id": "t1",
+                      "label": "Fill MPD corner tube 1",
+                      "location": "One corner of the MPD chamber; kill zombies nearby."
+                    },
+                    {
+                      "id": "t2",
+                      "label": "Fill MPD corner tube 2",
+                      "location": "One corner of the MPD chamber; kill zombies nearby."
+                    },
+                    {
+                      "id": "t3",
+                      "label": "Fill MPD corner tube 3",
+                      "location": "One corner of the MPD chamber; kill zombies nearby."
+                    },
+                    {
+                      "id": "t4",
+                      "label": "Fill MPD corner tube 4",
+                      "location": "One corner of the MPD chamber; kill zombies nearby."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.moon.richtofens_grand_scheme.10.soul_swap",
@@ -1153,20 +1546,47 @@
               "instruction": "Place the charged Vril Device in the MPD to switch their souls.",
               "completionCue": "The soul-swap sequence completes.",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "soul_swap_done"
+              "sourceFlag": "soul_swap_done",
+              "checklists": [
+                {
+                  "title": "Swap Richtofen and Samantha",
+                  "items": [
+                    {
+                      "id": "s1",
+                      "label": "Confirm all four soul tubes are full",
+                      "location": "Four MPD chamber corners."
+                    },
+                    {
+                      "id": "s2",
+                      "label": "Place the charged Vril Device",
+                      "location": "Central MPD interface."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.moon.richtofens_grand_scheme.11.maxis_says",
               "title": "Complete the computer sequence",
-              "instruction": "Throw a Q.E.D. at the Black Egg to move it beside the computers, then repeat the longer colour sequence.",
+              "instruction": "Throw a Q.E.D. at the Black Egg to move it beside the computers. Use the four computers to repeat the longer Samantha Says sequence; errors reset the current sequence. Complete the stock computer signal before proceeding.",
               "checklists": [
                 {
-                  "title": "Required equipment",
+                  "title": "Black Egg and Samantha Says",
                   "items": [
                     {
-                      "id": "auto0",
-                      "label": "Q.E.D.",
-                      "location": "Mystery Box; use on the Black Egg."
+                      "id": "q1",
+                      "label": "Move the Black Egg with a Q.E.D.",
+                      "location": "MPD chamber; throw toward the Black Egg so it lands beside the computers."
+                    },
+                    {
+                      "id": "q2",
+                      "label": "Repeat the longer colour sequence",
+                      "location": "Four computers beside the relocated Black Egg."
+                    },
+                    {
+                      "id": "q3",
+                      "label": "Wait for the sequence-complete cue",
+                      "location": "MPD computers; only continue once the stock step advances."
                     }
                   ]
                 }
@@ -1178,15 +1598,20 @@
             {
               "id": "bo1.moon.richtofens_grand_scheme.12.launch_rockets",
               "title": "Launch the rockets",
-              "instruction": "When prompted, throw a Gersh Device beside the Vril Sphere and computers. Let the countdown and finale play.",
+              "instruction": "When prompted, throw a Gersh Device beside the Vril Sphere and computers. Activate the finale and let the countdown and rocket launch complete.",
               "checklists": [
                 {
-                  "title": "Required equipment",
+                  "title": "Launch finale",
                   "items": [
                     {
-                      "id": "auto0",
-                      "label": "Gersh Device",
-                      "location": "Mystery Box; throw beside Vril Sphere and computers."
+                      "id": "g1",
+                      "label": "Throw a Gersh Device at the prompted location",
+                      "location": "Beside the Vril Sphere and computer consoles in the MPD area."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Confirm the rockets launch",
+                      "location": "Observe the countdown and finale; the stock quest completion signal is the authority."
                     }
                   ]
                 }

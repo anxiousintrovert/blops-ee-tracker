@@ -26,6 +26,14 @@
     {
       "id": "codzombiesguides_origins",
       "url": "https://www.codzombiesguides.com/main-quests/black-ops-2/origins/"
+    },
+    {
+      "id": "plutonium_any_player_ee_forum",
+      "url": "https://forum.plutonium.pw/topic/32568/release-zm-any-player-easter-egg-mods"
+    },
+    {
+      "id": "plutonium_t6_any_player_ee_v2_4_1",
+      "url": "https://github.com/Hadi77KSA/Plutonium-T6-Any-Player-EE-Scripts/releases/tag/v2.4.1"
     }
   ],
   "maps": [
@@ -116,7 +124,7 @@
             {
               "id": "bo2.transit.tower_of_babble.maxis.turbines",
               "title": "Maxis · first step: power off and place two Turbines at the pylon",
-              "instruction": "Turn map power off to start Maxis's route, then place two powered Turbines beneath the cornfield pylon and keep both running. The tracker stays on this first Maxis objective until the stock game confirms both Turbines.",
+              "instruction": "With power off, place the required powered Turbine(s) beneath the cornfield pylon and keep them running. The stock game confirms the step; the Any Player EE solo Turbine adjustment is shown when one player is detected.",
               "checklists": [
                 {
                   "title": "Two powered Turbines",
@@ -141,6 +149,15 @@
                   "title": "Turbines at pylon",
                   "signal": "bo2.transit.maxis.turbines_at_pylon",
                   "maximum": 2
+                }
+              ],
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "One Turbine is enough for the Maxis tower step.",
+                  "path": "maxis"
                 }
               ]
             },
@@ -186,6 +203,15 @@
                   "title": "Separate lights powered",
                   "signal": "bo2.transit.maxis.screecher_lights",
                   "maximum": 2
+                }
+              ],
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "The Maxis lamp-post step uses the mod's solo Turbine behavior; follow the two light-zone cues with the single Turbine.",
+                  "path": "maxis"
                 }
               ]
             },
@@ -273,6 +299,15 @@
                   "signal": "bo2.transit.richtofen.emp_lights",
                   "maximum": 4
                 }
+              ],
+              "playerCountGuidance": [
+                {
+                  "mod": "TranZit Extra solo script",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "This optional Extra script reduces the Richtofen EMP requirement from four to two; the base Any Player EE release does not make this change.",
+                  "path": "richtofen"
+                }
               ]
             }
           ],
@@ -353,7 +388,15 @@
                 }
               ],
               "sourceFlag": "bo2.highrise.started",
-              "detection": "The map stock sidequest stage begins."
+              "detection": "The map stock sidequest stage begins.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "By default, the mod automatically builds the NAV table if it is missing. The host can disable this with any_player_ee_highrise_nav 0; if disabled, build it before the elevator step."
+                }
+              ]
             },
             {
               "id": "bo2.highrise.shared.elevators",
@@ -366,6 +409,49 @@
                   "title": "Elevator symbols activated",
                   "signal": "bo2.highrise.elevator_progress",
                   "maximum": 4
+                }
+              ],
+              "checklists": [
+                {
+                  "items": [
+                    {
+                      "label": "Stand on each gold symbol",
+                      "location": "Find one gold symbol above each of the four elevators; activate all four before proceeding.",
+                      "id": "activate"
+                    }
+                  ],
+                  "title": "Four elevator symbols"
+                }
+              ],
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "Activate one of the four elevator symbols."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 2,
+                  "maxPlayers": 2,
+                  "instruction": "Activate two of the four elevator symbols."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 3,
+                  "maxPlayers": 3,
+                  "instruction": "Activate three of the four elevator symbols."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 4,
+                  "maxPlayers": 4,
+                  "instruction": "All four elevator symbols are required, same as stock."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 5,
+                  "instruction": "The release FAQ does not list the Die Rise gameplay script for lobbies above four; do not assume the reduced-count behavior."
                 }
               ]
             },
@@ -406,7 +492,44 @@
                 }
               ],
               "sourceFlag": "bo2.highrise.shared.floor_symbols",
-              "detection": "Stock sq_atd_drg_puzzle_complete flag."
+              "detection": "Stock sq_atd_drg_puzzle_complete flag.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "Solve one floor symbol."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 2,
+                  "maxPlayers": 2,
+                  "instruction": "Solve two floor symbols."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 3,
+                  "maxPlayers": 3,
+                  "instruction": "Solve three floor symbols."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 4,
+                  "maxPlayers": 4,
+                  "instruction": "Solve all four floor symbols, same as stock."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 5,
+                  "instruction": "The release FAQ does not list the Die Rise gameplay script for lobbies above four; do not assume the reduced-count behavior."
+                },
+                {
+                  "mod": "Die Rise no-reset patch",
+                  "minPlayers": 1,
+                  "maxPlayers": 18,
+                  "instruction": "If the optional die_rise_extra_no_reset_floor_puzzle.gsc patch is installed, a wrong floor symbol no longer resets the puzzle."
+                }
+              ]
             },
             {
               "id": "bo2.highrise.shared.dragon_balls",
@@ -466,7 +589,30 @@
                 }
               ],
               "sourceFlag": "bo2.highrise.richtofen.ssp",
-              "detection": "The selected stock tower-completion flag confirms this route branch has completed."
+              "detection": "The selected stock tower-completion flag confirms this route branch has completed.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "Place Trample Steams on one symbol, matching the solo lobby size.",
+                  "path": "richtofen"
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 2,
+                  "maxPlayers": 2,
+                  "instruction": "Place Trample Steams on two symbols, matching the lobby size.",
+                  "path": "richtofen"
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 3,
+                  "maxPlayers": 3,
+                  "instruction": "Place Trample Steams on three symbols, matching the lobby size.",
+                  "path": "richtofen"
+                }
+              ]
             },
             {
               "id": "bo2.highrise.richtofen.pts",
@@ -504,7 +650,44 @@
                 }
               ],
               "sourceFlag": "bo2.highrise.maxis.ssp",
-              "detection": "The selected stock tower-completion flag confirms this route branch has completed."
+              "detection": "The selected stock tower-completion flag confirms this route branch has completed.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 3,
+                  "instruction": "Solo Maxis: place one Trample Steam only after the first ball is already flinging. With three or fewer players, both balls can use the same symbol set.",
+                  "path": "maxis"
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 2,
+                  "maxPlayers": 3,
+                  "instruction": "With three or fewer players, both Maxis balls may use the same set of lion symbols.",
+                  "path": "maxis"
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 3,
+                  "maxPlayers": 3,
+                  "instruction": "Both Maxis balls may use the same symbol set. To use one lone Trample Steam for the second ball, the first ball must already be flinging.",
+                  "path": "maxis"
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 4,
+                  "maxPlayers": 4,
+                  "instruction": "Four-player Maxis Trample Steam behavior matches stock.",
+                  "path": "maxis"
+                },
+                {
+                  "mod": "Die Rise Extra springpad script",
+                  "minPlayers": 1,
+                  "maxPlayers": 3,
+                  "instruction": "This optional Extra adds pickupable Trample Steams and makes zombies ignore the deployed pads during the Maxis step.",
+                  "path": "maxis"
+                }
+              ]
             },
             {
               "id": "bo2.highrise.maxis.pts",
@@ -597,23 +780,79 @@
             {
               "id": "bo2.buried.shared.gl",
               "title": "Acquire the ghost lantern",
-              "instruction": "Knock down the ghost lantern, pick it up, and follow the stock cues.",
+              "instruction": "Knock the lantern down with an explosive from its floating position above the Ghost Mansion/town, then pick it up. The floating spawn can vary, so scan above the mansion roofline and nearby town.",
               "sourceFlag": "bo2.buried.shared.gl",
-              "detection": "The stock stage advances."
+              "detection": "The stock stage advances.",
+              "checklists": [
+                {
+                  "title": "Acquire the ghost lantern",
+                  "items": [
+                    {
+                      "id": "l1",
+                      "label": "Locate the floating lantern",
+                      "location": "Above Ghost Mansion and the nearby town skyline; spawn position varies."
+                    },
+                    {
+                      "id": "l2",
+                      "label": "Knock it down and collect it",
+                      "location": "Use an explosive, then pick up the lantern where it lands."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.buried.shared.ftl",
               "title": "Charge the lantern",
-              "instruction": "Charge the lantern with route-specific zombie kills, then continue when the stock stage advances.",
+              "instruction": "Charge the lantern with the routes stock method. For Maxis, use Leroy/traps and nearby kills; for Richtofen, gather the required mansion ghost kills. Watch the lantern glow and stock progression, then carry it to the Gunsmith roof symbol.",
               "sourceFlag": "bo2.buried.shared.ftl",
-              "detection": "The stock stage advances."
+              "detection": "The stock stage advances.",
+              "checklists": [
+                {
+                  "title": "Charge and place the lantern",
+                  "items": [
+                    {
+                      "id": "f1",
+                      "label": "Complete route-specific lantern charge",
+                      "location": "Maxis: use Leroy, traps, and the required zombie kills near the lantern. Richtofen: kill the required ghosts inside the Ghost Mansion."
+                    },
+                    {
+                      "id": "f2",
+                      "label": "Place the charged lantern",
+                      "location": "On the marked symbol on the Gunsmith roof."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.buried.shared.ll",
               "title": "Read the three sign ciphers",
-              "instruction": "Use the cipher clue to identify the three tunnel signs for the wisp sequence.",
+              "instruction": "Read the three-line Pigpen cipher clue and map its symbols to the routes three signs. Maxis and Richtofen can have different required sign sets; follow the route clue instead of a fixed generic sequence.",
               "sourceFlag": "bo2.buried.shared.ll",
-              "detection": "The stock stage advances."
+              "detection": "The stock stage advances.",
+              "checklists": [
+                {
+                  "title": "Decode the three tunnel signs",
+                  "items": [
+                    {
+                      "id": "c1",
+                      "label": "Read all three cipher lines",
+                      "location": "Lantern clue on the Gunsmith roof."
+                    },
+                    {
+                      "id": "c2",
+                      "label": "Match each symbol to a tunnel sign",
+                      "location": "Five signboards in the catacombs/tunnels; identify the three indicated by the route clue."
+                    },
+                    {
+                      "id": "c3",
+                      "label": "Record the required sign order",
+                      "location": "Use the clues line order before starting the timed wisp interactions."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.buried.maxis.tower",
@@ -686,45 +925,114 @@
             {
               "id": "bo2.buried.shared.wisp",
               "title": "Complete the wisp and time-bomb sequence",
-              "instruction": "Repeat the sign, wisp, and time-bomb objectives until the stock sq_wisp_success flag confirms success.",
+              "instruction": "Use the Paralyzer to charge the four route-specific orbs and lead a zombie near each moving wisp so it advances. Interact with the three cipher-selected tunnel signs in clue order within the short timer. Complete the routes Time Bomb rewind and repeat cycles until stock sq_wisp_success confirms success. Maxis can require a second escort after the rewind.",
               "checklists": [
                 {
-                  "title": "Required weapon",
+                  "title": "Orbs, timed signs, and Time Bomb loop",
                   "items": [
                     {
-                      "id": "p0",
-                      "label": "Paralyzer",
-                      "location": "Mystery Box; needed to heat/charge the route orbs."
+                      "id": "w1",
+                      "label": "Charge orb 1 with the Paralyzer",
+                      "location": "Route-specific marked orb around Buried; aim until it reacts."
+                    },
+                    {
+                      "id": "w2",
+                      "label": "Charge orb 2 with the Paralyzer",
+                      "location": "Route-specific marked orb around Buried; aim until it reacts."
+                    },
+                    {
+                      "id": "w3",
+                      "label": "Charge orb 3 with the Paralyzer",
+                      "location": "Route-specific marked orb around Buried; aim until it reacts."
+                    },
+                    {
+                      "id": "w4",
+                      "label": "Charge orb 4 with the Paralyzer",
+                      "location": "Route-specific marked orb around Buried; aim until it reacts."
+                    },
+                    {
+                      "id": "w5",
+                      "label": "Lure a zombie to the wisp and kill it while glowing",
+                      "location": "Follow the moving wisp along the route; stay close to the zombie so the wisp can charge."
+                    },
+                    {
+                      "id": "w6",
+                      "label": "Hit three cipher signs within the timer",
+                      "location": "Tunnel signboards; use the decoded clue order. Wisp Aid can help reveal the current wisp."
+                    },
+                    {
+                      "id": "w7",
+                      "label": "Rewind and repeat route loop if requested",
+                      "location": "Time Bomb at Guillotine/Gallows route location; follow the stock cue, including any second Maxis escort."
                     }
                   ]
                 }
               ],
               "sourceFlag": "bo2.buried.shared.wisp",
-              "detection": "Stock sq_wisp_success flag, which is set only after the wisp sequence succeeds."
+              "detection": "Stock sq_wisp_success flag, which is set only after the wisp sequence succeeds.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 2,
+                  "instruction": "Maxis route only: the wisp energy regenerates automatically and no longer relies on zombies getting near it. Continue to follow the stock route cues and sign interactions.",
+                  "path": "maxis"
+                }
+              ]
             },
             {
               "id": "bo2.buried.shared.finale1",
               "title": "Complete the Time Bomb round-infinity objective",
-              "instruction": "Place and detonate the Time Bomb at the selected tower, find the switch during Round Infinity, then return it.",
+              "instruction": "At the selected tower, gather the required players near the Time Bomb and trigger Round Infinity. Search Victis corpse locations for the switch, then return it to the tower within the round window. See the player-count note for Richtofen.",
               "checklists": [
                 {
-                  "title": "Required equipment",
+                  "title": "Round Infinity switch retrieval",
                   "items": [
                     {
-                      "id": "p0",
-                      "label": "Time Bomb",
-                      "location": "Mystery Box; place by the selected tower for Round Infinity."
+                      "id": "t1",
+                      "label": "Gather the team and set the Time Bomb",
+                      "location": "At the selected route tower: Gallows for Maxis, Guillotine for Richtofen."
+                    },
+                    {
+                      "id": "t2",
+                      "label": "Detonate Time Bomb to enter Round Infinity",
+                      "location": "At the route tower with the team gathered."
+                    },
+                    {
+                      "id": "t3",
+                      "label": "Find the switch among Victis body locations",
+                      "location": "Search the marked corpse locations around town before Round Infinity ends."
+                    },
+                    {
+                      "id": "t4",
+                      "label": "Return and install the switch",
+                      "location": "Selected Gallows/Guillotine tower."
                     }
                   ]
                 }
               ],
               "sourceFlag": "bo2.buried.shared.tpo",
-              "detection": "The stock stage advances."
+              "detection": "The stock stage advances.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 4,
+                  "instruction": "Richtofen route only: every player in the lobby must be near the Guillotine/Time Bomb.",
+                  "path": "richtofen"
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 5,
+                  "instruction": "Richtofen route only: exactly four players (no fewer or more) must be near the Guillotine/Time Bomb.",
+                  "path": "richtofen"
+                }
+              ]
             },
             {
               "id": "bo2.buried.shared.finale2",
               "title": "Solve the route finale switchboard",
-              "instruction": "Complete the stock lightboard sequence for the selected route.",
+              "instruction": "Follow the stock route-specific lightboard/switch sequence. Use the decoded sign set and Galvaknuckles interactions as cued in game; do not reuse a memorized board order across factions or matches.",
               "checklists": [
                 {
                   "title": "Required weapon",
@@ -732,48 +1040,223 @@
                     {
                       "id": "p0",
                       "label": "Galvaknuckles",
-                      "location": "Maze wall buy; use on the route's cipher-selected signs."
+                      "location": "Maze wall-buy location; use on the stock-identified route targets when the step prompts it."
                     }
                   ]
                 }
               ],
               "sourceFlag": "bo2.buried.shared.ip",
-              "detection": "The stock stage advances."
+              "detection": "The stock stage advances.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 2,
+                  "instruction": "Maxis route only: the Bells step time limit is removed; the attempt resets if the step is failed.",
+                  "path": "maxis"
+                },
+                {
+                  "mod": "Buried Extra solo bells script",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "If this separate Extra script is installed, the Maxis Bells step auto-completes after it starts.",
+                  "path": "maxis"
+                }
+              ]
             },
             {
               "id": "bo2.buried.maxis.complete",
               "title": "Maxis · complete Mined Games",
               "instruction": "Finish the shared fountain sharpshooter challenge to complete Maxis’s Mined Games route.",
               "sourceFlag": "bo2.buried.maxis.complete",
-              "detection": "Stock sidequest completion state."
+              "detection": "Stock sidequest completion state.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 18,
+                  "instruction": "Optional post-quest Super EE: all players must have matching Maxis completions on TranZit, Die Rise, and Buried; the lobby must collectively have inserted all three Victis NAVcards. For more than four players, the mod checks only progress displayed on the Buried box. This is separate from Mined Games completion.",
+                  "path": "maxis"
+                }
+              ]
             },
             {
               "id": "bo2.buried.richtofen.complete",
               "title": "Richtofen · complete Mined Games",
               "instruction": "Finish the shared fountain sharpshooter challenge to complete Richtofen’s Mined Games route.",
               "sourceFlag": "bo2.buried.richtofen.complete",
-              "detection": "Stock sidequest completion state."
+              "detection": "Stock sidequest completion state.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 18,
+                  "instruction": "Optional post-quest Super EE: all players must have matching Richtofen completions on TranZit, Die Rise, and Buried; the lobby must collectively have inserted all three Victis NAVcards. For more than four players, the mod checks only progress displayed on the Buried box. This is separate from Mined Games completion.",
+                  "path": "richtofen"
+                }
+              ]
             },
             {
               "id": "bo2.buried.maxis.amplifiers",
               "title": "Maxis · destroy the four amplifiers",
-              "instruction": "Use the Subsurface Resonator to break all four amplifiers.",
+              "instruction": "Build or acquire a Subsurface Resonator and Turbine. Place the resonator facing each of the four energy orbs and a Turbine nearby to power it; stock confirms each destroyed amplifier.",
               "sourceFlag": "bo2.buried.maxis.amplifiers",
-              "detection": "Stock sq_amplifiers_broken flag."
+              "detection": "Stock sq_amplifiers_broken flag.",
+              "checklists": [
+                {
+                  "title": "Maxis amplifier gear and locations",
+                  "items": [
+                    {
+                      "id": "m1",
+                      "label": "Resonator wheel",
+                      "location": "General Store front counter near entrance."
+                    },
+                    {
+                      "id": "m2",
+                      "label": "Resonator speaker",
+                      "location": "General Store behind front counter beneath the small painting."
+                    },
+                    {
+                      "id": "m3",
+                      "label": "Resonator mount/frame",
+                      "location": "General Store, leaning against wall opposite the table near the rear exit."
+                    },
+                    {
+                      "id": "m4",
+                      "label": "Resonator motor",
+                      "location": "General Store upstairs, right corner at top of staircase."
+                    },
+                    {
+                      "id": "m5",
+                      "label": "Turbine mannequin",
+                      "location": "General Store ground floor, rear room back-right corner."
+                    },
+                    {
+                      "id": "m6",
+                      "label": "Turbine fan",
+                      "location": "General Store upstairs, back room cabinet on the right."
+                    },
+                    {
+                      "id": "m7",
+                      "label": "Turbine tail",
+                      "location": "General Store ground floor, shelves along far-left side."
+                    },
+                    {
+                      "id": "m8",
+                      "label": "Destroy amplifier by Church",
+                      "location": "Left of Church near the large rock/rock slide; point the powered Subsurface Resonator at the orb."
+                    },
+                    {
+                      "id": "m9",
+                      "label": "Destroy amplifier by Candy Shop",
+                      "location": "Alley between Saloon and Candy Shop, beside Candy Shop wall."
+                    },
+                    {
+                      "id": "m10",
+                      "label": "Destroy amplifier in the tunnels",
+                      "location": "Mining caverns, first right when entering from Saloon."
+                    },
+                    {
+                      "id": "m11",
+                      "label": "Destroy amplifier by Ghost Mansion",
+                      "location": "Mansion backyard at Maze exit, right of the foliage."
+                    },
+                    {
+                      "id": "m12",
+                      "label": "Power each resonator placement",
+                      "location": "Place a Turbine close to the Subsurface Resonator whenever it is moved to another orb."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.buried.richtofen.amplifiers",
-              "title": "Richtofen · charge the four amplifiers",
-              "instruction": "Use the Wave Gun to charge all four amplifiers.",
+              "title": "Richtofen · charge the four energy orbs",
+              "instruction": "Shoot each of the four route orbs with the Paralyzer until it turns white and emits the success sound. The objective completes when stock confirms the route-specific count.",
               "sourceFlag": "bo2.buried.richtofen.amplifiers",
-              "detection": "Stock sq_amplifiers_on flag."
+              "detection": "Stock sq_amplifiers_on flag.",
+              "checklists": [
+                {
+                  "title": "Richtofen Paralyzer targets",
+                  "items": [
+                    {
+                      "id": "r1",
+                      "label": "Charge orb by Church",
+                      "location": "Left of Church near the large rock/rock slide; use Paralyzer until white/success sound."
+                    },
+                    {
+                      "id": "r2",
+                      "label": "Charge orb by Candy Shop",
+                      "location": "Alley between Saloon and Candy Shop, beside Candy Shop wall; use Paralyzer until white/success sound."
+                    },
+                    {
+                      "id": "r3",
+                      "label": "Charge orb in tunnels",
+                      "location": "Mining caverns, first right when entering from Saloon; use Paralyzer until white/success sound."
+                    },
+                    {
+                      "id": "r4",
+                      "label": "Charge orb by Ghost Mansion",
+                      "location": "Mansion backyard at Maze exit, right of foliage; use Paralyzer until white/success sound."
+                    },
+                    {
+                      "id": "r5",
+                      "label": "Carry a Paralyzer",
+                      "location": "Mystery Box; map wonder weapon used to charge Richtofen route orbs."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.buried.shared.final",
               "title": "Complete the fountain sharpshooter challenge",
-              "instruction": "Use the fountain to start the sharpshooter challenge and hit all four cowboy targets.",
+              "instruction": "Start the fountain sharpshooter challenge, then hit the player-count and configuration-dependent number of cowboy targets. The release defaults are listed for 1-, 2-, and 3+-player lobbies.",
               "sourceFlag": "bo2.buried.shared.final",
-              "detection": "Stock sq_ows_success flag."
+              "detection": "Stock sq_ows_success flag.",
+              "checklists": [
+                {
+                  "items": [
+                    {
+                      "label": "Start challenge",
+                      "location": "Interact with the fountain in the town square.",
+                      "id": "start"
+                    },
+                    {
+                      "label": "Hit four cowboy targets",
+                      "location": "Shoot each target as it appears around the fountain challenge before the timer ends.",
+                      "id": "targets"
+                    }
+                  ],
+                  "title": "Sharpshooter challenge"
+                }
+              ],
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 1,
+                  "maxPlayers": 18,
+                  "instruction": "Default target minimum: 20 of 84, covering the Candy Shop area."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 2,
+                  "maxPlayers": 2,
+                  "instruction": "Default target minimum: 39 of 84, covering Candy Shop and Saloon (20 + 19)."
+                },
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 3,
+                  "instruction": "Default target minimum: all 84 targets across the four areas. A host DVAR override can change the target threshold."
+                },
+                {
+                  "mod": "Buried Extra 3-player sharpshooter script",
+                  "minPlayers": 3,
+                  "maxPlayers": 3,
+                  "instruction": "Optional Extra: the team chooses a 61-65 target minimum by shooting no more than 65 on the attempt; shooting more than 65 selects all targets."
+                }
+              ]
             }
           ],
           "paths": {
@@ -830,16 +1313,85 @@
             {
               "id": "bo2.mob.generators",
               "title": "Complete the generator challenge",
-              "instruction": "Complete the generator challenge to open the relevant Warden doors and reach the plane parts.",
+              "instruction": "Use Afterlife to activate the Generator Room portal sequence and power the maps blue generators. Restore power, then follow the opening shock-gate steps to open the doors needed for plane parts.",
               "sourceFlag": "bo2.mob.generators",
-              "detection": "Stock generator_challenge_completed flag."
+              "detection": "Stock generator_challenge_completed flag.",
+              "checklists": [
+                {
+                  "title": "Generator Room and access gates",
+                  "items": [
+                    {
+                      "id": "g1",
+                      "label": "Activate the two highlighted generators",
+                      "location": "Generator Room: enter Afterlife and shock the two highlighted generators."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Activate the portal and shock the third generator",
+                      "location": "Generator Room blue portal; pass through in Afterlife, then shock the third generator."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Open Warden office gate",
+                      "location": "Use the Afterlife shock switch after the generator sequence; unlock the gate with Warden Key if required."
+                    },
+                    {
+                      "id": "g4",
+                      "label": "Open the Tanks access gate",
+                      "location": "Bottom of Docks, Tommy Gun-side gate; Afterlife player shocks the Volt Meter while another player opens the cell gate."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.mob.parts",
               "title": "Collect the plane parts",
-              "instruction": "Find the Warden’s Key and collect the five plane parts: uniforms, rigging, engine, fuel tanks, and control valve. The observer confirms after the Key and all five stock part flags are set.",
+              "instruction": "Retrieve the Warden Key, then collect all five plane parts. Carry one part at a time and place each on the Roof assembly ramp.",
               "sourceFlag": "bo2.mob.parts_complete",
-              "detection": "All five plane-part flags and the separate Warden Key flag are observed."
+              "detection": "All five plane-part flags and the separate Warden Key flag are observed.",
+              "checklists": [
+                {
+                  "title": "Key and five plane parts",
+                  "items": [
+                    {
+                      "label": "Warden Key",
+                      "id": "key",
+                      "location": "Warden's Office: shock the hanging key while in Afterlife."
+                    },
+                    {
+                      "label": "Shirt",
+                      "id": "shirt",
+                      "location": "Showers: unlock gate with key, shock Volt Meter in Afterlife, power washing machine, finish holdout and collect shirt."
+                    },
+                    {
+                      "label": "Rigging",
+                      "id": "rigging",
+                      "location": "Citadel Tunnels spiral staircase near Docks: enter keypad code shown by blue numbers and take from lowered elevator."
+                    },
+                    {
+                      "label": "Engine",
+                      "id": "engine",
+                      "location": "Complete the Generator Room Afterlife portal puzzle; unlock Warden Office gate with key."
+                    },
+                    {
+                      "label": "Fuel tanks",
+                      "id": "tanks",
+                      "location": "Bottom of Docks, Tommy Gun-side gate: Afterlife player shocks Volt Meter while teammate waits at inner gate; swap to exit."
+                    },
+                    {
+                      "label": "Control valve",
+                      "id": "valve",
+                      "location": "Infirmary: unlock green box near Roof access with Warden Key."
+                    },
+                    {
+                      "label": "Deliver parts",
+                      "id": "deliver",
+                      "location": "Carry one part at a time and place it at the Roof plane assembly ramp."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.mob.setup",
@@ -865,7 +1417,24 @@
               "title": "Complete three bridge round trips",
               "instruction": "Fly to the bridge and return to the prison three times, refueling between trips.",
               "sourceFlag": "bo2.mob.three_trips",
-              "detection": "Stock quest_completed_thrice flag."
+              "detection": "Stock quest_completed_thrice flag.",
+              "checklists": [
+                {
+                  "title": "Refuel between bridge trips",
+                  "items": [
+                    {
+                      "label": "Five fuel canisters",
+                      "id": "fuel",
+                      "location": "After returning from the bridge, collect the five canisters that spawn near plane-part locations, then refuel the Icarus on the Roof."
+                    },
+                    {
+                      "label": "Return to prison",
+                      "id": "return",
+                      "location": "Use an electric chair at the far end of the Golden Gate Bridge."
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.mob.blundergat",
@@ -913,9 +1482,74 @@
             {
               "id": "bo2.mob.final_flight",
               "title": "Solve the Nixie and audio steps; board the final flight",
-              "instruction": "Complete the Nixie-tube codes and audio tour, then board the final plane when the game opens the showdown.",
+              "instruction": "Enter the four Citadel keypad codes in Afterlife, collect and listen to all five audio reels in their required route order, then board the final plane with every player when prompted. The flight needs no fuel.",
               "sourceFlag": "bo2.mob.final_flight",
-              "detection": "Stock final_flight_activated state after the final quest setup."
+              "detection": "Stock final_flight_activated state after the final quest setup.",
+              "checklists": [
+                {
+                  "title": "Citadel codes and five audio reels",
+                  "items": [
+                    {
+                      "id": "c1",
+                      "label": "Enter code 101",
+                      "location": "Citadel Tunnels spiral keypad in Afterlife; order among codes is flexible."
+                    },
+                    {
+                      "id": "c2",
+                      "label": "Enter code 872",
+                      "location": "Citadel Tunnels spiral keypad in Afterlife; order among codes is flexible."
+                    },
+                    {
+                      "id": "c3",
+                      "label": "Enter code 386",
+                      "location": "Citadel Tunnels spiral keypad in Afterlife; order among codes is flexible."
+                    },
+                    {
+                      "id": "c4",
+                      "label": "Enter code 481",
+                      "location": "Citadel Tunnels spiral keypad in Afterlife; order among codes is flexible."
+                    },
+                    {
+                      "id": "a1",
+                      "label": "Listen to reel 1",
+                      "location": "Middle stairs returning from the Spiral Staircase."
+                    },
+                    {
+                      "id": "a2",
+                      "label": "Listen to reel 2",
+                      "location": "Cell Block by Double Tap."
+                    },
+                    {
+                      "id": "a3",
+                      "label": "Listen to reel 3",
+                      "location": "Catwalk between Warden office and Cafeteria."
+                    },
+                    {
+                      "id": "a4",
+                      "label": "Listen to reel 4",
+                      "location": "Infirmary entrance."
+                    },
+                    {
+                      "id": "a5",
+                      "label": "Listen to reel 5",
+                      "location": "Infirmary stairs leading to Roof."
+                    },
+                    {
+                      "id": "a6",
+                      "label": "Board the final flight with every player",
+                      "location": "Roof Icarus assembly after the final-flight prompt; no fuel canisters are needed."
+                    }
+                  ]
+                }
+              ],
+              "playerCountGuidance": [
+                {
+                  "mod": "Mob of the Dead solo script",
+                  "minPlayers": 1,
+                  "maxPlayers": 1,
+                  "instruction": "Separate Extra only: after the mobsters' numbers are entered into the Citadel keypad, a bot is spawned to enable the solo finale."
+                }
+              ]
             },
             {
               "id": "bo2.mob.continue",
@@ -1291,14 +1925,38 @@
                 }
               ],
               "sourceFlag": "bo2.origins.step_5.complete",
-              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released.",
+              "playerCountGuidance": [
+                {
+                  "mod": "Any Player EE",
+                  "minPlayers": 5,
+                  "instruction": "For 5+ players, the mod spawns extra muddy stone-tablet rewards beside the challenge boxes so players can each obtain the One-Inch Punch and finish this step."
+                }
+              ]
             },
             {
               "id": "bo2.origins.step_6",
               "title": "Fist of iron",
               "instruction": "Place all four staffs in the Crazy Place pedestals and kill zombies to open the rift to Agartha.",
               "sourceFlag": "bo2.origins.step_6.complete",
-              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released.",
+              "checklists": [
+                {
+                  "items": [
+                    {
+                      "label": "Return four staffs",
+                      "location": "Place the Wind, Ice, Lightning, and Fire staffs in their matching Crazy Place pedestals.",
+                      "id": "staffs"
+                    },
+                    {
+                      "label": "Fill pedestal souls",
+                      "location": "Kill zombies near the four pedestals until the rift opens.",
+                      "id": "souls"
+                    }
+                  ],
+                  "title": "Open the Crazy Place rift"
+                }
+              ]
             },
             {
               "id": "bo2.origins.step_7",
@@ -1322,9 +1980,21 @@
             {
               "id": "bo2.origins.step_8",
               "title": "Freedom",
-              "instruction": "The game confirms Samantha is released when the ending completes.",
+              "instruction": "The final interaction completes Little Lost Girl; confirm Samantha is released and the stock quest completion signal is observed.",
               "sourceFlag": "bo2.origins.complete",
-              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released.",
+              "checklists": [
+                {
+                  "items": [
+                    {
+                      "label": "Samantha released",
+                      "location": "After the Crazy Place ending sequence completes, wait for the release confirmation.",
+                      "id": "release"
+                    }
+                  ],
+                  "title": "Quest completion"
+                }
+              ]
             }
           ],
           "path": [

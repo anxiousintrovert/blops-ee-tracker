@@ -59,6 +59,7 @@ public sealed record QuestStep(string Id, string Title, string Instruction, stri
 public sealed record QuestBranchOption(string Key, string Name, string ChoiceLabel, string FirstObjective, string Instruction);
 public sealed record StepCheckpoint(string Label, string Signal);
 public sealed record StepProgressTracker(string Title, string Signal, int? Maximum, IReadOnlyList<StepCheckpoint> Checkpoints);
+public sealed record FlowPlayerCountGuidance(string Mod, string? Path, int MinPlayers, int? MaxPlayers, string Instruction);
 public sealed record StepTrackerState(string Title, string Summary, int Progress, int Maximum, IReadOnlyList<StepCheckpointState> Checkpoints);
 public sealed record StepCheckpointState(string Label, bool Complete);
 public sealed record SideEggStepProgress(string Map, string EggId, int StepIndex);

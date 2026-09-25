@@ -29,6 +29,7 @@ ee_tracker_tomb_inventory_if_changed(slot)
 ee_tracker_tomb_monitor()
 {
     level endon("end_game");
+    level thread ee_tracker_tomb_end_session();
     if (!isdefined(level.ee_tracker_tomb_session)) level.ee_tracker_tomb_session = level.ee_tracker_part_session;
     level.ee_tracker_tomb_step = -1;
     level.ee_tracker_tomb_archangel_reported = 0;
@@ -57,6 +58,8 @@ ee_tracker_tomb_monitor()
         wait 1;
     }
 }
+
+ee_tracker_tomb_end_session() { level waittill("end_game"); printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"session_ended\",\"game\":\"bo2\",\"map\":\"zm_tomb\",\"sessionId\":\"" + level.ee_tracker_tomb_session + "\",\"source\":\"gsc\"}\n"); }
 
 ee_tracker_tomb_once(key, signal)
 {
