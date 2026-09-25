@@ -560,10 +560,10 @@
             {
               "id": "bo2.highrise.richtofen.ssp",
               "title": "Richtofen · complete the Sliquifier objective",
-              "instruction": "Follow Richtofen’s Sliquifier and trampling objectives.",
+              "instruction": "Build the Sliquifier at the workbench below the Power Room. In the Buddha Room, use it to coat the lion symbols, then use Trample Steams to fling balls through each required symbol.",
               "checklists": [
                 {
-                  "title": "Sliquifier · workbench below Power Room",
+                  "title": "Sliquifier · parts and build",
                   "items": [
                     {
                       "id": "g0",
@@ -584,6 +584,21 @@
                       "id": "g3",
                       "label": "Disc/chassis",
                       "location": "Drum across from workbench at stair bottom, or table before Power Room."
+                    },
+                    {
+                      "label": "Coat lion symbols",
+                      "location": "Buddha Room: shoot each lion symbol with the Sliquifier until its coating is visible.",
+                      "id": "use"
+                    }
+                  ]
+                },
+                {
+                  "title": "Richtofen tower · Trample Steams",
+                  "items": [
+                    {
+                      "label": "Place Trample Steams",
+                      "location": "Buddha Room: place one Trample Steam on each required lion symbol and activate it so a ball passes through the Sliquifier coating. Repeat for every indicated symbol.",
+                      "id": "pads"
                     }
                   ]
                 }
@@ -617,7 +632,7 @@
             {
               "id": "bo2.highrise.richtofen.pts",
               "title": "Richtofen · charge the tower",
-              "instruction": "Continue the Richtofen tower sequence with the required Galvaknuckles.",
+              "instruction": "Buy Galvaknuckles, then follow Richtofen tower cues in the Buddha Room. Charge the pylon by meleeing the lit floor tiles in the order shown.",
               "checklists": [
                 {
                   "title": "Required weapon",
@@ -628,6 +643,16 @@
                       "location": "Wall buy in the elevator shaft/drop route down toward the Buddha Room."
                     }
                   ]
+                },
+                {
+                  "title": "Charge the pylon",
+                  "items": [
+                    {
+                      "label": "Melee the lit tiles in order",
+                      "location": "Buddha Room tower pylon: follow the displayed sequence; a wrong tile requires restarting the sequence.",
+                      "id": "tiles"
+                    }
+                  ]
                 }
               ],
               "sourceFlag": "bo2.highrise.richtofen.pts",
@@ -636,7 +661,7 @@
             {
               "id": "bo2.highrise.maxis.ssp",
               "title": "Maxis · complete the Buddha objective",
-              "instruction": "Complete Maxis’s Buddha kill objective and prepare the ballistic knife sequence.",
+              "instruction": "Complete Maxis Buddha Room zombie offering. After his cue, pack-a-punch a Ballistic Knife and fire it into the Buddha as directed; the wielder must not have bought Bowie Knife or Galvaknuckles or bled out.",
               "checklists": [
                 {
                   "title": "Required weapon",
@@ -645,6 +670,16 @@
                       "id": "new0",
                       "label": "Ballistic Knife",
                       "location": "Mystery Box; obtain after Maxis cue. Pack-a-Punch and fire in Buddha Room. The wielder must not have bought Bowie Knife/Galvaknuckles or bled out."
+                    }
+                  ]
+                },
+                {
+                  "title": "Buddha Room offering",
+                  "items": [
+                    {
+                      "label": "Complete the zombie offering",
+                      "location": "Buddha Room: kill zombies at the altar until Maxis dialogue confirms the offering.",
+                      "id": "offering"
                     }
                   ]
                 }
@@ -692,7 +727,7 @@
             {
               "id": "bo2.highrise.maxis.pts",
               "title": "Maxis · charge the tower",
-              "instruction": "Continue Maxis’s tower sequence with the required Galvaknuckles.",
+              "instruction": "Buy Galvaknuckles and follow Maxis tower cues. Charge the pylon by meleeing the lit floor tiles in the order shown.",
               "checklists": [
                 {
                   "title": "Required weapon",
@@ -703,6 +738,16 @@
                       "location": "Wall buy in the elevator shaft/drop route down toward the Buddha Room."
                     }
                   ]
+                },
+                {
+                  "title": "Charge the pylon",
+                  "items": [
+                    {
+                      "label": "Melee the lit tiles in order",
+                      "location": "Buddha Room tower pylon: follow the displayed sequence; a wrong tile requires restarting the sequence.",
+                      "id": "tiles"
+                    }
+                  ]
                 }
               ],
               "sourceFlag": "bo2.highrise.maxis.pts",
@@ -711,7 +756,7 @@
             {
               "id": "bo2.highrise.shared.final",
               "title": "Complete the final pylon sequence",
-              "instruction": "Use the tile order to melee the pylon with Galvaknuckles and complete High Maintenance.",
+              "instruction": "Use the Galvaknuckles to strike the lit pylon tiles in the order indicated by the game. Complete the sequence for your faction route and wait for the stock High Maintenance completion signal.",
               "checklists": [
                 {
                   "title": "Required weapon",
@@ -720,6 +765,16 @@
                       "id": "new0",
                       "label": "Galvaknuckles",
                       "location": "Wall buy in the elevator shaft/drop route down toward the Buddha Room."
+                    }
+                  ]
+                },
+                {
+                  "title": "Pylon sequence",
+                  "items": [
+                    {
+                      "label": "Follow the current faction tile order",
+                      "location": "Buddha Room tower pylon: follow the lit tile order for the selected faction route and repeat the sequence if it resets.",
+                      "id": "follow"
                     }
                   ]
                 }
@@ -1554,16 +1609,40 @@
             {
               "id": "bo2.mob.continue",
               "title": "Continue the cycle",
-              "instruction": "Finish the final showdown with the team winning.",
+              "instruction": "After the final Icarus flight, complete the bridge showdown with the crew winning to continue the cycle.",
               "sourceFlag": "bo2.mob.continue_cycle.complete",
-              "detection": "Stock level.winner is team."
+              "detection": "Stock level.winner is team.",
+              "checklists": [
+                {
+                  "title": "Final outcome",
+                  "items": [
+                    {
+                      "label": "Win the final showdown",
+                      "location": "After the final Citadel audio and Nixie steps, board the final Icarus flight with the crew. Complete the showdown on the bridge and follow the outcome for this ending.",
+                      "id": "ending"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo2.mob.break",
               "title": "Break the cycle",
-              "instruction": "Finish the final showdown with the Weasel winning.",
+              "instruction": "After the final Icarus flight, help Weasel win the bridge showdown to break the cycle.",
               "sourceFlag": "bo2.mob.break_cycle.complete",
-              "detection": "Stock level.winner is weasel."
+              "detection": "Stock level.winner is weasel.",
+              "checklists": [
+                {
+                  "title": "Final outcome",
+                  "items": [
+                    {
+                      "label": "Help Weasel win the final showdown",
+                      "location": "After the final Citadel audio and Nixie steps, board the final Icarus flight with the crew. Complete the showdown on the bridge and follow the outcome for this ending.",
+                      "id": "ending"
+                    }
+                  ]
+                }
+              ]
             }
           ],
           "paths": {

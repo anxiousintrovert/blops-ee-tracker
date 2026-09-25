@@ -152,7 +152,7 @@ public partial class MainWindow : Window
         {
             var hasCount = objectiveTracker.Maximum > 1;
             var isCoastDialTracker = s.Map == "Call of the Dead" && objectiveTracker.Title == "LIGHTHOUSE DIALS SET CORRECTLY";
-            QuestRingContainer.Visibility = hasCount ? Visibility.Visible : Visibility.Collapsed;
+            QuestRingContainer.Visibility = hasCount && objectiveTracker.Checkpoints.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             QuestRingText.Text = hasCount ? $"{objectiveTracker.Progress} / {objectiveTracker.Maximum}" : objectiveTracker.Summary;
             QuestRingLabel.Text = isCoastDialTracker ? "DIALS CORRECT" : hasCount ? objectiveTracker.Title : "OBJECTIVE CHECKS";
             UpdateQuestRing(hasCount ? (double)objectiveTracker.Progress / objectiveTracker.Maximum : 0);
@@ -248,9 +248,9 @@ public partial class MainWindow : Window
         var columns = ActualWidth < 1120 ? 2 : 3;
         ProgressList.ItemsSource = s.Progression.Select((step, index) => new ProgressStepViewModel(step, index + 1, columns)).ToArray();
         ProgressPanel.Visibility = s.StepCount == 0 ? Visibility.Collapsed : Visibility.Visible;
-        ProgressText.Text = $"{s.CompletedCount} / {s.StepCount} STAGES COMPLETE";
-        QuestProgressBar.Value = s.StepCount == 0 ? 0 : 100d * s.CompletedCount / s.StepCount;
         var currentIndex = Array.FindIndex(s.Progression.ToArray(), x => x.Status == "Current");
+        ProgressText.Text = s.StepCount == 0 ? "NO FLOW" : s.RequiresPathChoice && currentIndex < 0
+            ? $"SELECT ROUTE · {s.StepCount} STEPS" : $"STEP {Math.Max(1, currentIndex + 1):00} / {s.StepCount:00}";
         ObjectiveCounter.Text = s.StepCount == 0 ? "NO FLOW LOADED" :
             s.RequiresPathChoice && currentIndex < 0 ? "SELECT ROUTE" : $"STEP {Math.Max(1, currentIndex + 1):00} / {s.StepCount:00}";
         DetectionText.Text = "QUEST STATE";
@@ -269,15 +269,20 @@ public partial class MainWindow : Window
 
     private void UpdateTrackerLayout()
     {
+        var hasRing = QuestRingContainer.Visibility == Visibility.Visible;
+        var hasCheckpoints = StepTrackers.Visibility == Visibility.Visible;
         var stacked = ActualWidth < 1350;
-        var centerOnly = QuestRingContainer.Visibility != Visibility.Visible;
-        System.Windows.Controls.Grid.SetRow(StepTrackers, stacked && !centerOnly ? 1 : 0);
-        System.Windows.Controls.Grid.SetColumn(StepTrackers, stacked || centerOnly ? 0 : 2);
-        System.Windows.Controls.Grid.SetColumnSpan(StepTrackers, stacked || centerOnly ? 3 : 1);
-        StepTrackers.HorizontalAlignment = stacked || centerOnly ? HorizontalAlignment.Center : HorizontalAlignment.Stretch;
-        StepTrackers.MaxWidth = stacked || centerOnly ? 460 : double.PositiveInfinity;
-        StepTrackers.Margin = stacked && !centerOnly ? new Thickness(0, 14, 0, 0)
-            : centerOnly ? new Thickness(0) : new Thickness(18, 0, 0, 0);
+        System.Windows.Controls.Grid.SetRow(QuestRingContainer, 0);
+        System.Windows.Controls.Grid.SetColumn(QuestRingContainer, 0);
+        System.Windows.Controls.Grid.SetColumnSpan(QuestRingContainer, stacked || !hasCheckpoints ? 3 : 1);
+        System.Windows.Controls.Grid.SetRow(StepTrackers, stacked ? 1 : 0);
+        System.Windows.Controls.Grid.SetColumn(StepTrackers, stacked || !hasRing ? 0 : 2);
+        System.Windows.Controls.Grid.SetColumnSpan(StepTrackers, stacked || !hasRing ? 3 : 1);
+        QuestRingContainer.HorizontalAlignment = HorizontalAlignment.Center;
+        StepTrackers.HorizontalAlignment = HorizontalAlignment.Stretch;
+        StepTrackers.MaxWidth = double.PositiveInfinity;
+        StepTrackers.Margin = stacked && hasRing && hasCheckpoints ? new Thickness(0, 14, 0, 0)
+            : !hasRing ? new Thickness(0) : new Thickness(18, 0, 0, 0);
     }
 
     private void UpdateQuestRing(double progress)
@@ -847,7 +852,7 @@ public sealed class ProgressStepViewModel
 
     public ProgressStepViewModel(QuestStep step, int number, int columns)
     {
-        Width = columns == 2 ? 310 : 360;
+        Width = 220;
         ShortTitle = step.Title.Replace("Node ", "", StringComparison.Ordinal).Replace(" — ", " · ");
         Status = step.Status.ToUpperInvariant();
         Marker = step.Status switch { "Complete" => "✓", "Current" => $"{number:00}", _ => "·" };

@@ -10,14 +10,14 @@ The desktop release includes the .NET 8 runtime and does not need a separate .NE
 ## 1. Download and launch EETracker
 
 1. Open the [latest release](https://github.com/anxiousintrovert/blops-ee-tracker/releases/latest).
-2. Download `EETracker-0.2.0-win-x64.zip` and extract the whole archive to a folder you can keep, such as `Documents\Blops EE Tracker`.
+2. Download `EETracker-0.2.1-win-x64.zip` and extract the whole archive to a folder you can keep, such as `Documents\Blops EE Tracker`.
 3. Run `EETracker.App.exe` from the extracted folder. Keep the other extracted files beside it; the package includes map data, replay samples, and observer installers.
 
 The app starts following the local Plutonium session feed automatically. To try it without a live match, open **Settings** and load one of the built-in map previews.
 
 ## 2. Install the tracker observers
 
-The desktop archive includes the observer scripts under `gsc`. You can instead download the separate `EETracker-0.2.0-GSC.zip` package from the release. These observers are EETracker telemetry scripts; they are separate from the BO1 gameplay mod linked below.
+The desktop archive includes the observer scripts under `gsc`. You can instead download the separate `EETracker-0.2.1-GSC.zip` package from the release. These observers are EETracker telemetry scripts; they are separate from the BO1 gameplay mod linked below.
 
 1. Extract the GSC package, or use the `gsc` folder from the desktop package.
 2. Open PowerShell in the extracted `gsc` folder. In File Explorer, open that folder, click the address bar, type `powershell`, and press Enter.

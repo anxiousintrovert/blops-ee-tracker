@@ -1,13 +1,13 @@
-# EETracker 0.2.0
+# EETracker 0.2.1
 
 ## Highlights
 
-- Adds main Easter Egg flows for all five Black Ops II Zombies maps.
-- Adds BO2 map-specific quest inventory and part pickup observations, including player slot attribution for T6 buildable/craftable callbacks.
-- Adds map-specific Side Easter Egg checklists and observer completion signals.
-- Adds map banners, loaded-map selection for Full Quest and Side Easter Eggs, and the Origins staff parts checklist in Current Objective.
-- Includes separate Plutonium T5 and T6 GSC observer installers.
+- Expands objective details and progress trackers to use the available card width.
+- Gives the Next Step panel its own scrolling area so long titles and instructions, including the Previous line, remain accessible.
+- Presents the quest timeline as readable, horizontally scrollable step cards.
+- Shows Moon soul-canister progress with four full-width bars and avoids repeating tracker counts.
+- Adds actionable Die Rise Sliquifier, Buddha, and tower checklists, plus distinct Mob of the Dead ending objectives.
 
 ## Verification
 
-The desktop solution builds and the T6 observers compile with GSC Tool. The T6 pickup callback hooks and the newer T5/T6 side quest signals have not yet been verified in private matches. Individual loose-part pickup ownership is not implemented for BO1. Mob's Warden's Key and Icarus part flags are team-level signals. EETracker telemetry is local to each computer and does not sync between players' companion apps.
+The Release app build completed with zero warnings and errors. All 18 automated tests passed. UI previews were captured from replay fixtures; they verify the rendered layout, not live-match observer behavior. Die Rise objective wording has not been independently verified in a private match.
