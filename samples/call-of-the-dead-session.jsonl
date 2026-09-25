@@ -6,3 +6,13 @@
 {"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:05Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.hg0","source":"simulator_fixture"}
 {"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:06Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.hg2","source":"simulator_fixture"}
 {"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:07Z","sessionId":"cotd-demo-001","type":"quest_progress","signal":"coast.generators","progress":2,"progressMax":4,"source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:08Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.hg1","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:09Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.hg3","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:10Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.hgd","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:11Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.bd","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:12Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.aca","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:13Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"stock.success.mcs","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:14Z","sessionId":"cotd-demo-001","type":"quest_progress","signal":"coast.beacon_sequence","progress":3,"progressMax":3,"source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:15Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"coast.dial.0.correct","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:15Z","sessionId":"cotd-demo-001","type":"quest_signal","signal":"coast.dial.1.incorrect","source":"simulator_fixture"}
+{"schemaVersion":1,"timestampUtc":"2026-09-23T15:00:16Z","sessionId":"cotd-demo-001","type":"quest_progress","signal":"coast.pure_harmony","progress":2,"progressMax":4,"source":"simulator_fixture"}

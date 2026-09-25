@@ -16,11 +16,60 @@ init()
 	level thread moon_tracker_watch_stage("sq_sc2_over");
 	level thread moon_tracker_watch_stage("sq_ss2_over");
 	level thread moon_tracker_watch_big_bang();
+	level thread moon_tracker_watch_side_music_completion();
 	level thread moon_tracker_watch_tanks();
 	level thread moon_tracker_watch_samantha_colors();
 	level thread moon_tracker_watch_richtofen_cue();
 	level thread moon_tracker_watch_end_game();
 	level thread moon_tracker_heartbeat();
+	level thread moon_tracker_watch_player_inventory();
+}
+
+moon_tracker_watch_player_inventory()
+{
+	level endon("end_game"); level.ee_tracker_inventory_signatures = [];
+	for (;;) { players = getPlayers(); for ( i = 0; i < players.size; i++ ) players[i] thread moon_tracker_inventory_if_changed(i); wait 1; }
+}
+
+moon_tracker_inventory_if_changed(slot)
+{
+	items = ""; weapons = self GetWeaponsListPrimaries();
+	for ( i = 0; i < weapons.size; i++ ) if ( weapons[i] == "wavegun_zm" || weapons[i] == "wavegun_upgraded_zm" ) items = items + weapons[i] + "|";
+	tactical = self get_player_tactical_grenade(); if ( isDefined(tactical) && (tactical == "qed_zm" || tactical == "zombie_black_hole_bomb") ) items = items + tactical + "|";
+	if ( isDefined(level.ee_tracker_inventory_signatures[slot]) && level.ee_tracker_inventory_signatures[slot] == items ) return;
+	level.ee_tracker_inventory_signatures[slot] = items;
+	handle = fs_fopen("ee-tracker.jsonl", "append"); if ( !handle ) return;
+	fs_writeline(handle, "{\"schemaVersion\":1,\"type\":\"player_inventory\",\"game\":\"bo1\",\"map\":\"zombie_moon\",\"playerSlot\":" + slot + ",\"inventoryItems\":\"" + items + "\",\"source\":\"gsc\"}"); fs_fclose(handle);
+}
+
+moon_tracker_watch_side_music_completion()
+{
+	last_count = 0;
+	for (;;)
+	{
+		if ( isDefined(level.meteor_counter) && level.meteor_counter > last_count )
+		{
+			last_count = level.meteor_counter;
+			if ( last_count >= 3 )
+			{
+				moon_tracker_emit_side_egg_step(0);
+				moon_tracker_emit_side_egg_step(1);
+				moon_tracker_emit_side_egg_step(2);
+				moon_tracker_emit_signal("bo1.moon.music.complete");
+				return;
+			}
+		}
+		wait 0.2;
+	}
+}
+
+moon_tracker_emit_side_egg_step(step_index)
+{
+	handle = fs_fopen("ee-tracker.jsonl", "append");
+	if ( !handle ) return;
+	line = "{\"schemaVersion\":1,\"type\":\"side_egg_step\",\"map\":\"Moon\",\"eggId\":\"coming_home\",\"stepIndex\":" + step_index + ",\"source\":\"gsc\"}";
+	fs_writeline(handle, line);
+	fs_fclose(handle);
 }
 
 moon_tracker_begin_session()

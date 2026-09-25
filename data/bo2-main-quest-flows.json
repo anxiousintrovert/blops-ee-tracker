@@ -1,0 +1,1345 @@
+{
+  "schemaVersion": 1,
+  "gameId": "bo2",
+  "researchStatus": "offline-script-reviewed-guides-cross-checked-live-observer-pending",
+  "sourceReferences": [
+    {
+      "id": "codzombiesguides_tranzit",
+      "url": "https://www.codzombiesguides.com/main-quests/black-ops-2/tranzit/"
+    },
+    {
+      "id": "codzombie_tower_of_babble",
+      "url": "https://www.codzombie.com/quests/tranzit-tower-of-babble"
+    },
+    {
+      "id": "codzombiesguides_die_rise",
+      "url": "https://www.codzombiesguides.com/main-quests/black-ops-2/die-rise/"
+    },
+    {
+      "id": "codzombiesguides_buried",
+      "url": "https://www.codzombiesguides.com/main-quests/black-ops-2/buried/"
+    },
+    {
+      "id": "codzombiesguides_mob",
+      "url": "https://www.codzombiesguides.com/main-quests/black-ops-2/mob-of-the-dead/"
+    },
+    {
+      "id": "codzombiesguides_origins",
+      "url": "https://www.codzombiesguides.com/main-quests/black-ops-2/origins/"
+    }
+  ],
+  "maps": [
+    {
+      "mapId": "bo2_transit",
+      "mapCode": "zm_transit",
+      "displayName": "TranZit",
+      "quests": [
+        {
+          "displayName": "Tower of Babble",
+          "requirements": {
+            "shared": [
+              "Set difficulty to Original",
+              "Build the Power Switch at the Power Station",
+              "Build at least one Turbine at Bus Depot",
+              "Maxis route: have at least two players",
+              "Solo Richtofen route: play as Samuel Stuhlinger"
+            ],
+            "maxis": [
+              "Maxis route: Keep power off",
+              "Maxis route: have two working Turbines",
+              "Maxis route: Get an EMP grenade"
+            ],
+            "richtofen": [
+              "Richtofen route: Turn power on",
+              "Richtofen route: build the Jet Gun",
+              "Richtofen route: have an explosive weapon",
+              "Richtofen route: Get four EMP grenades"
+            ]
+          },
+          "nodes": [
+            {
+              "id": "bo2.transit.tower_of_babble.power",
+              "title": "Richtofen · turn on the power",
+              "instruction": "After the shared Tower of Babble setup, turn on the map power to start Richtofen's route. Keep power on while heating the pylon with the Jet Gun.",
+              "sourceFlag": "bo2.transit.power_on",
+              "detection": "Completes only when a TranZit snapshot reports the stock power_on flag. Route selection and sidequest start do not complete this step."
+            },
+            {
+              "id": "bo2.transit.tower_of_babble.setup",
+              "title": "Start Tower of Babble",
+              "instruction": "Build the shared Power Switch and Turbine setup, then activate Tower of Babble at the power station. Once the quest starts, choose A for Richtofen or B for Maxis; the tracker follows the game's route signal.",
+              "checklists": [
+                {
+                  "title": "Power Switch · Power Station",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Large switch",
+                      "location": "Power Station lower switch room; randomized point in room."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Handle",
+                      "location": "Power Station lower switch room; randomized point in room."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Severed hand",
+                      "location": "Power Station lower switch room; randomized point in room."
+                    }
+                  ]
+                },
+                {
+                  "title": "Turbine · Bus Depot",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Fan",
+                      "location": "Bus Depot start room; randomized room spawn."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Tail fin",
+                      "location": "Bus Depot start room; randomized room spawn."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Mannequin",
+                      "location": "Bus Depot start room; randomized room spawn."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.transit.started",
+              "detection": "The stock sidequest initializes its quest-progress tracker after it starts."
+            },
+            {
+              "id": "bo2.transit.tower_of_babble.maxis.turbines",
+              "title": "Maxis · first step: power off and place two Turbines at the pylon",
+              "instruction": "Turn map power off to start Maxis's route, then place two powered Turbines beneath the cornfield pylon and keep both running. The tracker stays on this first Maxis objective until the stock game confirms both Turbines.",
+              "checklists": [
+                {
+                  "title": "Two powered Turbines",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Turbine 1",
+                      "location": "Build at Bus Depot bench from the three parts listed in shared setup."
+                    },
+                    {
+                      "id": "auto1",
+                      "label": "Turbine 2",
+                      "location": "Build a second Turbine at Bus Depot bench; parts are another set in the same spawn area."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.transit.maxis.two_turbines_powered_at_pylon",
+              "detection": "Stock Maxis stage 2 is recorded after both Turbines reach the pylon area. Stage 1 only selects Maxis and does not complete this objective.",
+              "trackers": [
+                {
+                  "title": "Turbines at pylon",
+                  "signal": "bo2.transit.maxis.turbines_at_pylon",
+                  "maximum": 2
+                }
+              ]
+            },
+            {
+              "id": "bo2.transit.tower_of_babble.maxis.avogadro",
+              "title": "Maxis · stun the Avogadro beneath the pylon",
+              "instruction": "Once both Turbines are powered, lure the Avogadro beneath the pylon and stun it with an EMP grenade. Do not EMP the Turbines.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "item0",
+                      "label": "EMP grenade",
+                      "location": "Mystery Box; avoid hitting Turbines."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.transit.maxis.avogadro_stunned",
+              "detection": "Stock Maxis stage 3 follows the Avogadro stun under the pylon with both Turbines powered."
+            },
+            {
+              "id": "bo2.transit.tower_of_babble.maxis.screecher_lights",
+              "title": "Maxis · power two separate Screecher lights",
+              "instruction": "With power off and the pylon and Avogadro objectives complete, use Turbines at two different Screecher-light zones. The game confirms this route only when the whole quest succeeds.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Two Turbines",
+                      "location": "Use the two Turbines assembled from the Bus Depot parts; place at separate Screecher-light zones."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.transit.maxis.complete",
+              "detection": "Stock Maxis completion stat is written after all three parallel Maxis objectives complete.",
+              "trackers": [
+                {
+                  "title": "Separate lights powered",
+                  "signal": "bo2.transit.maxis.screecher_lights",
+                  "maximum": 2
+                }
+              ]
+            },
+            {
+              "id": "bo2.transit.tower_of_babble.richtofen.heat_pylon",
+              "title": "Richtofen · heat the pylon with the Jet Gun",
+              "instruction": "Richtofen's route requires map power on. Fully charge the Jet Gun, aim it beneath the cornfield pylon, and fire until it breaks.",
+              "checklists": [
+                {
+                  "title": "Jet Gun · build at Town workbench",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Jet engine",
+                      "location": "Tunnel between Bus Depot/Diner; several spawn points by cars/windows."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Wires",
+                      "location": "Power Station lower lava level near Tombstone; check room."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Handbrake",
+                      "location": "Nacht der Untoten in cornfield; lamp, cabinets, stairs/desk."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Pressure gauge",
+                      "location": "Hunter's Cabin between Power Station and Town; fireplace or bed/back door."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.transit.richtofen.pylon_heated_confirmed",
+              "detection": "Stock Richtofen stage 2 is recorded when the Jet Gun overheats at the pylon."
+            },
+            {
+              "id": "bo2.transit.tower_of_babble.richtofen.explosive_kills",
+              "title": "Richtofen · get 25 explosive kills beneath the pylon",
+              "instruction": "After heating the pylon, kill 25 zombies beneath it with explosives. The lobby's kills count together.",
+              "checklists": [
+                {
+                  "title": "Explosive weapons",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Explosives for 25 kills",
+                      "location": "Standard grenades or explosive weapons from Mystery Box; use beneath the pylon."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.transit.richtofen.explosive_kills",
+              "detection": "Stock Richtofen stage 3 is recorded when the pylon explosive-kill counter reaches zero.",
+              "trackers": [
+                {
+                  "title": "Explosive kills",
+                  "signal": "bo2.transit.richtofen.explosive_kills_progress",
+                  "maximum": 25
+                }
+              ]
+            },
+            {
+              "id": "bo2.transit.tower_of_babble.richtofen.emp_lights",
+              "title": "Richtofen · EMP the four green lamps",
+              "instruction": "After the explosive-kill step, EMP four separate green Screecher lights. Coordinate the throws; the lights must remain disabled together.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "item0",
+                      "label": "EMP grenades",
+                      "location": "Mystery Box; obtain four for four separate lamps."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.transit.richtofen.complete",
+              "detection": "Stock Richtofen completion stat is written after the four-light finale succeeds.",
+              "trackers": [
+                {
+                  "title": "Lights disabled together",
+                  "signal": "bo2.transit.richtofen.emp_lights",
+                  "maximum": 4
+                }
+              ]
+            }
+          ],
+          "paths": {
+            "maxis": [
+              "bo2.transit.tower_of_babble.setup",
+              "bo2.transit.tower_of_babble.maxis.turbines",
+              "bo2.transit.tower_of_babble.maxis.avogadro",
+              "bo2.transit.tower_of_babble.maxis.screecher_lights"
+            ],
+            "richtofen": [
+              "bo2.transit.tower_of_babble.setup",
+              "bo2.transit.tower_of_babble.power",
+              "bo2.transit.tower_of_babble.richtofen.heat_pylon",
+              "bo2.transit.tower_of_babble.richtofen.explosive_kills",
+              "bo2.transit.tower_of_babble.richtofen.emp_lights"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "mapId": "bo2_die_rise",
+      "mapCode": "zm_highrise",
+      "displayName": "Die Rise",
+      "quests": [
+        {
+          "displayName": "High Maintenance",
+          "requirements": {
+            "shared": [
+              "Restore power",
+              "Build the NAVcard table"
+            ],
+            "maxis": [
+              "Maxis route: Get a Ballistic Knife",
+              "Maxis route: Get Galvaknuckles"
+            ],
+            "richtofen": [
+              "Richtofen route: Build the Sliquifier",
+              "Richtofen route: Get Galvaknuckles"
+            ]
+          },
+          "nodes": [
+            {
+              "id": "bo2.highrise.shared.setup",
+              "title": "Start High Maintenance",
+              "instruction": "Restore power and build the NAVcard table. The stock quest first records its shared opening when the opening sequence begins.",
+              "checklists": [
+                {
+                  "title": "NAVcard table · four parts on the starting building roof",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Rock",
+                      "location": "Roof rubble pile at the far-right wall."
+                    },
+                    {
+                      "id": "new1",
+                      "label": "Radio",
+                      "location": "Far-left roof corner behind the stairwell shelter."
+                    },
+                    {
+                      "id": "new2",
+                      "label": "Electrical box",
+                      "location": "Run up ramp beside green dragon; drop to right of tower, far-right corner."
+                    },
+                    {
+                      "id": "new3",
+                      "label": "Wooden plank",
+                      "location": "Directly in front of the NAVcard table build point under the catwalk ramp."
+                    },
+                    {
+                      "id": "new4",
+                      "label": "Build table",
+                      "location": "Roof wall below the catwalk ramp leading to the tower."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.highrise.started",
+              "detection": "The map stock sidequest stage begins."
+            },
+            {
+              "id": "bo2.highrise.shared.elevators",
+              "title": "Activate the four elevator symbols",
+              "instruction": "Stand on the four gold symbols above the elevators. The game exposes each activation and confirms the full set.",
+              "sourceFlag": "bo2.highrise.shared.elevators",
+              "detection": "Stock elevator flags and sq_atd_elevator_activated flag.",
+              "trackers": [
+                {
+                  "title": "Elevator symbols activated",
+                  "signal": "bo2.highrise.elevator_progress",
+                  "maximum": 4
+                }
+              ]
+            },
+            {
+              "id": "bo2.highrise.shared.floor_symbols",
+              "title": "Solve the floor-symbol sequence",
+              "instruction": "Step on the four floor symbols in the order indicated by the game. The symbol puzzle resets on an incorrect sequence.",
+              "checklists": [
+                {
+                  "title": "Trample Steam · build on workbench two floors below Spawn",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Red flag",
+                      "location": "Spawn area beside double doors, or beyond doors against right railing."
+                    },
+                    {
+                      "id": "new1",
+                      "label": "Screen",
+                      "location": "Spawn area or beyond double doors at end of hall on right."
+                    },
+                    {
+                      "id": "new2",
+                      "label": "Bellows",
+                      "location": "Spawn area or beyond double doors at end of hall on right."
+                    },
+                    {
+                      "id": "new3",
+                      "label": "Compressor",
+                      "location": "Desk in Spawn, or beyond doors down hall and right before broken wall."
+                    },
+                    {
+                      "id": "new4",
+                      "label": "Build Trample Steam",
+                      "location": "Workbench two elevator floors below the Quick Revive elevator. Four are needed for the pylon step."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.highrise.shared.floor_symbols",
+              "detection": "Stock sq_atd_drg_puzzle_complete flag."
+            },
+            {
+              "id": "bo2.highrise.shared.dragon_balls",
+              "title": "Shoot the two dragon balls",
+              "instruction": "Use a sniper rifle to shoot both balls in the dragon statues’ mouths. This is the stock shared step before the faction routes.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Sniper Rifle",
+                      "location": "Buy SVU-AS from wall-buy in Department Store, or obtain a sniper rifle from Mystery Box."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.highrise.shared.dragon_balls",
+              "detection": "Stock sniper-ball entities are removed when both targets are hit.",
+              "trackers": [
+                {
+                  "title": "Dragon balls shot",
+                  "signal": "bo2.highrise.dragon_balls_progress",
+                  "maximum": 2
+                }
+              ]
+            },
+            {
+              "id": "bo2.highrise.richtofen.ssp",
+              "title": "Richtofen · complete the Sliquifier objective",
+              "instruction": "Follow Richtofen’s Sliquifier and trampling objectives.",
+              "checklists": [
+                {
+                  "title": "Sliquifier · workbench below Power Room",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Foot",
+                      "location": "Room above Power Room, rubble floor by couch/TV."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Bottle",
+                      "location": "Tables in Power Room."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Handle",
+                      "location": "Small kitchen by workbench; fallback on far-right Power Room table."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Disc/chassis",
+                      "location": "Drum across from workbench at stair bottom, or table before Power Room."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.highrise.richtofen.ssp",
+              "detection": "The selected stock tower-completion flag confirms this route branch has completed."
+            },
+            {
+              "id": "bo2.highrise.richtofen.pts",
+              "title": "Richtofen · charge the tower",
+              "instruction": "Continue the Richtofen tower sequence with the required Galvaknuckles.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Galvaknuckles",
+                      "location": "Wall buy in the elevator shaft/drop route down toward the Buddha Room."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.highrise.richtofen.pts",
+              "detection": "The selected stock tower-completion flag confirms this route branch has completed."
+            },
+            {
+              "id": "bo2.highrise.maxis.ssp",
+              "title": "Maxis · complete the Buddha objective",
+              "instruction": "Complete Maxis’s Buddha kill objective and prepare the ballistic knife sequence.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Ballistic Knife",
+                      "location": "Mystery Box; obtain after Maxis cue. Pack-a-Punch and fire in Buddha Room. The wielder must not have bought Bowie Knife/Galvaknuckles or bled out."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.highrise.maxis.ssp",
+              "detection": "The selected stock tower-completion flag confirms this route branch has completed."
+            },
+            {
+              "id": "bo2.highrise.maxis.pts",
+              "title": "Maxis · charge the tower",
+              "instruction": "Continue Maxis’s tower sequence with the required Galvaknuckles.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Galvaknuckles",
+                      "location": "Wall buy in the elevator shaft/drop route down toward the Buddha Room."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.highrise.maxis.pts",
+              "detection": "The selected stock tower-completion flag confirms this route branch has completed."
+            },
+            {
+              "id": "bo2.highrise.shared.final",
+              "title": "Complete the final pylon sequence",
+              "instruction": "Use the tile order to melee the pylon with Galvaknuckles and complete High Maintenance.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Galvaknuckles",
+                      "location": "Wall buy in the elevator shaft/drop route down toward the Buddha Room."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.highrise.final.complete",
+              "detection": "The stock highrise_sidequest_achieved completion notification."
+            }
+          ],
+          "paths": {
+            "maxis": [
+              "bo2.highrise.shared.setup",
+              "bo2.highrise.shared.elevators",
+              "bo2.highrise.shared.floor_symbols",
+              "bo2.highrise.shared.dragon_balls",
+              "bo2.highrise.maxis.ssp",
+              "bo2.highrise.maxis.pts",
+              "bo2.highrise.shared.final"
+            ],
+            "richtofen": [
+              "bo2.highrise.shared.setup",
+              "bo2.highrise.shared.elevators",
+              "bo2.highrise.shared.floor_symbols",
+              "bo2.highrise.shared.dragon_balls",
+              "bo2.highrise.richtofen.ssp",
+              "bo2.highrise.richtofen.pts",
+              "bo2.highrise.shared.final"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "mapId": "bo2_buried",
+      "mapCode": "zm_buried",
+      "displayName": "Buried",
+      "quests": [
+        {
+          "displayName": "Mined Games",
+          "requirements": {
+            "shared": [
+              "Start Mined Games"
+            ],
+            "maxis": [
+              "Maxis route: Build the Gallows tower"
+            ],
+            "richtofen": [
+              "Richtofen route: Build the Guillotine tower"
+            ]
+          },
+          "nodes": [
+            {
+              "id": "bo2.buried.shared.setup",
+              "title": "Start Mined Games",
+              "instruction": "The stock quest has started. Its first objective is the route choice: build the Gallows tower for Maxis or the Guillotine tower for Richtofen. The tracker will follow the tower your lobby builds.",
+              "sourceFlag": "bo2.buried.started",
+              "detection": "The observer sees the stock tower-build stage begin, before either tower is built."
+            },
+            {
+              "id": "bo2.buried.shared.gl",
+              "title": "Acquire the ghost lantern",
+              "instruction": "Knock down the ghost lantern, pick it up, and follow the stock cues.",
+              "sourceFlag": "bo2.buried.shared.gl",
+              "detection": "The stock stage advances."
+            },
+            {
+              "id": "bo2.buried.shared.ftl",
+              "title": "Charge the lantern",
+              "instruction": "Charge the lantern with route-specific zombie kills, then continue when the stock stage advances.",
+              "sourceFlag": "bo2.buried.shared.ftl",
+              "detection": "The stock stage advances."
+            },
+            {
+              "id": "bo2.buried.shared.ll",
+              "title": "Read the three sign ciphers",
+              "instruction": "Use the cipher clue to identify the three tunnel signs for the wisp sequence.",
+              "sourceFlag": "bo2.buried.shared.ll",
+              "detection": "The stock stage advances."
+            },
+            {
+              "id": "bo2.buried.maxis.tower",
+              "title": "Maxis · build the Gallows tower",
+              "instruction": "Build the Gallows tower. The stock tower flag selects Maxis and is observed as soon as the build completes.",
+              "checklists": [
+                {
+                  "title": "Gallows parts · build outside Courthouse",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Battery",
+                      "location": "Behind the altar in the Church."
+                    },
+                    {
+                      "id": "p1",
+                      "label": "Spool of wire",
+                      "location": "Gunsmith Shop, downstairs room near the Bank tunnel."
+                    },
+                    {
+                      "id": "p2",
+                      "label": "Antenna",
+                      "location": "Barn lower level, stable by tunnel entrance."
+                    },
+                    {
+                      "id": "p3",
+                      "label": "Bulbs",
+                      "location": "Second floor of Jail building, on boxes near Mystery Box spawn."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.buried.maxis.tower_built",
+              "detection": "Stock Maxis tower-built flag."
+            },
+            {
+              "id": "bo2.buried.richtofen.tower",
+              "title": "Richtofen · build the Guillotine tower",
+              "instruction": "Build the Guillotine tower. The stock tower flag selects Richtofen and is observed as soon as the build completes.",
+              "checklists": [
+                {
+                  "title": "Guillotine parts · build outside Saloon",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Satellite dish",
+                      "location": "Second floor of Saloon; reach via cave path from mine entrance."
+                    },
+                    {
+                      "id": "p1",
+                      "label": "Red crystal",
+                      "location": "Cave path up to Saloon second floor or Saloon balcony."
+                    },
+                    {
+                      "id": "p2",
+                      "label": "Spool of wire",
+                      "location": "Gunsmith Shop near Bank entrance."
+                    },
+                    {
+                      "id": "p3",
+                      "label": "Antenna",
+                      "location": "First floor of Barn near stable."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.buried.richtofen.tower_built",
+              "detection": "Stock Richtofen tower-built flag."
+            },
+            {
+              "id": "bo2.buried.shared.wisp",
+              "title": "Complete the wisp and time-bomb sequence",
+              "instruction": "Repeat the sign, wisp, and time-bomb objectives until the stock sq_wisp_success flag confirms success.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Paralyzer",
+                      "location": "Mystery Box; needed to heat/charge the route orbs."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.buried.shared.wisp",
+              "detection": "Stock sq_wisp_success flag, which is set only after the wisp sequence succeeds."
+            },
+            {
+              "id": "bo2.buried.shared.finale1",
+              "title": "Complete the Time Bomb round-infinity objective",
+              "instruction": "Place and detonate the Time Bomb at the selected tower, find the switch during Round Infinity, then return it.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Time Bomb",
+                      "location": "Mystery Box; place by the selected tower for Round Infinity."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.buried.shared.tpo",
+              "detection": "The stock stage advances."
+            },
+            {
+              "id": "bo2.buried.shared.finale2",
+              "title": "Solve the route finale switchboard",
+              "instruction": "Complete the stock lightboard sequence for the selected route.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Galvaknuckles",
+                      "location": "Maze wall buy; use on the route's cipher-selected signs."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.buried.shared.ip",
+              "detection": "The stock stage advances."
+            },
+            {
+              "id": "bo2.buried.maxis.complete",
+              "title": "Maxis · complete Mined Games",
+              "instruction": "Finish the shared fountain sharpshooter challenge to complete Maxis’s Mined Games route.",
+              "sourceFlag": "bo2.buried.maxis.complete",
+              "detection": "Stock sidequest completion state."
+            },
+            {
+              "id": "bo2.buried.richtofen.complete",
+              "title": "Richtofen · complete Mined Games",
+              "instruction": "Finish the shared fountain sharpshooter challenge to complete Richtofen’s Mined Games route.",
+              "sourceFlag": "bo2.buried.richtofen.complete",
+              "detection": "Stock sidequest completion state."
+            },
+            {
+              "id": "bo2.buried.maxis.amplifiers",
+              "title": "Maxis · destroy the four amplifiers",
+              "instruction": "Use the Subsurface Resonator to break all four amplifiers.",
+              "sourceFlag": "bo2.buried.maxis.amplifiers",
+              "detection": "Stock sq_amplifiers_broken flag."
+            },
+            {
+              "id": "bo2.buried.richtofen.amplifiers",
+              "title": "Richtofen · charge the four amplifiers",
+              "instruction": "Use the Wave Gun to charge all four amplifiers.",
+              "sourceFlag": "bo2.buried.richtofen.amplifiers",
+              "detection": "Stock sq_amplifiers_on flag."
+            },
+            {
+              "id": "bo2.buried.shared.final",
+              "title": "Complete the fountain sharpshooter challenge",
+              "instruction": "Use the fountain to start the sharpshooter challenge and hit all four cowboy targets.",
+              "sourceFlag": "bo2.buried.shared.final",
+              "detection": "Stock sq_ows_success flag."
+            }
+          ],
+          "paths": {
+            "maxis": [
+              "bo2.buried.shared.setup",
+              "bo2.buried.maxis.tower",
+              "bo2.buried.maxis.amplifiers",
+              "bo2.buried.shared.gl",
+              "bo2.buried.shared.ftl",
+              "bo2.buried.shared.ll",
+              "bo2.buried.shared.wisp",
+              "bo2.buried.shared.finale1",
+              "bo2.buried.shared.finale2",
+              "bo2.buried.shared.final",
+              "bo2.buried.maxis.complete"
+            ],
+            "richtofen": [
+              "bo2.buried.shared.setup",
+              "bo2.buried.richtofen.tower",
+              "bo2.buried.richtofen.amplifiers",
+              "bo2.buried.shared.gl",
+              "bo2.buried.shared.ftl",
+              "bo2.buried.shared.ll",
+              "bo2.buried.shared.wisp",
+              "bo2.buried.shared.finale1",
+              "bo2.buried.shared.finale2",
+              "bo2.buried.shared.final",
+              "bo2.buried.richtofen.complete"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "mapId": "bo2_mob",
+      "mapCode": "zm_prison",
+      "displayName": "Mob of the Dead",
+      "quests": [
+        {
+          "displayName": "Pop Goes the Weasel",
+          "requirements": {
+            "shared": [
+              "Play with at least two players",
+              "Break-cycle route: have the Weasel in the game"
+            ],
+            "continue_cycle": [
+              "Continue-cycle route: team must win the showdown"
+            ],
+            "break_cycle": [
+              "Break-cycle route: Weasel must win the showdown"
+            ]
+          },
+          "nodes": [
+            {
+              "id": "bo2.mob.generators",
+              "title": "Complete the generator challenge",
+              "instruction": "Complete the generator challenge to open the relevant Warden doors and reach the plane parts.",
+              "sourceFlag": "bo2.mob.generators",
+              "detection": "Stock generator_challenge_completed flag."
+            },
+            {
+              "id": "bo2.mob.parts",
+              "title": "Collect the plane parts",
+              "instruction": "Find the Warden’s Key and collect the five plane parts: uniforms, rigging, engine, fuel tanks, and control valve. The observer confirms after the Key and all five stock part flags are set.",
+              "sourceFlag": "bo2.mob.parts_complete",
+              "detection": "All five plane-part flags and the separate Warden Key flag are observed."
+            },
+            {
+              "id": "bo2.mob.setup",
+              "title": "Assemble the plane",
+              "instruction": "Build the plane on the roof after collecting its parts.",
+              "checklists": [
+                {
+                  "title": "Plane assembly",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Assemble Icarus",
+                      "location": "Plane assembly ramp in middle of Roof; collect five parts first."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.mob.plane_built",
+              "detection": "Stock plane_built flag."
+            },
+            {
+              "id": "bo2.mob.trips",
+              "title": "Complete three bridge round trips",
+              "instruction": "Fly to the bridge and return to the prison three times, refueling between trips.",
+              "sourceFlag": "bo2.mob.three_trips",
+              "detection": "Stock quest_completed_thrice flag."
+            },
+            {
+              "id": "bo2.mob.blundergat",
+              "title": "Collect the five skulls",
+              "instruction": "Use the Hell’s Retriever to collect the five hidden skulls and claim the Blundergat reward.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Hell's Retriever",
+                      "location": "Feed all three Hellhound heads; claim at afterlife portal at bottom of Citadel Tunnels."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.mob.blundergat",
+              "detection": "Stock warden_blundergat_obtained flag."
+            },
+            {
+              "id": "bo2.mob.spoon",
+              "title": "Collect both spoons",
+              "instruction": "Use the Hell’s Retriever and Afterlife to collect the two spoons required for the final quest.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "item0",
+                      "label": "Hell's Retriever",
+                      "location": "Feed all three Hellhound heads; portal at bottom of Citadel Tunnels."
+                    },
+                    {
+                      "id": "item1",
+                      "label": "Afterlife",
+                      "location": "Enter using a down; needed for second spoon pickup."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.mob.spoon",
+              "detection": "Stock spoon_obtained flag."
+            },
+            {
+              "id": "bo2.mob.final_flight",
+              "title": "Solve the Nixie and audio steps; board the final flight",
+              "instruction": "Complete the Nixie-tube codes and audio tour, then board the final plane when the game opens the showdown.",
+              "sourceFlag": "bo2.mob.final_flight",
+              "detection": "Stock final_flight_activated state after the final quest setup."
+            },
+            {
+              "id": "bo2.mob.continue",
+              "title": "Continue the cycle",
+              "instruction": "Finish the final showdown with the team winning.",
+              "sourceFlag": "bo2.mob.continue_cycle.complete",
+              "detection": "Stock level.winner is team."
+            },
+            {
+              "id": "bo2.mob.break",
+              "title": "Break the cycle",
+              "instruction": "Finish the final showdown with the Weasel winning.",
+              "sourceFlag": "bo2.mob.break_cycle.complete",
+              "detection": "Stock level.winner is weasel."
+            }
+          ],
+          "paths": {
+            "continue_cycle": [
+              "bo2.mob.generators",
+              "bo2.mob.parts",
+              "bo2.mob.setup",
+              "bo2.mob.trips",
+              "bo2.mob.blundergat",
+              "bo2.mob.spoon",
+              "bo2.mob.final_flight",
+              "bo2.mob.continue"
+            ],
+            "break_cycle": [
+              "bo2.mob.generators",
+              "bo2.mob.parts",
+              "bo2.mob.setup",
+              "bo2.mob.trips",
+              "bo2.mob.blundergat",
+              "bo2.mob.spoon",
+              "bo2.mob.final_flight",
+              "bo2.mob.break"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "mapId": "bo2_origins",
+      "mapCode": "zm_tomb",
+      "displayName": "Origins",
+      "quests": [
+        {
+          "displayName": "Little Lost Girl",
+          "requirements": {
+            "shared": [
+              "Build and upgrade all four elemental staffs",
+              "Activate all six generators",
+              "Build the Maxis Drone",
+              "Build G-Strikes",
+              "Earn the One-Inch Punch"
+            ]
+          },
+          "nodes": [
+            {
+              "id": "bo2.origins.setup",
+              "title": "Build all four staffs",
+              "instruction": "Build and upgrade all four elemental staffs: Wind, Ice, Lightning, and Fire. Activate all six generators as required by the stock objective.",
+              "checklists": [
+                {
+                  "title": "Staff of Wind",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Wind part · Thor",
+                      "location": "Inside Thor, walking near Generators 2/3; enter through lit foot."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Wind part · Odin",
+                      "location": "Inside Odin, walking near Generators 4/5; enter through lit foot."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Wind part · Freya",
+                      "location": "Inside Freya, by Generator 6/Church; enter through lit foot."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Yellow disc",
+                      "location": "Generator 5 area: table by Lightning Tunnel, outside boxes, or wall near Stamin-Up."
+                    },
+                    {
+                      "id": "g4",
+                      "label": "Wind crystal",
+                      "location": "Wind podium in Crazy Place; open Wind Tunnel near Generator 4 with Gramophone."
+                    }
+                  ]
+                },
+                {
+                  "title": "Staff of Ice",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Ice part · Gens 2/3",
+                      "location": "Snowing rounds; shovel-dig sites around Generators 2/3."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Ice part · Gens 4/5",
+                      "location": "Snowing rounds; shovel-dig sites around Generators 4/5."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Ice part · Church/Gen 6",
+                      "location": "Snowing rounds; shovel-dig sites by Church and Generator 6."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Blue disc",
+                      "location": "Generator 2: back entrance shelf, shelf beside Mystery Box, or entrance table."
+                    },
+                    {
+                      "id": "g4",
+                      "label": "Ice crystal",
+                      "location": "Ice podium in Crazy Place; open Ice Tunnel at Generator 6 with Gramophone."
+                    }
+                  ]
+                },
+                {
+                  "title": "Staff of Lightning",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Lightning part · tank 1",
+                      "location": "Jump from tank at wooden stairs on route to Generator 2."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Lightning part · tank 2",
+                      "location": "Jump from tank at giant footprint."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Lightning part · tank 3",
+                      "location": "Jump from tank at scaffolding between Excavation and Church."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Purple disc",
+                      "location": "Generator 4: chariot, Wunderfizz-side table, or engine by Wind Tunnel."
+                    },
+                    {
+                      "id": "g4",
+                      "label": "Lightning crystal",
+                      "location": "Lightning podium in Crazy Place; open Lightning Tunnel near Generator 5."
+                    }
+                  ]
+                },
+                {
+                  "title": "Staff of Fire",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Fire part · plane",
+                      "location": "Shoot glowing plane with bullet weapon; collect drop near Excavation."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Fire part · Panzer",
+                      "location": "Kill first Panzersoldat; collect drop."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Fire part · Generator 6",
+                      "location": "Generator 6 reward chest beside generator."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Red disc",
+                      "location": "Church/Gen 6: upper benches, box by Gen 6 sign, or boxes near tank/stairs."
+                    },
+                    {
+                      "id": "g4",
+                      "label": "Fire crystal",
+                      "location": "Fire podium in Crazy Place; open Fire Tunnel between Spawn and Generator 3."
+                    }
+                  ]
+                },
+                {
+                  "title": "Shared gear & build",
+                  "items": [
+                    {
+                      "id": "g0",
+                      "label": "Black disc",
+                      "location": "Excavation Site: engine by ramp, stone beside Church path, or wheelbarrow by Pack-a-Punch."
+                    },
+                    {
+                      "id": "g1",
+                      "label": "Gramophone",
+                      "location": "Hall of Ancients floor beside wooden table."
+                    },
+                    {
+                      "id": "g2",
+                      "label": "Shovel",
+                      "location": "Spawn room; needed for Ice staff."
+                    },
+                    {
+                      "id": "g3",
+                      "label": "Build four staffs",
+                      "location": "Hall of Ancients pedestals below Excavation."
+                    },
+                    {
+                      "id": "g4",
+                      "label": "Upgrade four staffs",
+                      "location": "Complete each Crazy Place puzzle and map task; upgrade at Excavation."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.origins.staffs_crafted",
+              "detection": "Stock ee_all_staffs_crafted flag."
+            },
+            {
+              "id": "bo2.origins.step_1",
+              "title": "Secure the keys",
+              "instruction": "Upgrade all four staffs, then place them in their matching pedestals in the giant robots and Excavation Site. Keep all six generators active.",
+              "checklists": [
+                {
+                  "title": "Place upgraded staffs",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Wind staff",
+                      "location": "Odin head (middle giant)."
+                    },
+                    {
+                      "id": "auto1",
+                      "label": "Ice staff",
+                      "location": "Freya head (Church giant)."
+                    },
+                    {
+                      "id": "auto2",
+                      "label": "Lightning staff",
+                      "location": "Thor head (Spawn giant)."
+                    },
+                    {
+                      "id": "auto3",
+                      "label": "Fire staff",
+                      "location": "Hall of the Ancients beneath Excavation Site."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.origins.step_1.complete",
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+            },
+            {
+              "id": "bo2.origins.step_2",
+              "title": "Ascend from darkness",
+              "instruction": "Use G-Strikes to break the seal near Generator 5. Coordinate the Giant alarm and the timed throw.",
+              "checklists": [
+                {
+                  "title": "G-Strike · one per player",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Stone tablet",
+                      "location": "Table by back entrance at Generator 2."
+                    },
+                    {
+                      "id": "new1",
+                      "label": "Clean tablet",
+                      "location": "Church upper-floor basin by window; get melee kills, return without touching mud."
+                    },
+                    {
+                      "id": "new2",
+                      "label": "Claim G-Strike",
+                      "location": "Return tablet to Generator 2 table, get more melee kills, then pick up reward."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.origins.step_2.complete",
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+            },
+            {
+              "id": "bo2.origins.step_3",
+              "title": "Rain fire",
+              "instruction": "Send the Maxis Drone through the broken seal and defeat the released Panzersoldat.",
+              "checklists": [
+                {
+                  "title": "Maxis Drone · assemble at any workbench",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Brain",
+                      "location": "Starting Spawn table."
+                    },
+                    {
+                      "id": "new1",
+                      "label": "Rotor",
+                      "location": "Excavation: corner left of Pack-a-Punch, corner by Gramophone spawn, or crate beside lantern on wooden platform."
+                    },
+                    {
+                      "id": "new2",
+                      "label": "Frame",
+                      "location": "Either mud path from Church, or beside engine at bottom of Ice Tunnel."
+                    },
+                    {
+                      "id": "new3",
+                      "label": "Build drone",
+                      "location": "Any workbench."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.origins.step_3.complete",
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+            },
+            {
+              "id": "bo2.origins.step_4",
+              "title": "Unleash the horde",
+              "instruction": "While Zombie Blood is active, shoot down the glowing plane, find and kill its pilot, then recover the Maxis Drone.",
+              "checklists": [
+                {
+                  "title": "Required buildable",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Maxis Drone",
+                      "location": "Build at any workbench from the Spawn Brain, Excavation rotor, and Church mud-path/Ice Tunnel frame."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.origins.step_4.complete",
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+            },
+            {
+              "id": "bo2.origins.step_5",
+              "title": "Skewer the winged beast",
+              "instruction": "Fill all four footprint soul chests to earn the One-Inch Punch. Use it on the marked Templar zombies, then collect the stone tablet to upgrade it to the Fist of Iron. Every player must finish this objective.",
+              "checklists": [
+                {
+                  "title": "One-Inch Punch · all four giant-footprint soul chests",
+                  "items": [
+                    {
+                      "id": "new0",
+                      "label": "Chest 1",
+                      "location": "Odin right footprint near Generator 4."
+                    },
+                    {
+                      "id": "new1",
+                      "label": "Chest 2",
+                      "location": "Odin right footprint near Generator 5."
+                    },
+                    {
+                      "id": "new2",
+                      "label": "Chest 3",
+                      "location": "Freya left footprint near Church."
+                    },
+                    {
+                      "id": "new3",
+                      "label": "Chest 4",
+                      "location": "Odin left footprint near Excavation."
+                    },
+                    {
+                      "id": "new4",
+                      "label": "Claim One-Inch Punch",
+                      "location": "Reward chest at Spawn or Generator 6."
+                    },
+                    {
+                      "id": "new5",
+                      "label": "Upgrade to Fist of Iron",
+                      "location": "Church tablet and melee kills on marked Templar Zombies; every player completes their own."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.origins.step_5.complete",
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+            },
+            {
+              "id": "bo2.origins.step_6",
+              "title": "Fist of iron",
+              "instruction": "Place all four staffs in the Crazy Place pedestals and kill zombies to open the rift to Agartha.",
+              "sourceFlag": "bo2.origins.step_6.complete",
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+            },
+            {
+              "id": "bo2.origins.step_7",
+              "title": "Raise hell",
+              "instruction": "Activate the Maxis Drone in the Crazy Place rift, then have every player stand on the central plate and interact to start the ending.",
+              "checklists": [
+                {
+                  "title": "Required buildable",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Maxis Drone",
+                      "location": "Build at any workbench from the Spawn Brain, Excavation rotor, and Church mud-path/Ice Tunnel frame."
+                    }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.origins.step_7.complete",
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+            },
+            {
+              "id": "bo2.origins.step_8",
+              "title": "Freedom",
+              "instruction": "The game confirms Samantha is released when the ending completes.",
+              "sourceFlag": "bo2.origins.complete",
+              "detection": "Observed from the stock Little Lost Girl step counter; final completion uses Samantha released."
+            }
+          ],
+          "path": [
+            "bo2.origins.setup",
+            "bo2.origins.step_1",
+            "bo2.origins.step_2",
+            "bo2.origins.step_3",
+            "bo2.origins.step_4",
+            "bo2.origins.step_5",
+            "bo2.origins.step_6",
+            "bo2.origins.step_7",
+            "bo2.origins.step_8"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -6,6 +6,35 @@ namespace EETracker.Tests;
 public class QuestFlowDataTests
 {
     [Fact]
+    public void Bo2MainQuestNodesAreUniqueAndEveryPathReferenceResolves()
+    {
+        var path = Path.Combine(AppContext.BaseDirectory, "data", "bo2-main-quest-flows.json");
+        using var json = JsonDocument.Parse(File.ReadAllText(path));
+        var allIds = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var map in json.RootElement.GetProperty("maps").EnumerateArray())
+        {
+            foreach (var quest in map.GetProperty("quests").EnumerateArray())
+            {
+                var nodes = quest.GetProperty("nodes").EnumerateArray().ToArray();
+                var ids = nodes.Select(node => node.GetProperty("id").GetString()!).ToHashSet(StringComparer.Ordinal);
+                Assert.Equal(nodes.Length, ids.Count);
+                Assert.All(ids, id => Assert.StartsWith("bo2.", id, StringComparison.Ordinal));
+                foreach (var id in ids) Assert.True(allIds.Add(id), $"Duplicate quest step id: {id}");
+                foreach (var pathName in new[] { "path", "paths" })
+                {
+                    if (!quest.TryGetProperty(pathName, out var paths)) continue;
+                    var sequences = pathName == "path" ? new[] { paths } : paths.EnumerateObject().Select(route => route.Value);
+                    foreach (var sequence in sequences)
+                        foreach (var id in sequence.EnumerateArray().Select(value => value.GetString()!))
+                            Assert.Contains(id, ids);
+                }
+            }
+        }
+
+        Assert.Equal(5, json.RootElement.GetProperty("maps").GetArrayLength());
+    }
+
+    [Fact]
     public void Bo1MainQuestNodesAreUniqueAndEveryPathReferenceResolves()
     {
         var path = Path.Combine(AppContext.BaseDirectory, "data", "bo1-main-quest-flows.json");

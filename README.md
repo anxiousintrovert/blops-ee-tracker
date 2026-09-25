@@ -1,12 +1,12 @@
 # Blops EE Tracker
 
-A Windows desktop companion for the Black Ops Zombies main Easter Eggs on Ascension, Call of the Dead, Shangri-La, and Moon. The desktop client follows Plutonium T5 game-state events written by four map-scoped GSC observers.
+A Windows desktop companion for the Black Ops Zombies main Easter Eggs on four BO1 maps and five BO2 maps. The desktop client follows Plutonium T5 and T6 game-state events written by map-scoped GSC observers.
 
 ![Blops EE Tracker running on Moon](docs/screenshots/EETracker-artdirection-moon.png)
 
 ## Install
 
-Download the latest portable desktop package and the GSC observer package from [GitHub Releases](https://github.com/anxiousintrovert/blops-ee-tracker/releases/latest). The desktop package is self-contained for Windows x64 and includes the observer scripts and install/uninstall helpers.
+Download the latest portable desktop package and the separate T5/T6 GSC observer package from [GitHub Releases](https://github.com/anxiousintrovert/blops-ee-tracker/releases/latest). The desktop package is self-contained for Windows x64 and includes map data, samples, and observer scripts/install helpers.
 
 Follow [INSTALL.md](INSTALL.md) to install the app and observers. Source builds and contributor notes are in [docs/development.md](docs/development.md).
 
@@ -16,10 +16,12 @@ Follow [INSTALL.md](INSTALL.md) to install the app and observers. Source builds 
 - Script-defined main-quest objectives and their original ordering.
 - Confirmed objective counters and checkpoints when the active map observer exposes them.
 - Moon soul-canister progress, Samantha Says colors, Ascension's LUNA sequence, and the pressure-pad timer.
+- BO2 main quests and map-scoped quest inventory/part pickup observations from stock callback hooks.
+- Map-specific manual/observer-backed Side Easter Egg checklists.
 
 Quest flows remain data-driven in `data/bo1-main-quest-flows.json`; the UI does not define a second quest sequence. The game scripts remain authoritative for step completion. Ascension has live observer evidence. Call of the Dead, Shangri-La, and Moon observers are installed and source-reviewed but still need more live-match verification. See [the verification record](docs/live-verification.md).
 
-The app reads a local session file on the same computer. It does not sync a completed step to another player's desktop over the network.
+The app reads a local session file on the same computer. It does not sync a completed step to another player's desktop over the network. T6 callback hooks compile and are source-reviewed but still need private-match verification; individual loose-part hooks are not implemented for BO1, and Mob key/plane part flags are team-level only.
 
 ## Map artwork
 

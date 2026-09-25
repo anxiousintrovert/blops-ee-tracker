@@ -98,24 +98,32 @@
           ],
           "requirements": {
             "vanilla": [
-              "Turn on the power.",
-              "Get a Gersh Device for the transformer and final step.",
-              "Get a Pack-a-Punched Ray Gun and Thundergun; Matryoshka Dolls are also needed on some routes."
+              "Turn on the power",
+              "Get a Gersh Device",
+              "Pack-a-Punch the Ray Gun",
+              "Get the Thundergun",
+              "Get Matryoshka Dolls when required"
             ],
             "any_player_ee": [
-              "Turn on the power.",
-              "Get a Gersh Device for the transformer and final step.",
-              "Get a Pack-a-Punched Ray Gun and Thundergun; Matryoshka Dolls are also needed on some routes."
+              "Turn on the power",
+              "Get a Gersh Device",
+              "Pack-a-Punch the Ray Gun",
+              "Get the Thundergun",
+              "Get Matryoshka Dolls when required"
             ],
             "any_player_ee_sr": [
-              "Turn on the power.",
-              "Get a Gersh Device for the transformer and final step.",
-              "Get a Pack-a-Punched Ray Gun and Thundergun; Matryoshka Dolls are also needed on some routes."
+              "Turn on the power",
+              "Get a Gersh Device",
+              "Pack-a-Punch the Ray Gun",
+              "Get the Thundergun",
+              "Get Matryoshka Dolls when required"
             ],
             "unknown": [
-              "Turn on the power.",
-              "Get a Gersh Device for the transformer and final step.",
-              "Get a Pack-a-Punched Ray Gun and Thundergun; Matryoshka Dolls are also needed on some routes."
+              "Turn on the power",
+              "Get a Gersh Device",
+              "Pack-a-Punch the Ray Gun",
+              "Get the Thundergun",
+              "Get Matryoshka Dolls when required"
             ]
           },
           "implementationNotes": [
@@ -126,6 +134,23 @@
               "id": "bo1.ascension.casimir_mechanism.01.teleport_device",
               "title": "Teleport the Gersh Device",
               "instruction": "Throw a Gersh Device at the sparking transformer near the base entrance. Follow it to the lander in the Storage area.",
+              "checklists": [
+                {
+                  "title": "Required equipment · Mystery Box",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Gersh Device",
+                      "location": "Mystery Box; random weapon cycle."
+                    },
+                    {
+                      "id": "p1",
+                      "label": "Matryoshka Dolls",
+                      "location": "Mystery Box; random weapon cycle."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "The transformer reaches the Storage area and the quest advances.",
               "sourceFlag": "target_teleported",
               "detection": "stock-GSC-success-flag-confirmed-offline; live-observer-unverified"
@@ -175,6 +200,33 @@
               "id": "bo1.ascension.casimir_mechanism.06.weapon_combo",
               "title": "Complete the weapon combination",
               "instruction": "Throw a Gersh Device at the marked point. While the portal is open, hit it with the Pack-a-Punched Ray Gun and Thundergun, then use Matryoshka Dolls if needed.",
+              "checklists": [
+                {
+                  "title": "Weapon combination · Mystery Box",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Ray Gun · Pack-a-Punched",
+                      "location": "Mystery Box, then Pack-a-Punch."
+                    },
+                    {
+                      "id": "p1",
+                      "label": "Thunder Gun · Pack-a-Punched",
+                      "location": "Mystery Box, then Pack-a-Punch."
+                    },
+                    {
+                      "id": "p2",
+                      "label": "Matryoshka Dolls",
+                      "location": "Mystery Box."
+                    },
+                    {
+                      "id": "p3",
+                      "label": "Gersh Device",
+                      "location": "Mystery Box."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "The portal releases Gersh and the reward sequence begins.",
               "sourceFlag": "weapons_combined",
               "detection": "stock-GSC-success-flag-confirmed-offline; live-observer-unverified",
@@ -213,24 +265,28 @@
           ],
           "requirements": {
             "vanilla": [
-              "Turn on the power.",
-              "Get a V-R11 from the Mystery Box.",
-              "Stand-In is the solo quest; Ensemble Cast is the four-player quest."
+              "Turn on the power",
+              "Get the V-R11 from the Mystery Box",
+              "Stand-In route: one player",
+              "Ensemble Cast route: four players"
             ],
             "any_player_ee": [
-              "Turn on the power.",
-              "Get a V-R11 from the Mystery Box.",
-              "Stand-In is the solo quest; Ensemble Cast is the four-player quest."
+              "Turn on the power",
+              "Get the V-R11 from the Mystery Box",
+              "Stand-In route: one player",
+              "Ensemble Cast route: four players"
             ],
             "any_player_ee_sr": [
-              "Turn on the power.",
-              "Get a V-R11 from the Mystery Box.",
-              "Stand-In is the solo quest; Ensemble Cast is the four-player quest."
+              "Turn on the power",
+              "Get the V-R11 from the Mystery Box",
+              "Stand-In route: one player",
+              "Ensemble Cast route: four players"
             ],
             "unknown": [
-              "Turn on the power.",
-              "Get a V-R11 from the Mystery Box.",
-              "Stand-In is the solo quest; Ensemble Cast is the four-player quest."
+              "Turn on the power",
+              "Get the V-R11 from the Mystery Box",
+              "Stand-In route: one player",
+              "Ensemble Cast route: four players"
             ]
           },
           "nodes": [
@@ -268,10 +324,29 @@
               "sourceConflict": null,
               "sourceFlag": "hgd",
               "trackers": [
-                { "title": "SECURITY GENERATORS", "signal": "coast.generators", "maximum": 4, "checkpoints": [
-                  { "label": "Generator 1", "signal": "hg0" }, { "label": "Generator 2", "signal": "hg1" },
-                  { "label": "Generator 3", "signal": "hg2" }, { "label": "Generator 4", "signal": "hg3" }
-                ] }
+                {
+                  "title": "SECURITY GENERATORS",
+                  "signal": "coast.generators",
+                  "maximum": 4,
+                  "checkpoints": [
+                    {
+                      "label": "Generator 1",
+                      "signal": "hg0"
+                    },
+                    {
+                      "label": "Generator 2",
+                      "signal": "hg1"
+                    },
+                    {
+                      "label": "Generator 3",
+                      "signal": "hg2"
+                    },
+                    {
+                      "label": "Generator 4",
+                      "signal": "hg3"
+                    }
+                  ]
+                }
               ]
             },
             {
@@ -310,10 +385,27 @@
               "appliesTo": [
                 "stand_in"
               ],
-              "trackers": [ { "title": "SUBMARINE RESPONSE", "signal": "coast.submarine", "maximum": 3, "checkpoints": [
-                { "label": "Ship controls aligned", "signal": "shs" }, { "label": "Submarine surfaced", "signal": "sr" },
-                { "label": "Submarine sequence answered", "signal": "ss" }
-              ] } ]
+              "trackers": [
+                {
+                  "title": "SUBMARINE RESPONSE",
+                  "signal": "coast.submarine",
+                  "maximum": 3,
+                  "checkpoints": [
+                    {
+                      "label": "Ship controls aligned",
+                      "signal": "shs"
+                    },
+                    {
+                      "label": "Submarine surfaced",
+                      "signal": "sr"
+                    },
+                    {
+                      "label": "Submarine sequence answered",
+                      "signal": "ss"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.call_of_the_dead.ensemble.07.musical_chairs",
@@ -324,11 +416,27 @@
               "appliesTo": [
                 "ensemble_cast"
               ],
-              "sourceFlag": "mcs"
-              ,"trackers": [ { "title": "SUBMARINE AND BEACON SEQUENCE", "signal": "coast.beacon_sequence", "checkpoints": [
-                { "label": "Ship controls aligned", "signal": "shs" }, { "label": "Submarine surfaced", "signal": "sr" },
-                { "label": "Beacon sequence accepted", "signal": "bp" }
-              ] } ]
+              "sourceFlag": "mcs",
+              "trackers": [
+                {
+                  "title": "SUBMARINE AND BEACON SEQUENCE",
+                  "signal": "coast.beacon_sequence",
+                  "checkpoints": [
+                    {
+                      "label": "Ship controls aligned",
+                      "signal": "shs"
+                    },
+                    {
+                      "label": "Submarine surfaced",
+                      "signal": "sr"
+                    },
+                    {
+                      "label": "Beacon sequence accepted",
+                      "signal": "bp"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.call_of_the_dead.ensemble.08.pure_harmony",
@@ -339,13 +447,48 @@
               "appliesTo": [
                 "ensemble_cast"
               ],
-              "sourceFlag": "mm"
-              ,"trackers": [ { "title": "LIGHTHOUSE DIALS IN HARMONY", "signal": "coast.pure_harmony", "maximum": 4 } ]
+              "sourceFlag": "mm",
+              "trackers": [
+                {
+                  "title": "LIGHTHOUSE DIALS SET CORRECTLY",
+                  "signal": "coast.pure_harmony",
+                  "checkpoints": [
+                    {
+                      "label": "Top floor dial",
+                      "signal": "coast.dial.0.correct"
+                    },
+                    {
+                      "label": "Second floor dial",
+                      "signal": "coast.dial.1.correct"
+                    },
+                    {
+                      "label": "Third floor dial",
+                      "signal": "coast.dial.2.correct"
+                    },
+                    {
+                      "label": "Bottom floor dial",
+                      "signal": "coast.dial.3.correct"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.call_of_the_dead.main.09.vr11_golden_rod",
               "title": "Raise and recover the Golden Rod",
               "instruction": "Shoot a zombie with the V-R11 at the lighthouse base so it rises in the green beam. Damage the human until it drops limp before reaching the top; collect the Golden Rod.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "V-R11",
+                      "location": "Mystery Box; random weapon cycle."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "Golden Rod appears at lighthouse base",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "sourceFlag": "re"
@@ -444,24 +587,32 @@
           ],
           "requirements": {
             "vanilla": [
-              "Turn on the power.",
-              "Get the 31-79 JGb215 (Baby Gun) and upgrade it to the Fractalizer.",
-              "Bring Spikemores and an explosive weapon."
+              "Turn on the power",
+              "Get the 31-79 JGb215 (Baby Gun)",
+              "Upgrade the 31-79 JGb215 to the Fractalizer",
+              "Get Spikemores",
+              "Get an explosive weapon"
             ],
             "any_player_ee": [
-              "Turn on the power.",
-              "Get the 31-79 JGb215 (Baby Gun) and upgrade it to the Fractalizer.",
-              "Bring Spikemores and an explosive weapon."
+              "Turn on the power",
+              "Get the 31-79 JGb215 (Baby Gun)",
+              "Upgrade the 31-79 JGb215 to the Fractalizer",
+              "Get Spikemores",
+              "Get an explosive weapon"
             ],
             "any_player_ee_sr": [
-              "Turn on the power.",
-              "Get the 31-79 JGb215 (Baby Gun) and upgrade it to the Fractalizer.",
-              "Bring Spikemores and an explosive weapon."
+              "Turn on the power",
+              "Get the 31-79 JGb215 (Baby Gun)",
+              "Upgrade the 31-79 JGb215 to the Fractalizer",
+              "Get Spikemores",
+              "Get an explosive weapon"
             ],
             "unknown": [
-              "Turn on the power.",
-              "Get the 31-79 JGb215 (Baby Gun) and upgrade it to the Fractalizer.",
-              "Bring Spikemores and an explosive weapon."
+              "Turn on the power",
+              "Get the 31-79 JGb215 (Baby Gun)",
+              "Upgrade the 31-79 JGb215 to the Fractalizer",
+              "Get Spikemores",
+              "Get an explosive weapon"
             ]
           },
           "nodes": [
@@ -487,8 +638,14 @@
               "instruction": "Press the button beside the mine cart to raise the tiles. Match all 12 pairs between the mine-cart side and rope-bridge side.",
               "completionCue": "The Eclipse ends and the first crystal appears.",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "oafc_plot_vo_done"
-              ,"trackers": [ { "title": "MATCHED TILE PAIRS", "signal": "temple.tiles", "maximum": 12 } ]
+              "sourceFlag": "oafc_plot_vo_done",
+              "trackers": [
+                {
+                  "title": "MATCHED TILE PAIRS",
+                  "signal": "temple.tiles",
+                  "maximum": 12
+                }
+              ]
             },
             {
               "id": "bo1.shangri_la.time_travel.04.waterslide",
@@ -496,13 +653,36 @@
               "instruction": "During the Eclipse, hold the grate while a player rides down the waterslide and activates the lever.",
               "completionCue": "The Eclipse ends and the second crystal appears.",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "dgcwf_plot_vo_done"
-              ,"trackers": [ { "title": "PRESSURE PLATE", "signal": "temple.slide_plate", "checkpoints": [ { "label": "Lever activated", "signal": "dgcwf_sw1_pressed" } ] } ]
+              "sourceFlag": "dgcwf_plot_vo_done",
+              "trackers": [
+                {
+                  "title": "PRESSURE PLATE",
+                  "signal": "temple.slide_plate",
+                  "checkpoints": [
+                    {
+                      "label": "Lever activated",
+                      "signal": "dgcwf_sw1_pressed"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.shangri_la.time_travel.05.shrink_ball",
               "title": "Shrink and launch the crystal",
               "instruction": "Get the 31-79 JGb215 (Baby Gun). Knock the ball down with an explosive, shrink it, knife it down the slide, then launch it with the geyser.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Fractalizer (Pack-a-Punched 31-79 JGb215)",
+                      "location": "Mystery Box, then Pack-a-Punch."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "The Eclipse ends and the third crystal appears.",
               "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
               "sourceFlag": "sq_LGS_over"
@@ -513,8 +693,23 @@
               "instruction": "Open the tunnel valve four times. Lure a Napalm Zombie through the three leaking pipes, then pull the nearby lever.",
               "completionCue": "Eclipse ends and Crystal 4 appears",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "ptt_plot_vo_done"
-              ,"trackers": [ { "title": "GAS LEAKS", "signal": "temple.gas_pipes", "checkpoints": [ { "label": "Valve opened", "signal": "sq_ptt_dial_dialed" }, { "label": "Final lever pulled", "signal": "sq_ptt_level_pulled" } ] } ]
+              "sourceFlag": "ptt_plot_vo_done",
+              "trackers": [
+                {
+                  "title": "GAS LEAKS",
+                  "signal": "temple.gas_pipes",
+                  "checkpoints": [
+                    {
+                      "label": "Valve opened",
+                      "signal": "sq_ptt_dial_dialed"
+                    },
+                    {
+                      "label": "Final lever pulled",
+                      "signal": "sq_ptt_level_pulled"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.shangri_la.time_travel.07.plug_holes",
@@ -522,11 +717,32 @@
               "instruction": "Use one Spikemore at each of the four wall holes on the waterfall tunnel, then press the brick at the pool bottom.",
               "completionCue": "Eclipse ends and Crystal 5 appears",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "std_plot_vo_done"
-              ,"trackers": [ { "title": "WATERFALL TUNNEL HOLES", "signal": "temple.tunnel_holes", "maximum": 4, "checkpoints": [
-                { "label": "Opening 1", "signal": "std_target_1" }, { "label": "Opening 2", "signal": "std_target_2" },
-                { "label": "Opening 3", "signal": "std_target_3" }, { "label": "Opening 4", "signal": "std_target_4" }
-              ] } ]
+              "sourceFlag": "std_plot_vo_done",
+              "trackers": [
+                {
+                  "title": "WATERFALL TUNNEL HOLES",
+                  "signal": "temple.tunnel_holes",
+                  "maximum": 4,
+                  "checkpoints": [
+                    {
+                      "label": "Opening 1",
+                      "signal": "std_target_1"
+                    },
+                    {
+                      "label": "Opening 2",
+                      "signal": "std_target_2"
+                    },
+                    {
+                      "label": "Opening 3",
+                      "signal": "std_target_3"
+                    },
+                    {
+                      "label": "Opening 4",
+                      "signal": "std_target_4"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.shangri_la.time_travel.08.teepee_symbols_dials",
@@ -534,22 +750,57 @@
               "instruction": "Melee the 12 symbol tiles around the map, destroy the outside teepee with an explosive, then set the four mud-room dials to 4, 3, 16, 1.",
               "completionCue": "Eclipse ends and Crystal 6 appears",
               "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "sq_bttp2_over"
-              ,"trackers": [ { "title": "CORRECT DIALS", "signal": "temple.dials" } ]
+              "sourceFlag": "sq_bttp2_over",
+              "trackers": [
+                {
+                  "title": "CORRECT DIALS",
+                  "signal": "temple.dials"
+                }
+              ]
             },
             {
               "id": "bo1.shangri_la.time_travel.09.correct_gongs",
               "title": "Find the four correct gongs",
               "instruction": "Upgrade the Baby Gun to the Fractalizer. Test the eight gongs and keep the four that ring with the right tone. The correct gongs change each match.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Fractalizer",
+                      "location": "Get 31-79 JGb215 from Mystery Box and Pack-a-Punch it."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "All four correct gongs ring and the crystals glow.",
               "detection": "stock-GSC-four-correct-gongs-counter-confirmed-offline; live-observer-unverified",
               "sourceFlag": "temple_gongs_complete",
-              "trackers": [ { "title": "CORRECT GONGS RINGING", "signal": "temple.gongs", "maximum": 4 } ]
+              "trackers": [
+                {
+                  "title": "CORRECT GONGS RINGING",
+                  "signal": "temple.gongs",
+                  "maximum": 4
+                }
+              ]
             },
             {
               "id": "bo1.shangri_la.time_travel.10.catch_dynamite",
               "title": "Catch Brock's dynamite",
               "instruction": "While the crystals glow, shoot the crystal above the mine-cart geyser with the Fractalizer and stand beneath the falling dynamite to catch it.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Fractalizer",
+                      "location": "Get 31-79 JGb215 from Mystery Box and Pack-a-Punch it."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "Dynamite held",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "sourceFlag": "given_dynamite"
@@ -558,6 +809,18 @@
               "id": "bo1.shangri_la.time_travel.11.shrink_meteor",
               "title": "Shrink the meteor",
               "instruction": "Shoot the mud-room crystal with the Fractalizer so the beam chain reaches and shrinks the meteor above Pack-a-Punch.",
+              "checklists": [
+                {
+                  "title": "Required weapon",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Fractalizer (Pack-a-Punched 31-79 JGb215)",
+                      "location": "Mystery Box, then Pack-a-Punch."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "Meteor shrinks",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "sourceFlag": "meteorite_shrunk"
@@ -566,6 +829,18 @@
               "id": "bo1.shangri_la.time_travel.12.give_dynamite",
               "title": "Give Brock the dynamite",
               "instruction": "Reach the Pack-a-Punch wall, wait for Brock's dialogue, hand over the dynamite, then have all players leave the stairs to end the Eclipse.",
+              "checklists": [
+                {
+                  "title": "Quest item",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Dynamite",
+                      "location": "Earn by shooting the crystal with Fractalizer while a player stands below the spawn-room crystal."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "Eclipse ends; wall opens",
               "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
               "sourceFlag": "sq_BaG_over"
@@ -642,24 +917,48 @@
           ],
           "requirements": {
             "vanilla": [
-              "Turn on the power and have Richtofen in the game.",
-              "Get a Hacker, P.E.S., Wave Gun, Q.E.D.s, and a Gersh Device.",
-              "The Vril Device (Golden Rod) and Focusing Stone may depend on earlier quest progress."
+              "Turn on the power",
+              "Have Richtofen in the game",
+              "Get a Hacker",
+              "Get a P.E.S.",
+              "Get a Wave Gun",
+              "Get Q.E.D.s",
+              "Get a Gersh Device",
+              "Get the Vril Device (Golden Rod) when required",
+              "Get the Focusing Stone when required"
             ],
             "any_player_ee": [
-              "Turn on the power and have Richtofen in the game.",
-              "Get a Hacker, P.E.S., Wave Gun, Q.E.D.s, and a Gersh Device.",
-              "The Vril Device (Golden Rod) and Focusing Stone may depend on earlier quest progress."
+              "Turn on the power",
+              "Have Richtofen in the game",
+              "Get a Hacker",
+              "Get a P.E.S.",
+              "Get a Wave Gun",
+              "Get Q.E.D.s",
+              "Get a Gersh Device",
+              "Get the Vril Device (Golden Rod) when required",
+              "Get the Focusing Stone when required"
             ],
             "any_player_ee_sr": [
-              "Turn on the power and have Richtofen in the game.",
-              "Get a Hacker, P.E.S., Wave Gun, Q.E.D.s, and a Gersh Device.",
-              "The Vril Device (Golden Rod) and Focusing Stone may depend on earlier quest progress."
+              "Turn on the power",
+              "Have Richtofen in the game",
+              "Get a Hacker",
+              "Get a P.E.S.",
+              "Get a Wave Gun",
+              "Get Q.E.D.s",
+              "Get a Gersh Device",
+              "Get the Vril Device (Golden Rod) when required",
+              "Get the Focusing Stone when required"
             ],
             "unknown": [
-              "Turn on the power and have Richtofen in the game.",
-              "Get a Hacker, P.E.S., Wave Gun, Q.E.D.s, and a Gersh Device.",
-              "The Vril Device (Golden Rod) and Focusing Stone may depend on earlier quest progress."
+              "Turn on the power",
+              "Have Richtofen in the game",
+              "Get a Hacker",
+              "Get a P.E.S.",
+              "Get a Wave Gun",
+              "Get Q.E.D.s",
+              "Get a Gersh Device",
+              "Get the Vril Device (Golden Rod) when required",
+              "Get the Focusing Stone when required"
             ]
           },
           "nodes": [
@@ -667,6 +966,33 @@
               "id": "bo1.moon.richtofens_grand_scheme.01.setup_and_power",
               "title": "Prepare Moon",
               "instruction": "Turn on the power. Collect a P.E.S. and Hacker from the laboratories, and make sure Richtofen and the quest equipment are available.",
+              "checklists": [
+                {
+                  "title": "Quest equipment",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Hacker",
+                      "location": "Wall-mounted stations on Laboratory floors; exchange suit for Hacker inside Lab."
+                    },
+                    {
+                      "id": "p1",
+                      "label": "Wave Gun",
+                      "location": "Mystery Box; random weapon cycle."
+                    },
+                    {
+                      "id": "p2",
+                      "label": "Q.E.D.s",
+                      "location": "Mystery Box; random weapon cycle."
+                    },
+                    {
+                      "id": "p3",
+                      "label": "Gersh Devices",
+                      "location": "Mystery Box; random weapon cycle."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "Power is on and the required equipment is ready.",
               "detection": "stock-GSC-power-confirmed-offline; live-observer-unverified",
               "sourceFlag": "power_on"
@@ -683,18 +1009,68 @@
               "id": "bo1.moon.richtofens_grand_scheme.03.hack_lab_panels",
               "title": "Hack the laboratory panels",
               "instruction": "Start the panel challenge with the Hacker, find and hack four of the eight lit panels before the timer ends, then press the four wall buttons in quick succession.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Hacker",
+                      "location": "Pick up from wall-mounted stations on a Laboratory floor; replace spacesuit while in Lab."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "All wall buttons remain lit",
               "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
-              "sourceFlag": "sq_osc_over"
-              ,"trackers": [ { "title": "SECURITY PANELS HACKED", "signal": "moon.security_panels", "maximum": 4, "checkpoints": [
-                { "label": "Panel 1", "signal": "security_1_done" }, { "label": "Panel 2", "signal": "security_2_done" },
-                { "label": "Panel 3", "signal": "security_3_done" }, { "label": "Panel 4", "signal": "security_4_done" }
-              ] } ]
+              "sourceFlag": "sq_osc_over",
+              "trackers": [
+                {
+                  "title": "SECURITY PANELS HACKED",
+                  "signal": "moon.security_panels",
+                  "maximum": 4,
+                  "checkpoints": [
+                    {
+                      "label": "Panel 1",
+                      "signal": "security_1_done"
+                    },
+                    {
+                      "label": "Panel 2",
+                      "signal": "security_2_done"
+                    },
+                    {
+                      "label": "Panel 3",
+                      "signal": "security_3_done"
+                    },
+                    {
+                      "label": "Panel 4",
+                      "signal": "security_4_done"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.moon.richtofens_grand_scheme.04.excavator_and_vril_sphere",
               "title": "Recover and guide the Vril Sphere",
               "instruction": "Wait for Excavator Pi to breach Tunnel 6, hack it away, then move the sphere from the tunnel through the route to the MPD interface. Use the required weapons at the satellite dish and Stamin-Up ceiling stops.",
+              "checklists": [
+                {
+                  "title": "Required weapons",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Wave Gun",
+                      "location": "Mystery Box; required at satellite dish."
+                    },
+                    {
+                      "id": "auto1",
+                      "label": "Ray Gun or explosive",
+                      "location": "Mystery Box for Ray Gun; explosives are standard equipment; use at Stamin-Up ceiling."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "Sphere seats in the MPD interface",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "sourceFlag": "complete_be_1"
@@ -711,6 +1087,23 @@
               "id": "bo1.moon.richtofens_grand_scheme.06.retrieve_hex_plates",
               "title": "Retrieve the hexagonal plates",
               "instruction": "At Area 51, knock the plates from the shelf with an explosive, then throw a Gersh Device to send them to the teleporter. Bring them back to the Moon spawn area.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "p0",
+                      "label": "Gersh Device",
+                      "location": "Mystery Box; teleport plates from shelf at Area 51."
+                    },
+                    {
+                      "id": "p1",
+                      "label": "Q.E.D.",
+                      "location": "Mystery Box; use on plates at Moon Spawn."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "The plates arrive beside the spawn computer.",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "sourceFlag": "c_built",
@@ -733,7 +1126,18 @@
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "sourceFlag": "vg_charged",
               "appliesTo": null,
-              "trackers": [ { "title": "VRIL DEVICE", "signal": "moon.vril_generator", "checkpoints": [ { "label": "Vril Device placed", "signal": "vg_placed" } ] } ]
+              "trackers": [
+                {
+                  "title": "VRIL DEVICE",
+                  "signal": "moon.vril_generator",
+                  "checkpoints": [
+                    {
+                      "label": "Vril Device placed",
+                      "signal": "vg_placed"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "id": "bo1.moon.richtofens_grand_scheme.09.four_soul_tubes",
@@ -755,6 +1159,18 @@
               "id": "bo1.moon.richtofens_grand_scheme.11.maxis_says",
               "title": "Complete the computer sequence",
               "instruction": "Throw a Q.E.D. at the Black Egg to move it beside the computers, then repeat the longer colour sequence.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Q.E.D.",
+                      "location": "Mystery Box; use on the Black Egg."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "The computer sequence completes.",
               "detection": "stock-GSC-stage-confirmed-offline; live-observer-unverified",
               "sourceFlag": "sq_ss2_over"
@@ -763,6 +1179,18 @@
               "id": "bo1.moon.richtofens_grand_scheme.12.launch_rockets",
               "title": "Launch the rockets",
               "instruction": "When prompted, throw a Gersh Device beside the Vril Sphere and computers. Let the countdown and finale play.",
+              "checklists": [
+                {
+                  "title": "Required equipment",
+                  "items": [
+                    {
+                      "id": "auto0",
+                      "label": "Gersh Device",
+                      "location": "Mystery Box; throw beside Vril Sphere and computers."
+                    }
+                  ]
+                }
+              ],
               "completionCue": "The rockets launch and the quest finale begins.",
               "detection": "stock-GSC-notify-confirmed-offline; live-observer-unverified",
               "sourceFlag": "moon_sidequest_big_bang_achieved"

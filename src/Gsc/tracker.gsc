@@ -25,6 +25,79 @@ init()
 	level thread tracker_emit_heartbeat();
 	level thread tracker_watch_pressure_pad_estimate();
 	level thread tracker_watch_luna_progress();
+	level thread tracker_watch_side_music_completion();
+	level thread tracker_watch_player_inventory();
+}
+
+tracker_watch_player_inventory()
+{
+	level endon("end_game");
+	for (;;)
+	{
+		players = getPlayers();
+		for ( i = 0; i < players.size; i++ )
+			players[i] thread tracker_emit_inventory_if_changed(i);
+		wait 1;
+	}
+}
+
+tracker_emit_inventory_if_changed(player_slot)
+{
+	player = self;
+	items = "";
+	weapons = player GetWeaponsListPrimaries();
+	for ( i = 0; i < weapons.size; i++ )
+		if ( tracker_is_quest_item(weapons[i]) ) items = items + weapons[i] + "|";
+	tactical = player get_player_tactical_grenade();
+	if ( isDefined(tactical) && tracker_is_quest_item(tactical) ) items = items + tactical + "|";
+	if ( !isDefined(level.ee_tracker_inventory_signatures) ) level.ee_tracker_inventory_signatures = [];
+	if ( isDefined(level.ee_tracker_inventory_signatures[player_slot]) && level.ee_tracker_inventory_signatures[player_slot] == items ) return;
+	level.ee_tracker_inventory_signatures[player_slot] = items;
+	tracker_emit_inventory(player_slot, items);
+}
+
+tracker_is_quest_item(weapon)
+{
+	return weapon == "zombie_black_hole_bomb" || weapon == "zombie_nesting_dolls" || weapon == "ray_gun_upgraded_zm" || weapon == "thundergun_upgraded_zm";
+}
+
+tracker_emit_inventory(player_slot, items)
+{
+	handle = fs_fopen("ee-tracker.jsonl", "append");
+	if ( !handle ) return;
+	line = "{\"schemaVersion\":1,\"type\":\"player_inventory\",\"game\":\"bo1\",\"map\":\"zombie_cosmodrome\",\"playerSlot\":" + player_slot + ",\"inventoryItems\":\"" + items + "\",\"source\":\"gsc\"}";
+	fs_writeline(handle, line);
+	fs_fclose(handle);
+}
+
+tracker_watch_side_music_completion()
+{
+	last_count = 0;
+	for (;;)
+	{
+		if ( isDefined(level.teddybear_counter) && level.teddybear_counter > last_count )
+		{
+			last_count = level.teddybear_counter;
+			if ( last_count >= 3 )
+			{
+				tracker_emit_side_egg_step("Ascension", "abracadavre_song", 0);
+				tracker_emit_side_egg_step("Ascension", "abracadavre_song", 1);
+				tracker_emit_side_egg_step("Ascension", "abracadavre_song", 2);
+				tracker_emit_event("bo1.ascension.music.complete");
+				return;
+			}
+		}
+		wait 0.2;
+	}
+}
+
+tracker_emit_side_egg_step(map_name, egg_id, step_index)
+{
+	handle = fs_fopen("ee-tracker.jsonl", "append");
+	if ( !handle ) return;
+	line = "{\"schemaVersion\":1,\"type\":\"side_egg_step\",\"map\":\"" + map_name + "\",\"eggId\":\"" + egg_id + "\",\"stepIndex\":" + step_index + ",\"source\":\"gsc\"}";
+	fs_writeline(handle, line);
+	fs_fclose(handle);
 }
 
 tracker_begin_session()

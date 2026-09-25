@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "maps": {
+    "zombie_cosmodrome": {
+      "displayName": "Ascension",
+      "items": [
+        { "id": "zombie_black_hole_bomb", "label": "Gersh Device", "kind": "tactical", "sourceHook": "player.get_player_tactical_grenade() / hasweapon", "requiredBy": ["teleport transformer", "weapon combination"] },
+        { "id": "zombie_nesting_dolls", "label": "Matryoshka Dolls", "kind": "tactical", "sourceHook": "player inventory", "requiredBy": ["weapon combination"] },
+        { "id": "ray_gun_upgraded_zm", "label": "Pack-a-Punched Ray Gun", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["weapon combination"] },
+        { "id": "thundergun_upgraded_zm", "label": "Thundergun", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["weapon combination"] }
+      ],
+      "parts": []
+    },
+    "zombie_coast": {
+      "displayName": "Call of the Dead",
+      "items": [{ "id": "vr11_zm", "label": "V-R11", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["Golden Rod step"] }],
+      "parts": []
+    },
+    "zombie_temple": {
+      "displayName": "Shangri-La",
+      "items": [
+        { "id": "shrink_ray_zm", "label": "31-79 JGb215 (Baby Gun)", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["shrink and launch crystal"] },
+        { "id": "shrink_ray_upgraded_zm", "label": "Fractalizer", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["shrink and launch crystal"] },
+        { "id": "spikemore_zm", "label": "Spikemores", "kind": "tactical", "sourceHook": "player inventory", "requiredBy": ["quest preparation"] }
+      ],
+      "parts": []
+    },
+    "zombie_moon": {
+      "displayName": "Moon",
+      "items": [
+        { "id": "wavegun_zm", "label": "Wave Gun", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["main quest setup"] },
+        { "id": "wavegun_upgraded_zm", "label": "Wave Gun", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["main quest setup"] },
+        { "id": "qed_zm", "label": "Q.E.D.", "kind": "tactical", "sourceHook": "player inventory", "requiredBy": ["main quest setup"] },
+        { "id": "zombie_black_hole_bomb", "label": "Gersh Device", "kind": "tactical", "sourceHook": "player inventory", "requiredBy": ["main quest setup"] },
+        { "id": "equip_hacker_zm", "label": "Hacker", "kind": "equipment", "sourceHook": "player equipment state", "requiredBy": ["main quest setup"] }
+      ],
+      "parts": []
+    },
+    "zm_transit": {
+      "displayName": "TranZit",
+      "items": [
+        { "id": "emp_grenade_zm", "label": "EMP Grenade", "kind": "tactical", "sourceHook": "player.get_player_tactical_grenade() / hasweapon", "requiredBy": ["Tower of Babble: Maxis or Richtofen route"] },
+        { "id": "jetgun_zm", "label": "Jet Gun", "kind": "build", "sourceHook": "player inventory", "requiredBy": ["Tower of Babble: Richtofen route"] }
+      ],
+      "parts": []
+    },
+    "zm_highrise": {
+      "displayName": "Die Rise",
+      "items": [
+        { "id": "slipgun_zm", "label": "Sliquifier", "kind": "build", "sourceHook": "player inventory", "requiredBy": ["High Maintenance setup"] },
+        { "id": "trample_steam_zm", "label": "Trample Steam", "kind": "build", "sourceHook": "not yet exposed by observer", "requiredBy": ["High Maintenance setup"] }
+      ],
+      "parts": []
+    },
+    "zm_buried": {
+      "displayName": "Buried",
+      "items": [
+        { "id": "slowgun_zm", "label": "Paralyzer", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["Mined Games setup"] },
+        { "id": "slowgun_upgraded_zm", "label": "Paralyzer", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["Mined Games setup"] },
+        { "id": "time_bomb_zm", "label": "Time Bomb", "kind": "equipment", "sourceHook": "player inventory", "requiredBy": ["Maxis and Richtofen route setup"] }
+      ],
+      "parts": []
+    },
+    "zm_prison": {
+      "displayName": "Mob of the Dead",
+      "items": [
+        { "id": "blundergat_zm", "label": "Blundergat", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["Pop Goes the Weasel setup"] },
+        { "id": "acidgat_zm", "label": "Acid Gat Kit", "kind": "build", "sourceHook": "player craftable inventory", "requiredBy": ["Pop Goes the Weasel setup"] },
+        { "id": "bouncing_tomahawk_zm", "label": "Hell's Retriever", "kind": "weapon", "sourceHook": "player inventory", "requiredBy": ["Pop Goes the Weasel setup"] }
+      ],
+      "parts": [
+        { "id": "plane_key", "label": "Warden's Key", "possibleAreas": [] },
+        { "id": "plane_cloth", "label": "Icarus part · uniforms", "possibleAreas": [] },
+        { "id": "plane_fueltanks", "label": "Icarus part · fuel tanks", "possibleAreas": [] },
+        { "id": "plane_engine", "label": "Icarus part · engine", "possibleAreas": [] },
+        { "id": "plane_steering", "label": "Icarus part · control valve", "possibleAreas": [] },
+        { "id": "plane_rigging", "label": "Icarus part · rigging", "possibleAreas": [] },
+        { "id": "plane_assembled", "label": "Icarus plane", "possibleAreas": [] }
+      ]
+    },
+    "zm_tomb": {
+      "displayName": "Origins",
+      "items": [
+        { "id": "staff_air_zm", "label": "Wind Staff", "kind": "build", "sourceHook": "player inventory / staff.owner", "requiredBy": ["Little Lost Girl staff build and placement"] },
+        { "id": "staff_air_upgraded_zm", "label": "Ultimate Wind Staff", "kind": "build", "sourceHook": "player inventory / staff.owner", "requiredBy": ["Little Lost Girl staff build and placement"] },
+        { "id": "staff_fire_zm", "label": "Fire Staff", "kind": "build", "sourceHook": "player inventory / staff.owner", "requiredBy": ["Little Lost Girl staff build and placement"] },
+        { "id": "staff_fire_upgraded_zm", "label": "Ultimate Fire Staff", "kind": "build", "sourceHook": "player inventory / staff.owner", "requiredBy": ["Little Lost Girl staff build and placement"] },
+        { "id": "staff_lightning_zm", "label": "Lightning Staff", "kind": "build", "sourceHook": "player inventory / staff.owner", "requiredBy": ["Little Lost Girl staff build and placement"] },
+        { "id": "staff_lightning_upgraded_zm", "label": "Ultimate Lightning Staff", "kind": "build", "sourceHook": "player inventory / staff.owner", "requiredBy": ["Little Lost Girl staff build and placement"] },
+        { "id": "staff_water_zm", "label": "Ice Staff", "kind": "build", "sourceHook": "player inventory / staff.owner", "requiredBy": ["Little Lost Girl staff build and placement"] },
+        { "id": "staff_water_upgraded_zm", "label": "Ultimate Ice Staff", "kind": "build", "sourceHook": "player inventory / staff.owner", "requiredBy": ["Little Lost Girl staff build and placement"] },
+        { "id": "equip_dieseldrone_zm", "label": "Maxis Drone", "kind": "build", "sourceHook": "player inventory / craftable state", "requiredBy": ["Little Lost Girl setup"] },
+        { "id": "beacon_zm", "label": "G-Strike", "kind": "tactical", "sourceHook": "player.get_player_tactical_grenade()", "requiredBy": ["Rain Fire"] }
+      ],
+      "parts": [
+        { "id": "staff_wind_part_thor", "label": "Wind Staff part · Thor", "possibleAreas": ["Thor / Generators 2–3"] },
+        { "id": "staff_wind_part_odin", "label": "Wind Staff part · Odin", "possibleAreas": ["Odin / Generators 4–5"] },
+        { "id": "staff_wind_part_freya", "label": "Wind Staff part · Freya", "possibleAreas": ["Freya / Church / Generator 6"] },
+        { "id": "staff_ice_part_gens_2_3", "label": "Ice Staff part · region 1", "possibleAreas": ["Snowing dig sites near Generators 2–3"] },
+        { "id": "staff_ice_part_gens_4_5", "label": "Ice Staff part · region 2", "possibleAreas": ["Snowing dig sites near Generators 4–5"] },
+        { "id": "staff_ice_part_church", "label": "Ice Staff part · region 3", "possibleAreas": ["Snowing dig sites by Church / Generator 6"] },
+        { "id": "staff_lightning_part_1", "label": "Lightning Staff part · tank route 1", "possibleAreas": ["Tank route by Generator 2"] },
+        { "id": "staff_lightning_part_2", "label": "Lightning Staff part · tank route 2", "possibleAreas": ["Giant footprint"] },
+        { "id": "staff_lightning_part_3", "label": "Lightning Staff part · tank route 3", "possibleAreas": ["Scaffolding between Excavation and Church"] },
+        { "id": "staff_fire_part_chest", "label": "Fire Staff part · chest", "possibleAreas": ["Generator 6 Rituals chest"] },
+        { "id": "staff_fire_part_plane", "label": "Fire Staff part · plane", "possibleAreas": ["Orange biplane route"] },
+        { "id": "staff_fire_part_panzer", "label": "Fire Staff part · Panzer", "possibleAreas": ["Round 8 Panzer Soldat"] }
+      ]
+    }
+  }
+}

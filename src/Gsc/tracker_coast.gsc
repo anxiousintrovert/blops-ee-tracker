@@ -18,8 +18,59 @@ init()
 	level thread coast_tracker_watch_quest_flags();
 	level thread coast_tracker_watch_progress();
 	level thread coast_tracker_watch_completion_event();
+	level thread coast_tracker_watch_side_music_completion();
 	level thread coast_tracker_watch_end_game();
 	level thread coast_tracker_emit_heartbeat();
+	level thread coast_tracker_watch_player_inventory();
+}
+
+coast_tracker_watch_player_inventory()
+{
+	level endon("end_game");
+	level.ee_tracker_inventory_signatures = [];
+	for (;;) { players = getPlayers(); for ( i = 0; i < players.size; i++ ) players[i] thread coast_tracker_inventory_if_changed(i); wait 1; }
+}
+
+coast_tracker_inventory_if_changed(slot)
+{
+	items = ""; weapons = self GetWeaponsListPrimaries();
+	for ( i = 0; i < weapons.size; i++ ) if ( weapons[i] == "vr11_zm" || weapons[i] == "vr11_upgraded_zm" ) items = items + weapons[i] + "|";
+	tactical = self get_player_tactical_grenade();
+	if ( isDefined(tactical) && (tactical == "zombie_black_hole_bomb" || tactical == "zombie_nesting_dolls") ) items = items + tactical + "|";
+	if ( isDefined(level.ee_tracker_inventory_signatures[slot]) && level.ee_tracker_inventory_signatures[slot] == items ) return;
+	level.ee_tracker_inventory_signatures[slot] = items;
+	handle = fs_fopen("ee-tracker.jsonl", "append"); if ( !handle ) return;
+	fs_writeline(handle, "{\"schemaVersion\":1,\"type\":\"player_inventory\",\"game\":\"bo1\",\"map\":\"zombie_coast\",\"playerSlot\":" + slot + ",\"inventoryItems\":\"" + items + "\",\"source\":\"gsc\"}"); fs_fclose(handle);
+}
+
+coast_tracker_watch_side_music_completion()
+{
+	last_count = 0;
+	for (;;)
+	{
+		if ( isDefined(level.meteor_counter) && level.meteor_counter > last_count )
+		{
+			last_count = level.meteor_counter;
+			if ( last_count >= 3 )
+			{
+				coast_tracker_emit_side_egg_step("not_ready_to_die", 0);
+				coast_tracker_emit_side_egg_step("not_ready_to_die", 1);
+				coast_tracker_emit_side_egg_step("not_ready_to_die", 2);
+				coast_tracker_emit_event("bo1.coast.music.complete");
+				return;
+			}
+		}
+		wait 0.2;
+	}
+}
+
+coast_tracker_emit_side_egg_step(egg_id, step_index)
+{
+	handle = fs_fopen("ee-tracker.jsonl", "append");
+	if ( !handle ) return;
+	line = "{\"schemaVersion\":1,\"type\":\"side_egg_step\",\"map\":\"Call of the Dead\",\"eggId\":\"" + egg_id + "\",\"stepIndex\":" + step_index + ",\"source\":\"gsc\"}";
+	fs_writeline(handle, line);
+	fs_fclose(handle);
 }
 
 coast_tracker_begin_session()
@@ -117,6 +168,7 @@ coast_tracker_watch_progress()
 {
 	last_beacons = "";
 	last_dials = "";
+	last_dial_states = array(false, false, false, false);
 	for (;;)
 	{
 		if ( isDefined(level._serenade) && isDefined(level.mermaid) && level.mermaid.size > 0 )
@@ -137,8 +189,14 @@ coast_tracker_watch_progress()
 			maximum = level.together_again.size;
 			for ( i = 0; i < maximum; i++ )
 			{
-				if ( isDefined(level._dials[i]) && isDefined(level._dials[i].pos) && level._dials[i].pos == level.together_again[i] )
+				is_correct = isDefined(level._dials[i]) && isDefined(level._dials[i].pos) && level._dials[i].pos == level.together_again[i];
+				if ( is_correct )
 					correct++;
+				if ( i < 4 && is_correct != last_dial_states[i] )
+				{
+					coast_tracker_emit_event("coast.dial." + i + (is_correct ? ".correct" : ".incorrect"));
+					last_dial_states[i] = is_correct;
+				}
 			}
 			key = correct + "/" + maximum;
 			if ( key != last_dials )

@@ -15,7 +15,8 @@ public sealed class JsonlReplaySource(string path, TimeSpan? delay = null) : ITe
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (string.IsNullOrWhiteSpace(line)) continue;
-            var item = TelemetryJson.Parse(line) ?? throw new InvalidDataException("Empty telemetry event.");
+            var item = TelemetryJson.Parse(line);
+            if (item is null) continue;
             EventReceived?.Invoke(item);
             if (delay is { } d && d > TimeSpan.Zero) await Task.Delay(d, cancellationToken);
         }
@@ -72,7 +73,8 @@ public sealed class JsonlTailSource(string path, TimeSpan? pollInterval = null, 
                             var line = System.Text.Encoding.UTF8.GetString(pending.ToArray()).TrimEnd('\r');
                             pending.Clear();
                             if (string.IsNullOrWhiteSpace(line)) continue;
-                            var item = TelemetryJson.Parse(line) ?? throw new InvalidDataException("Empty telemetry event.");
+                            var item = TelemetryJson.Parse(line);
+                            if (item is null) continue;
                             if (disconnected && item.Type != "session_ended")
                             {
                                 EventReceived?.Invoke(Status("connected"));

@@ -3,7 +3,7 @@
 ## Requirements
 
 - Windows 10 or 11, 64-bit.
-- Plutonium T5 with Black Ops Zombies for live tracking. The app can also run built-in replays without Plutonium.
+- Plutonium T5/T6 with Black Ops Zombies for live tracking. The app can also run built-in replays without Plutonium.
 
 The desktop release includes the .NET 8 runtime and does not need a separate .NET installation.
 
@@ -34,6 +34,14 @@ The installer supports a custom T5 storage folder for testing or non-default set
 ```powershell
 .\Install-EETrackerObserver.ps1 -PlutoniumT5Storage 'D:\Plutonium\storage\t5'
 ```
+
+The desktop package also includes BO2 T6 observers under `gsc\t6`. To install them, run:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\t6\Install-EETrackerT6Observer.ps1
+```
+
+The standalone GSC archive contains both the T5 and T6 observer folders and their separate installers/uninstallers. T6 callback pickup hooks are compiled and source-reviewed, but still need private-match verification. The observer feed remains local to this computer.
 
 ## 3. Confirm the connection
 

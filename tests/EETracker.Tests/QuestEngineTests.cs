@@ -58,6 +58,34 @@ public class QuestEngineTests
         Assert.Equal(0, engine.State.CompletedCount);
     }
 
+    [Fact]
+    public void CallOfTheDeadPureHarmonyTracksCorrectDialCountWithoutCompletingStep()
+    {
+        var engine = new QuestEngine();
+        engine.Apply(Event("snapshot", "zombie_coast", 12, 2, true));
+        engine.Apply(Event("quest_signal", signal: "stock.success.power_on"));
+        engine.Apply(Event("quest_signal", signal: "stock.success.ffs"));
+        engine.Apply(Event("quest_signal", signal: "stock.success.ffd"));
+        engine.Apply(Event("quest_signal", signal: "stock.success.hgd"));
+        engine.Apply(Event("quest_signal", signal: "stock.success.bd"));
+        engine.Apply(Event("quest_signal", signal: "stock.success.aca"));
+        engine.Apply(Event("quest_signal", signal: "stock.success.mcs"));
+        engine.Apply(Event("quest_signal", signal: "coast.dial.0.correct"));
+        engine.Apply(Event("quest_signal", signal: "coast.dial.1.incorrect"));
+        engine.Apply(Event("quest_signal", signal: "coast.dial.2.correct"));
+        engine.Apply(Event("quest_progress", signal: "coast.pure_harmony") with { Progress = 2, ProgressMax = 4 });
+
+        var tracker = Assert.Single(engine.State.CurrentTrackers);
+        Assert.Equal("LIGHTHOUSE DIALS SET CORRECTLY", tracker.Title);
+        Assert.Equal("2 / 4", tracker.Summary);
+        Assert.Equal(2, tracker.Progress);
+        Assert.Equal(4, tracker.Maximum);
+        Assert.Equal(new[] { "Top floor dial", "Second floor dial", "Third floor dial", "Bottom floor dial" }, tracker.Checkpoints.Select(x => x.Label));
+        Assert.Equal(new[] { true, false, true, false }, tracker.Checkpoints.Select(x => x.Complete));
+        Assert.Equal("Solve Pure Harmony", engine.State.CurrentObjective);
+        Assert.Equal(7, engine.State.CompletedCount);
+    }
+
     [Theory]
     [InlineData("zombie_cosmodrome", "Ascension")]
     [InlineData("zombie_coast", "Call of the Dead")]

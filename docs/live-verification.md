@@ -1,9 +1,26 @@
 # Live verification ledger
 
+## Side Easter Egg observer tracking (2026-09-25)
+
+- Added `side_egg_step` telemetry consumption to the Side Easter Eggs checklist. Observed rows are saved as checked on this PC and cannot be manually unchecked during the current app session.
+- BO1 stock-script observers emit full-song completion for Ascension, Call of the Dead, Shangri-La, and Moon. BO2 T6 observers emit full-trigger completion for TranZit, Mob of the Dead music, Mob 935 keypad/song, Mob blue-skull reward, and the Origins Shepherd of Fire radios.
+- For trigger sets whose stock state exposes only a count or final reward, the observer checks every related catalog row only after the complete trigger condition. It does not invent per-location order.
+- These additions are source-reviewed only. T5/T6 observer compilation and private-match loading, telemetry forwarding, and each target transition remain unverified. Other catalog entries remain manual because no stable completion hook was audited in this change.
+
+## Quest inventory and confirmed part flags (2026-09-25)
+
+- The mission panel filters inventory telemetry through map-specific BO1/BO2 quest item catalogs. Player inventory snapshots are keyed by game, map, and current lobby slot; slots are not durable player identity.
+- The Mob observer polls stock key_found, plane-part *_found, and plane_built flags. These confirm team-level found/built state and do not identify the player who carried a loose part.
+- T6 buildable/craftable pickup and drop callbacks are wrapped for player attribution on TranZit, Die Rise, Buried, Mob, and Origins. These wrappers duplicate stock callback behavior to preserve stats, voice cues, drops, and inventory/client fields. They compile, but loading and callback parity need private-match verification. Mob's plane/key flags remain team-level signals.
+- Origins staff weapons remain attributable through per-player inventory polling; static dig/spawn hints are guide areas, not pickup confirmation. Stock all-pieces-found notifications are not treated as flags.
+- BO1 loose quest-piece ownership is not covered by individual pickup hooks. The telemetry feed is local to each client and no network relay between companion apps is implemented.
+- T6 observer scripts pass GSC Tool compiler checks and the desktop solution builds. This is source/compiler/build evidence only; install and private-match event checks remain pending.
+
 ## Interactive substep trackers build (2026-09-23)
 
 - The data-driven current-objective card renders stock-script-backed substeps: Call of the Dead generators, ship/submarine/beacon milestones and lighthouse progress; Shangri-La tile pairs, pressure plate, gas pipes, tunnel holes, dial matches, and correct-gong count; Moon panel hacks and Vril Device placement. Existing Ascension LUNA and pressure-pad tracking, Moon Samantha Says colors, and soul-tube bars remain available.
 - Main quest completion still uses the reviewed stock success flag or stage notification. Substep counters do not advance the map flow. No guide step order was changed.
+- Call of the Dead Pure Harmony displays the observed count of correctly positioned lighthouse dials out of four and a floor-by-floor checklist. Dial numbers are match-randomized, so the checklist reports whether each floor's dial is correct rather than showing a fixed target. Its stage still advances only on the stock Pure Harmony success flag.
 - Release build: `dotnet build EETracker.sln -c Release` succeeded with 0 warnings and 0 errors during development. The updated app, replay fixtures, data, GSC, and sample files were staged together in a local test build.
 - Updated Ascension, Call of the Dead, Shangri-La, and Moon observers were installed into Plutonium's map-scoped raw-script folders for development checks. The edited coast, temple, and Moon scripts matched their installed copies by SHA-256 at that time.
 - New Call of the Dead, Shangri-La, and Moon substep signals are source-derived from extracted scripts but not live-match verified. T5 compilation, map loading, progress changes, and reset behavior for each new tracker remain to be checked in-game.

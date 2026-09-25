@@ -1,0 +1,1129 @@
+{
+  "schemaVersion": 1,
+  "trackingContract": "Manual checklist steps are user-confirmed unless a step has observerSignal metadata. For stock scripts that expose only a completion counter, the observer checks the full interaction set and then emits each checklist row together; it does not claim an order or location identity. Observer signals remain source-reviewed until confirmed in a private match.",
+  "sourceReferences": [
+    {
+      "id": "mmmrkennedy-bo1",
+      "url": "https://mmmrkennedy.com/"
+    },
+    {
+      "id": "codzombiescodex-kino",
+      "url": "https://www.zombiescodex.com/black-ops/kino-der-toten/"
+    },
+    {
+      "id": "mmmrkennedy-bo2",
+      "url": "https://mmmrkennedy.com/"
+    },
+    {
+      "id": "mmmrkennedy-nuketown",
+      "url": "https://mmmrkennedy.com/games/BO2/nuketown/nuketown_guide"
+    },
+    {
+      "id": "codzombiesguides-motd",
+      "url": "https://www.codzombiesguides.com/main-quests/black-ops-2/mob-of-the-dead/"
+    },
+    {
+      "id": "codzombiescodex-buried",
+      "url": "https://www.zombiescodex.com/black-ops-2/buried/"
+    },
+    {
+      "id": "codzombie-motd",
+      "url": "https://mmmrkennedy.com/games/BO2/mob_of_the_dead/mob_of_the_dead_guide"
+    },
+    {
+      "id": "codzombie-origins-archangel",
+      "url": "https://codzombie.com/easter-eggs/origins-archangel"
+    },
+    {
+      "id": "zombiescodex-origins",
+      "url": "https://www.zombiescodex.com/black-ops-2/origins/"
+    },
+    {
+      "id": "codzombieguides-tranzit",
+      "url": "https://www.codzombieguides.com/tranzit"
+    },
+    {
+      "id": "codzombieguides-die-rise",
+      "url": "https://www.codzombieguides.com/die-rise"
+    }
+  ],
+  "games": [
+    {
+      "gameId": "bo1",
+      "displayName": "Black Ops 1",
+      "maps": [
+        {
+          "mapId": "bo1_nacht",
+          "displayName": "Nacht der Untoten",
+          "eggs": [
+            {
+              "id": "undone_song",
+              "title": "Music EE · Undone",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "BO1 stock side-egg interaction is represented by the three exterior barrel targets; exact objective completion still requires an observer completion event.",
+              "steps": [
+                {
+                  "label": "Shoot the barrel",
+                  "location": "Outside the window beside the stairs"
+                },
+                {
+                  "label": "Shoot the barrel",
+                  "location": "Outside window in the back corner, diagonal from Mule Kick"
+                },
+                {
+                  "label": "Shoot the barrel",
+                  "location": "Outside the window closest to Mule Kick, beside the truck"
+                }
+              ]
+            },
+            {
+              "id": "mystery_box_radio",
+              "title": "Radio · Mystery Box room",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Radio is an interactable ambient map entity; activation is manual until radio playback is observed by a game-specific signal.",
+              "steps": [
+                {
+                  "label": "Activate the radio",
+                  "location": "On the table to the right of the Mystery Box"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_verruckt",
+          "displayName": "Verrückt",
+          "eggs": [
+            {
+              "id": "lullaby_song",
+              "title": "Music EE · Lullaby of a Deadman",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Three repeated toilet interactions start the map song; listed as a manual trigger until an observer confirms song completion.",
+              "steps": [
+                {
+                  "label": "Flush the left-most toilet three times",
+                  "location": "Toilet room near the power room on the Double Tap side"
+                }
+              ]
+            },
+            {
+              "id": "campaign_radio",
+              "title": "Radio · Campaign audio",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Shootable radio entity; activation remains manual.",
+              "steps": [
+                {
+                  "label": "Shoot the radio",
+                  "location": "Desk in the zombie-spawn window on the balcony above Mule Kick"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_shi_no_numa",
+          "displayName": "Shi No Numa",
+          "eggs": [
+            {
+              "id": "the_one_song",
+              "title": "Music EE · The One",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Three consecutive phone interactions activate the song; manual checklist pending a validated observer completion event.",
+              "steps": [
+                {
+                  "label": "Interact with the phone three times",
+                  "location": "Comms Room"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_der_riese",
+          "displayName": "Der Riese",
+          "eggs": [
+            {
+              "id": "beauty_song",
+              "title": "Music EE · Beauty of Annihilation",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Three brain-jar interactions gate song playback.",
+              "steps": [
+                {
+                  "label": "Interact with brain jar 1",
+                  "location": "Animal Testing, shelf near the bottom of the stairs to Juggernog"
+                },
+                {
+                  "label": "Interact with brain jar 2",
+                  "location": "Animal Testing, opposite jar 1 and right of the Juggernog stairs"
+                },
+                {
+                  "label": "Interact with brain jar 3",
+                  "location": "Teleporter B side room, on table beside the chalkboard"
+                }
+              ]
+            },
+            {
+              "id": "fly_trap",
+              "title": "Fly Trap · Paradoxical Prologue",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Stock BO1 map script defines the fly-trap item hunt; unlike BO3 this BO1 version has no Annihilator reward.",
+              "steps": [
+                {
+                  "label": "Activate Pack-a-Punch and shoot the control panel with a Pack-a-Punched bullet weapon",
+                  "location": "Out-of-map zombie spawn on the right when facing right of Pack-a-Punch"
+                },
+                {
+                  "label": "Shoot the flying object",
+                  "location": "Teleporter B / Thompson room, inside the furnace below the stairs"
+                },
+                {
+                  "label": "Shoot the flying object",
+                  "location": "Spawn, broken window above the M1 Carbine wallbuy toward Teleporter A"
+                },
+                {
+                  "label": "Shoot the flying object",
+                  "location": "Teleporter A, bottom-left cage right of the Trench Gun wallbuy"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_kino",
+          "displayName": "Kino der Toten",
+          "eggs": [
+            {
+              "id": "115_song",
+              "title": "Music EE · 115",
+              "sourceIds": [
+                "codzombiescodex-kino"
+              ],
+              "scriptEvidence": "Three Element-115 fragments are the song's trigger objects; manual checklist until observer verifies a completion signal.",
+              "steps": [
+                {
+                  "label": "Interact with the fragment",
+                  "location": "Spawn room, glass jar in corner by the lower zombie window"
+                },
+                {
+                  "label": "Interact with the fragment",
+                  "location": "Dressing room, black table behind the two mannequins"
+                },
+                {
+                  "label": "Interact with the fragment",
+                  "location": "Storage room, shelf beside a zombie window"
+                }
+              ]
+            },
+            {
+              "id": "film_reels",
+              "title": "Film Reels · Audio Logs",
+              "sourceIds": [
+                "codzombiescodex-kino"
+              ],
+              "scriptEvidence": "The BO1 reel entities appear in random teleporter rooms; each pickup is a separate checklist item and projector playback is the completion action.",
+              "steps": [
+                {
+                  "label": "Find and load reel 1",
+                  "location": "One of the random teleporter destination rooms; then use the projector in Pack-a-Punch"
+                },
+                {
+                  "label": "Find and load reel 2",
+                  "location": "One of the random teleporter destination rooms; then use the projector in Pack-a-Punch"
+                },
+                {
+                  "label": "Find and load reel 3",
+                  "location": "One of the random teleporter destination rooms; then use the projector in Pack-a-Punch"
+                }
+              ]
+            },
+            {
+              "id": "hidden_radios",
+              "title": "Radios · Story Audio",
+              "sourceIds": [
+                "codzombiescodex-kino"
+              ],
+              "scriptEvidence": "Two shootable radio entities; observer can later bind individual activation/completion events.",
+              "steps": [
+                {
+                  "label": "Shoot the radio",
+                  "location": "Up in the theater chandelier"
+                },
+                {
+                  "label": "Shoot the radio",
+                  "location": "On the distant tower visible from the Alley barrier by Double Tap"
+                }
+              ]
+            },
+            {
+              "id": "pentagon_rocket",
+              "title": "Pentagon Model Rocket",
+              "sourceIds": [
+                "codzombiescodex-kino"
+              ],
+              "scriptEvidence": "Model-rocket interaction requires all three reel insertions and the dressing-room jump trigger.",
+              "steps": [
+                {
+                  "label": "Load all three film reels",
+                  "location": "Use projector in Pack-a-Punch room"
+                },
+                {
+                  "label": "Jump five times beside the left mannequin",
+                  "location": "Dressing Room, by the Speed Cola doorway"
+                },
+                {
+                  "label": "Interact with the rocket",
+                  "location": "Pentagon conference room, reached as a random teleporter destination"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_five",
+          "displayName": "Five",
+          "eggs": [
+            {
+              "id": "wont_back_down",
+              "title": "Music EE · Won't Back Down",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Three phone interactions unlock the song; track item interactions manually until a song-start signal is implemented.",
+              "steps": [
+                {
+                  "label": "Interact with red phone 1",
+                  "location": "Table left of Quick Revive"
+                },
+                {
+                  "label": "Interact with red phone 2",
+                  "location": "Desk in front of the Power switch"
+                },
+                {
+                  "label": "Interact with red phone 3",
+                  "location": "Panic Room table"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_ascension",
+          "displayName": "Ascension",
+          "eggs": [
+            {
+              "id": "abracadavre_song",
+              "title": "Music EE · Abracadavre",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Stock teddybear_counter reaching 3 confirms the complete song trigger; observer then checks all three rows because stock state does not identify which hidden bear was used first.",
+              "steps": [
+                {
+                  "label": "Interact with teddy bear 1",
+                  "location": "Spawn, upper level left of the Olympia/RK5 wallbuy",
+                  "observerSignal": "bo1.ascension.music.complete",
+                  "index": 0
+                },
+                {
+                  "label": "Interact with teddy bear 2",
+                  "location": "Speed Cola lander station, atop the wall left of the hallway",
+                  "observerSignal": "bo1.ascension.music.complete",
+                  "index": 1
+                },
+                {
+                  "label": "Interact with teddy bear 3",
+                  "location": "Stamin-Up lander station, behind the fence left of the lander",
+                  "observerSignal": "bo1.ascension.music.complete",
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "id": "matryoshka_dolls",
+              "title": "Ultimis Matryoshka Dolls · Character Quotes",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Four character-specific doll interactions trigger dialogue; optional flavor checklist, no quest completion state.",
+              "steps": [
+                {
+                  "label": "Find Takeo's doll",
+                  "location": "Beside the Widow's Wine/PhD Flopper machine area"
+                },
+                {
+                  "label": "Find Richtofen's doll",
+                  "location": "Desk above Juggernog"
+                },
+                {
+                  "label": "Find Nikolai's doll",
+                  "location": "Machine left of Speed Cola"
+                },
+                {
+                  "label": "Find Dempsey's doll",
+                  "location": "Beside the Claymore wallbuy near Stamin-Up lander station"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_call_of_the_dead",
+          "displayName": "Call of the Dead",
+          "eggs": [
+            {
+              "id": "not_ready_to_die",
+              "title": "Music EE · Not Ready to Die",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Stock meteor_counter reaching 3 confirms the complete song trigger; observer then checks all three rows because stock state does not identify physical trigger order.",
+              "steps": [
+                {
+                  "label": "Interact with meteor 1",
+                  "location": "Spawn-side area, on a barrel",
+                  "observerSignal": "bo1.coast.music.complete",
+                  "index": 0
+                },
+                {
+                  "label": "Interact with meteor 2",
+                  "location": "Ship, booth two floors below the Power switch",
+                  "observerSignal": "bo1.coast.music.complete",
+                  "index": 1
+                },
+                {
+                  "label": "Interact with meteor 3",
+                  "location": "Near PhD Flopper, under the stand with a clock",
+                  "observerSignal": "bo1.coast.music.complete",
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "id": "richtofen_radios",
+              "title": "Radios · Richtofen Audio Logs",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "The map ambient script sequences five radio playback events; the app must not mark the whole set complete from a single radio interaction.",
+              "steps": [
+                {
+                  "label": "Activate radio 1",
+                  "location": "Under Double Tap"
+                },
+                {
+                  "label": "Activate radio 2",
+                  "location": "Near Stamin-Up, under the partly closed garage door"
+                },
+                {
+                  "label": "Activate radio 3",
+                  "location": "At the end of the lighthouse"
+                },
+                {
+                  "label": "Activate radio 4",
+                  "location": "Past Speed Cola, straight along the island path"
+                },
+                {
+                  "label": "Activate radio 5",
+                  "location": "Back half of the ship, downstairs from MP40 beside the water pool"
+                }
+              ]
+            },
+            {
+              "id": "george_rewards",
+              "title": "George Ramiro · Bonus Drops",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Stock George damage/reward behavior is tracked as manual outcome, not a quest route.",
+              "steps": [
+                {
+                  "label": "Break George's light",
+                  "location": "Damage George until his light breaks; reward includes a perk and Death Machine"
+                },
+                {
+                  "label": "Earn the Wunderwaffe variant reward",
+                  "location": "After completing the main quest, bonus Death Machines from George become DG-2 pickups"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_shangri_la",
+          "displayName": "Shangri-La",
+          "eggs": [
+            {
+              "id": "pareidolia_song",
+              "title": "Music EE · Pareidolia",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Stock meteor_counter reaching 3 confirms the complete song trigger; observer then checks all three rows because stock state does not identify physical trigger order.",
+              "steps": [
+                {
+                  "label": "Interact with meteorite 1",
+                  "location": "Spawn, behind and left of Quick Revive",
+                  "observerSignal": "bo1.temple.music.complete",
+                  "index": 0
+                },
+                {
+                  "label": "Interact with meteorite 2",
+                  "location": "Left of the bridge after the quicksand maze",
+                  "observerSignal": "bo1.temple.music.complete",
+                  "index": 1
+                },
+                {
+                  "label": "Interact with meteorite 3",
+                  "location": "Grenade wallbuy room on the outer wooden platform",
+                  "observerSignal": "bo1.temple.music.complete",
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "id": "monkey_free_perk",
+              "title": "Monkey Round · Free Perk",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Power-up steal/drop behavior is stock monkey-round logic; checklist records successful free-perk outcome only.",
+              "steps": [
+                {
+                  "label": "Kill a monkey carrying a perk power-up before it escapes",
+                  "location": "Any perk machine targeted during a Monkey round"
+                }
+              ]
+            },
+            {
+              "id": "monkey_explosion_code",
+              "title": "Explode All Monkeys · BO1 Secret",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Version-specific controller input secret; do not mix with BO3 Samantha's Sorrow sequence.",
+              "steps": [
+                {
+                  "label": "Stand on the raised spawn tile and enter Up, Up, Down, A/Cross quickly",
+                  "location": "Spawn room, facing the Pack-a-Punch stairs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo1_moon",
+          "displayName": "Moon",
+          "eggs": [
+            {
+              "id": "coming_home",
+              "title": "Music EE · Coming Home",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Stock meteor_counter reaching 3 confirms the complete song trigger; observer then checks all three rows because stock state does not identify physical trigger order.",
+              "steps": [
+                {
+                  "label": "Activate meteorite 1",
+                  "location": "Near Stamin-Up, in the Biodome",
+                  "observerSignal": "bo1.moon.music.complete",
+                  "index": 0
+                },
+                {
+                  "label": "Activate meteorite 2",
+                  "location": "Near Mule Kick, in the Biodome",
+                  "observerSignal": "bo1.moon.music.complete",
+                  "index": 1
+                },
+                {
+                  "label": "Activate meteorite 3",
+                  "location": "Near the M16, in the Biodome",
+                  "observerSignal": "bo1.moon.music.complete",
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "id": "eight_bit_song",
+              "title": "Music EE · 8-Bit Songs",
+              "sourceIds": [
+                "mmmrkennedy-bo1"
+              ],
+              "scriptEvidence": "Verified in work/moon-extract/dump/maps/zombie_moon_amb.gsc: eight_bit_easteregg waits for power_on, then each 8bitsongs entity plays its script_string on use. This is a selectable song trigger, not a three-item quest.",
+              "steps": [
+                {
+                  "label": "Interact with a song button",
+                  "location": "Biodome, at a map-placed 8bitsongs button after power is on"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "gameId": "bo2",
+      "displayName": "Black Ops 2",
+      "maps": [
+        {
+          "mapId": "bo2_transit",
+          "displayName": "TranZit",
+          "eggs": [
+            {
+              "id": "transit_music",
+              "title": "Music EE · Imma Try It Out / Carrion",
+              "sourceIds": [
+                "mmmrkennedy-bo2"
+              ],
+              "scriptEvidence": "Stock meteor_counter reaching 3 confirms the complete song trigger; observer then checks all three rows because stock state does not identify which origin was used first.",
+              "steps": [
+                {
+                  "label": "Interact with teddy bear 1",
+                  "location": "Bus Depot, on a bench outside",
+                  "observerSignal": "bo2.transit.music.complete",
+                  "index": 0
+                },
+                {
+                  "label": "Interact with teddy bear 2",
+                  "location": "Farm, upstairs in the house",
+                  "observerSignal": "bo2.transit.music.complete",
+                  "index": 1
+                },
+                {
+                  "label": "Interact with teddy bear 3",
+                  "location": "Town bar, booth to the right as you enter",
+                  "observerSignal": "bo2.transit.music.complete",
+                  "index": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo2_nuketown",
+          "displayName": "Nuketown Zombies",
+          "eggs": [
+            {
+              "id": "samanthas_lullaby",
+              "title": "Music EE · Samantha's Lullaby",
+              "sourceIds": [
+                "mmmrkennedy-nuketown"
+              ],
+              "scriptEvidence": "Three teddy interactions trigger song playback; exact named locations are from the map guide pending a direct local script/entity audit.",
+              "steps": [
+                {
+                  "label": "Interact with teddy bear 1",
+                  "location": "Green House backyard, behind the garden fence"
+                },
+                {
+                  "label": "Interact with teddy bear 2",
+                  "location": "Yellow Bus, left-side window"
+                },
+                {
+                  "label": "Interact with teddy bear 3",
+                  "location": "Yellow House bedroom, top bunk"
+                }
+              ]
+            },
+            {
+              "id": "redamned_8bit",
+              "title": "Music EE · 8-Bit Re-Damned",
+              "sourceIds": [
+                "mmmrkennedy-nuketown"
+              ],
+              "scriptEvidence": "Round/population counter plus shed power-up trigger; exact runtime condition must be source-audited before automatic tracking.",
+              "steps": [
+                {
+                  "label": "Wait until the population sign reads 15",
+                  "location": "Cul-de-sac counter; kills reduce the number"
+                },
+                {
+                  "label": "Collect the power-up",
+                  "location": "Shed behind the Yellow House while the sign reads 15"
+                }
+              ]
+            },
+            {
+              "id": "coming_home_8bit",
+              "title": "Music EE · 8-Bit Coming Home",
+              "sourceIds": [
+                "mmmrkennedy-nuketown"
+              ],
+              "scriptEvidence": "The map starts this song after all 28 mannequin heads are removed; exact all-spawn handling needs script validation before observer support.",
+              "steps": [
+                {
+                  "label": "Remove 28 mannequin heads",
+                  "location": "Across the map; possible spawns include out-of-bounds areas behind fences and barricades"
+                }
+              ]
+            },
+            {
+              "id": "richtofen_transmissions",
+              "title": "Richtofen · Radio Transmissions",
+              "sourceIds": [
+                "mmmrkennedy-nuketown"
+              ],
+              "scriptEvidence": "Round-gated TV transmissions culminate at round 25 in blue zombie eyes and Richtofen becoming announcer.",
+              "steps": [
+                {
+                  "label": "Hear transmission 1",
+                  "location": "Green House living-room TV, round 3"
+                },
+                {
+                  "label": "Hear transmissions 2–4",
+                  "location": "Same TV, random rounds in the 4–22 windows"
+                },
+                {
+                  "label": "Hear final transmission and confirm blue eyes",
+                  "location": "Same TV, round 25"
+                }
+              ]
+            },
+            {
+              "id": "marlton_quotes",
+              "title": "Marlton · Bunker Quotes",
+              "sourceIds": [
+                "mmmrkennedy-nuketown"
+              ],
+              "scriptEvidence": "Melee interaction on bunker door plays at most one of 14 quotes per round; no quest completion state.",
+              "steps": [
+                {
+                  "label": "Melee the bunker door for a quote",
+                  "location": "Behind the Green House; one quote per round"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo2_die_rise",
+          "displayName": "Die Rise",
+          "eggs": [
+            {
+              "id": "we_all_fall_down",
+              "title": "Music EE · We All Fall Down",
+              "sourceIds": [
+                "codzombieguides-die-rise"
+              ],
+              "scriptEvidence": "Three bear interaction triggers for this map song; named location references require a local map-entity audit before treating as script-verified.",
+              "steps": [
+                {
+                  "label": "Interact with teddy bear 1",
+                  "location": "Near the SVU-AS wallbuy, on a shelf"
+                },
+                {
+                  "label": "Interact with teddy bear 2",
+                  "location": "Upside-down Buddha room, near the edge"
+                },
+                {
+                  "label": "Interact with teddy bear 3",
+                  "location": "Power room, back-right corner near the Power switch"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo2_mob",
+          "displayName": "Mob of the Dead",
+          "eggs": [
+            {
+              "id": "blue_skulls",
+              "title": "Free Blundergat · Blue Skull Hunt",
+              "sourceIds": [
+                "codzombiesguides-motd"
+              ],
+              "scriptEvidence": "Stock warden_blundergat_obtained confirms the five skull targets and reward; observer marks the full checklist together since individual target order is not exposed.",
+              "steps": [
+                {
+                  "label": "Hit blue skull 1",
+                  "location": "By Juggernog, on the lamppost up the hill",
+                  "observerSignal": "bo2.mob.blundergat",
+                  "index": 0
+                },
+                {
+                  "label": "Hit blue skull 2",
+                  "location": "Docks, on the third leftmost pillar of the adjacent dock",
+                  "observerSignal": "bo2.mob.blundergat",
+                  "index": 1
+                },
+                {
+                  "label": "Hit blue skull 3",
+                  "location": "Roof, far-left corner from the entrance",
+                  "observerSignal": "bo2.mob.blundergat",
+                  "index": 2
+                },
+                {
+                  "label": "Hit blue skull 4",
+                  "location": "Lit jail cell near the starting room, beside a regular skull",
+                  "observerSignal": "bo2.mob.blundergat",
+                  "index": 3
+                },
+                {
+                  "label": "Hit blue skull 5",
+                  "location": "Utility pole outside the Warden's Office window beside Speed Cola",
+                  "observerSignal": "bo2.mob.blundergat",
+                  "index": 4
+                },
+                {
+                  "label": "Collect the free Blundergat",
+                  "location": "Warden's Office desk",
+                  "observerSignal": "bo2.mob.blundergat",
+                  "index": 5
+                }
+              ]
+            },
+            {
+              "id": "where_are_we_going",
+              "title": "Music EE · Where Are We Going",
+              "sourceIds": [
+                "codzombie-motd"
+              ],
+              "scriptEvidence": "Stock nixie_935 event confirms the completed Afterlife code and song trigger; observer checks both prerequisite/action rows together.",
+              "steps": [
+                {
+                  "label": "Unlock the keypad with the Warden's Key",
+                  "location": "Bottom of the Citadel Tunnels spiral staircase",
+                  "observerSignal": "bo2.mob.music_935.complete",
+                  "index": 0
+                },
+                {
+                  "label": "Enter 935 in Afterlife",
+                  "location": "Citadel Tunnels keypad",
+                  "observerSignal": "bo2.mob.music_935.complete",
+                  "index": 1
+                }
+              ]
+            },
+            {
+              "id": "rusty_cage",
+              "title": "Music EE · Rusty Cage",
+              "sourceIds": [
+                "codzombie-motd"
+              ],
+              "scriptEvidence": "Stock meteor_counter reaching 3 confirms the complete song trigger; observer then checks all three rows because stock state does not identify bottle order.",
+              "steps": [
+                {
+                  "label": "Interact with whisky bottle 1",
+                  "location": "Spawn, bookshelf right of Olympia",
+                  "observerSignal": "bo2.mob.music.complete",
+                  "index": 0
+                },
+                {
+                  "label": "Interact with whisky bottle 2",
+                  "location": "Infirmary, small table in room with bodies hanging above bathtubs",
+                  "observerSignal": "bo2.mob.music.complete",
+                  "index": 1
+                },
+                {
+                  "label": "Interact with whisky bottle 3",
+                  "location": "Docks, ground corner left of the Propane Canister door",
+                  "observerSignal": "bo2.mob.music.complete",
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "id": "brutus_115",
+              "title": "Brutus 115 Code",
+              "sourceIds": [
+                "codzombie-motd"
+              ],
+              "scriptEvidence": "Stock zm_alcatraz_sq_nixie.gsc handles entered keypad values; the 115 code produces Brutus dialogue and the temporary 666 display.",
+              "steps": [
+                {
+                  "label": "Unlock the keypad with the Warden's Key",
+                  "location": "Bottom of the Citadel Tunnels spiral staircase"
+                },
+                {
+                  "label": "Enter 115 in Afterlife",
+                  "location": "Citadel Tunnels keypad"
+                }
+              ]
+            },
+            {
+              "id": "jumpscare",
+              "title": "Roof Jumpscare",
+              "sourceIds": [
+                "codzombie-motd"
+              ],
+              "scriptEvidence": "Optional scoped-weapon interaction documented by the map guide; stable script completion signal not audited.",
+              "steps": [
+                {
+                  "label": "Aim a scoped DSR-50 or Barrett at the fireworks",
+                  "location": "Roof, look off the left side from behind the Plane"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo2_buried",
+          "displayName": "Buried",
+          "eggs": [
+            {
+              "id": "always_running",
+              "title": "Music EE · Always Running",
+              "sourceIds": [
+                "codzombiescodex-buried"
+              ],
+              "scriptEvidence": "Local buried script extraction contains the stock side-song handlers; guide supplies stable player-facing bear positions. Observer signal not implemented.",
+              "steps": [
+                {
+                  "label": "Interact with teddy bear 1",
+                  "location": "Quick Revive area, against hay bales beside a hole in the wall"
+                },
+                {
+                  "label": "Interact with teddy bear 2",
+                  "location": "Candy Shop, in a barrel on the left"
+                },
+                {
+                  "label": "Interact with teddy bear 3",
+                  "location": "Haunted Mansion, corner of the Double Tap room"
+                }
+              ]
+            },
+            {
+              "id": "ghost_house_reward",
+              "title": "Haunted Mansion · Ghost Reward",
+              "sourceIds": [
+                "codzombiescodex-buried"
+              ],
+              "scriptEvidence": "Stock mansion ghost and reward behavior is a repeatable side objective, not main-quest progression.",
+              "steps": [
+                {
+                  "label": "Survive the mansion ghost sequence",
+                  "location": "Haunted Mansion and hedge maze; avoid the ghosts while crossing"
+                },
+                {
+                  "label": "Collect the reward",
+                  "location": "Mansion exit / maze route after completing the ghost sequence"
+                }
+              ]
+            },
+            {
+              "id": "maze_fountains",
+              "title": "Hedge Maze · Permanent Shortcut",
+              "sourceIds": [
+                "codzombiescodex-buried"
+              ],
+              "scriptEvidence": "The two fountain interactions persistently open the Gazebo-to-town teleport shortcut for the match.",
+              "steps": [
+                {
+                  "label": "Destroy fountain 1",
+                  "location": "Hedge maze"
+                },
+                {
+                  "label": "Destroy fountain 2",
+                  "location": "Hedge maze"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "mapId": "bo2_origins",
+          "displayName": "Origins",
+          "eggs": [
+            {
+              "id": "gold_shovel",
+              "title": "Gold Shovel · Digging Upgrade",
+              "sourceIds": [
+                "mmmrkennedy-bo2"
+              ],
+              "scriptEvidence": "Stock dig-site system upgrades the shovel after the required successful digs; exact threshold and reward should be observer-validated against map state.",
+              "steps": [
+                {
+                  "label": "Dig until the shovel upgrades",
+                  "location": "Any marked dig site; upgrade is awarded after repeated successful digs"
+                }
+              ]
+            },
+            {
+              "id": "archangel",
+              "title": "Music EE · Archangel",
+              "sourceIds": [
+                "codzombie-origins-archangel"
+              ],
+              "scriptEvidence": "Stock zm_tomb_ee_side.gsc radio_ee_song registers map-defined ee_radio_pos triggers; radio_ee_think starts playback when found_ee_radio_count reaches 3. The script confirms trigger count; guide gives named locations.",
+              "steps": [
+                {
+                  "label": "Interact with green Divinium rock 1",
+                  "location": "Spawn room, corner right of Rituals of the Ancients chest"
+                },
+                {
+                  "label": "Interact with green Divinium rock 2",
+                  "location": "Workshop, under a bunk bed opposite the No Man's Land entrance"
+                },
+                {
+                  "label": "Interact with green Divinium rock 3",
+                  "location": "Walkways near Excavation Site entrance, behind boxes"
+                }
+              ]
+            },
+            {
+              "id": "shepherd_of_fire",
+              "title": "Music EE · Shepherd of Fire",
+              "sourceIds": [
+                "zombiescodex-origins"
+              ],
+              "scriptEvidence": "Stock found_ee_radio_count reaching 3 confirms the complete song trigger; observer checks the three radio rows together because it does not expose a stable map location identity.",
+              "steps": [
+                {
+                  "label": "Activate red radio 1",
+                  "location": "Lower Excavation walkway",
+                  "observerSignal": "bo2.origins.shepherd_of_fire.complete",
+                  "index": 0
+                },
+                {
+                  "label": "Activate red radio 2",
+                  "location": "Crazy Place passage between Fire and Lightning sections",
+                  "observerSignal": "bo2.origins.shepherd_of_fire.complete",
+                  "index": 1
+                },
+                {
+                  "label": "Activate red radio 3",
+                  "location": "Inside Freya's head",
+                  "observerSignal": "bo2.origins.shepherd_of_fire.complete",
+                  "index": 2
+                }
+              ]
+            },
+            {
+              "id": "aether",
+              "title": "Music EE · Aether",
+              "sourceIds": [
+                "zombiescodex-origins"
+              ],
+              "scriptEvidence": "Stock Origins side quest implements the 1-then-5 floor-panel sequence; track completion after the final panel activation.",
+              "steps": [
+                {
+                  "label": "Activate Generator 1, then interact with floor panel marked 1",
+                  "location": "Generator 1"
+                },
+                {
+                  "label": "Activate Generator 5, then interact with floor panel marked 5",
+                  "location": "Generator 5"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceAudit": [
+    {
+      "mapId": "bo2_transit",
+      "script": "work/bo2-decompiled/zm_transit-workspace/decompiled/t6/zm_transit.gsc",
+      "functions": [
+        "sndsetupmusiceasteregg",
+        "sndmusicegg",
+        "sndplaymusicegg"
+      ],
+      "completion": "meteor_counter == 3 starts mus_zmb_secret_song",
+      "observerSignal": "bo2.transit.music.complete"
+    },
+    {
+      "mapId": "bo2_mob",
+      "script": "work/bo2-decompiled/zm_prison-workspace/decompiled/t6/zm_alcatraz_amb.gsc",
+      "functions": [
+        "sndmusicegg",
+        "sndmusicegg_wait"
+      ],
+      "completion": "meteor_counter == 3 starts mus_zmb_secret_song",
+      "observerSignal": "bo2.mob.music.complete"
+    },
+    {
+      "mapId": "bo2_mob",
+      "script": "work/bo2-decompiled/zm_prison-workspace/decompiled/t6/zm_alcatraz_sq_nixie.gsc",
+      "functions": [
+        "nixie_935",
+        "nixie_935_audio"
+      ],
+      "completion": "completed 935 keypad code starts mus_zmb_secret_song_2",
+      "observerSignal": "bo2.mob.music_935.complete"
+    },
+    {
+      "mapId": "bo2_origins",
+      "script": "work/bo2-decompiled/zm_tomb-workspace/decompiled/t6/zm_tomb_ee_side.gsc",
+      "functions": [
+        "radio_ee_song",
+        "radio_ee_think"
+      ],
+      "completion": "map-defined ee_radio_pos trigger count reaches 3 before song start",
+      "observerSignal": "bo2.origins.shepherd_of_fire.complete"
+    },
+    {
+      "mapId": "bo1_ascension",
+      "script": "work/ascension-extract/dump-main/maps/zombie_cosmodrome_amb.gsc",
+      "functions": [
+        "setup_teddybear_audio",
+        "teddybear_egg",
+        "play_music_easter_egg"
+      ],
+      "completion": "teddybear_counter == 3 starts song and notifies teddybear_music_started",
+      "observerSignal": "bo1.ascension.music.complete"
+    },
+    {
+      "mapId": "bo1_call_of_the_dead",
+      "script": "work/call-of-the-dead-extract/dump/maps/zombie_coast_amb.gsc",
+      "functions": [
+        "setup_music_egg",
+        "music_egg",
+        "play_music_egg"
+      ],
+      "completion": "meteor_counter == 3 starts the song; radio_easter_eggs sequences five radio playback events",
+      "observerSignal": "bo1.coast.music.complete"
+    },
+    {
+      "mapId": "bo1_shangri_la",
+      "script": "work/shangri-la-extract/rawfiles/maps/zombie_temple_amb.gsc",
+      "functions": [
+        "setup_music_egg",
+        "music_egg",
+        "play_music_egg"
+      ],
+      "completion": "meteor_counter == 3 starts the song",
+      "observerSignal": "bo1.temple.music.complete"
+    },
+    {
+      "mapId": "bo1_moon",
+      "script": "work/moon-extract/dump/maps/zombie_moon_amb.gsc",
+      "functions": [
+        "setup_music_egg",
+        "music_egg",
+        "play_music_egg",
+        "eight_bit_easteregg",
+        "waitfor_eightbit_use"
+      ],
+      "completion": "three mus_easteregg uses start Coming Home; after power_on each 8bitsongs use plays its script_string",
+      "observerSignal": "bo1.moon.music.complete"
+    },
+    {
+      "mapId": "bo2_mob",
+      "eggId": "blue_skulls",
+      "script": "work/bo2-decompiled/zm_prison-workspace/decompiled/t6/zm_prison_sq_bg.gsc",
+      "functions": [
+        "wait_for_initial_conditions",
+        "check_sq_bg_progress",
+        "give_sq_bg_reward"
+      ],
+      "completion": "warden_blundergat_obtained is set after all five skull targets; this confirms the reward and full hunt, not individual skull order",
+      "observerSignal": "bo2.mob.blundergat"
+    }
+  ]
+}

@@ -20,8 +20,57 @@ init()
 	level thread temple_tracker_watch_stage("sq_bttp2_over");
 	level thread temple_tracker_watch_stage("sq_BaG_over");
 	level thread temple_tracker_watch_completion();
+	level thread temple_tracker_watch_side_music_completion();
 	level thread temple_tracker_watch_end_game();
 	level thread temple_tracker_heartbeat();
+	level thread temple_tracker_watch_player_inventory();
+}
+
+temple_tracker_watch_player_inventory()
+{
+	level endon("end_game"); level.ee_tracker_inventory_signatures = [];
+	for (;;) { players = getPlayers(); for ( i = 0; i < players.size; i++ ) players[i] thread temple_tracker_inventory_if_changed(i); wait 1; }
+}
+
+temple_tracker_inventory_if_changed(slot)
+{
+	items = ""; weapons = self GetWeaponsListPrimaries();
+	for ( i = 0; i < weapons.size; i++ ) if ( weapons[i] == "shrink_ray_zm" || weapons[i] == "shrink_ray_upgraded_zm" || weapons[i] == "spikemore_zm" ) items = items + weapons[i] + "|";
+	tactical = self get_player_tactical_grenade(); if ( isDefined(tactical) && tactical == "spikemore_zm" ) items = items + tactical + "|";
+	if ( isDefined(level.ee_tracker_inventory_signatures[slot]) && level.ee_tracker_inventory_signatures[slot] == items ) return;
+	level.ee_tracker_inventory_signatures[slot] = items;
+	handle = fs_fopen("ee-tracker.jsonl", "append"); if ( !handle ) return;
+	fs_writeline(handle, "{\"schemaVersion\":1,\"type\":\"player_inventory\",\"game\":\"bo1\",\"map\":\"zombie_temple\",\"playerSlot\":" + slot + ",\"inventoryItems\":\"" + items + "\",\"source\":\"gsc\"}"); fs_fclose(handle);
+}
+
+temple_tracker_watch_side_music_completion()
+{
+	last_count = 0;
+	for (;;)
+	{
+		if ( isDefined(level.meteor_counter) && level.meteor_counter > last_count )
+		{
+			last_count = level.meteor_counter;
+			if ( last_count >= 3 )
+			{
+				temple_tracker_emit_side_egg_step("pareidolia_song", 0);
+				temple_tracker_emit_side_egg_step("pareidolia_song", 1);
+				temple_tracker_emit_side_egg_step("pareidolia_song", 2);
+				temple_tracker_emit_signal("bo1.temple.music.complete");
+				return;
+			}
+		}
+		wait 0.2;
+	}
+}
+
+temple_tracker_emit_side_egg_step(egg_id, step_index)
+{
+	handle = fs_fopen("ee-tracker.jsonl", "append");
+	if ( !handle ) return;
+	line = "{\"schemaVersion\":1,\"type\":\"side_egg_step\",\"map\":\"Shangri-La\",\"eggId\":\"" + egg_id + "\",\"stepIndex\":" + step_index + ",\"source\":\"gsc\"}";
+	fs_writeline(handle, line);
+	fs_fclose(handle);
 }
 
 temple_tracker_begin_session()

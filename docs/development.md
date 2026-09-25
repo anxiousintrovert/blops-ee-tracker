@@ -27,7 +27,7 @@ The app project copies the quest-flow data, replay samples, GSC observers, and o
 
 ## GSC observer package
 
-The four map-scoped observers and install helpers live in `src/Gsc`. The installer accepts an optional `-PlutoniumT5Storage` path, which is useful for isolated install checks. It copies only the observer scripts and creates the `raw/scriptdata` directory. The uninstaller removes the four observer files but preserves session telemetry.
+The four T5 map-scoped observers and install helpers live in `src/Gsc`; the five T6 map-scoped observers and helpers live in `src/GscT6`. Each installer accepts an optional storage path, which is useful for isolated install checks. Installers copy only EETracker observer files and create the shared telemetry directory; uninstallers preserve session telemetry. T6 callback wrappers need private-match verification.
 
 ## Quest-flow changes
 
