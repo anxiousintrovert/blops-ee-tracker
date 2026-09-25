@@ -24,6 +24,7 @@ public partial class MainWindow : Window
     private string _fullQuestRoute = "";
     private bool _loadingWalkthrough;
     private bool _loadingPreparation;
+    private readonly IReadOnlyList<WalkthroughMapChoice> _walkthroughMaps = WalkthroughMaps();
     private readonly IReadOnlyDictionary<string, MapQuestItemCatalog> _questItemCatalog = QuestItemCatalog.Load();
 
     public MainWindow()
@@ -31,7 +32,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         try { if (File.Exists(_checklistPath)) _checklistState = JsonSerializer.Deserialize<Dictionary<string, bool>>(File.ReadAllText(_checklistPath)) ?? new(StringComparer.Ordinal); }
         catch (JsonException) { _checklistState = new(StringComparer.Ordinal); }
-        FullQuestMapBox.ItemsSource = WalkthroughMaps().Where(x => x.GameId == _activeGame).ToArray();
+        FullQuestMapBox.ItemsSource = _walkthroughMaps.Where(x => x.GameId == _activeGame).ToArray();
         SideEggMapBox.ItemsSource = SideEggMaps(_activeGame);
         SelectWalkthroughMapForCurrentState();
         Closed += (_, _) => StopT6Collector();
@@ -52,6 +53,14 @@ public partial class MainWindow : Window
             if (previewIndex >= 0 && previewIndex + 1 < args.Length)
             {
                 PathBox.Text = Path.GetFullPath(args[previewIndex + 1]);
+                var previewFirstLine = File.ReadLines(PathBox.Text).FirstOrDefault(line => !string.IsNullOrWhiteSpace(line));
+                var previewEvent = previewFirstLine is null ? null : TelemetryJson.Parse(previewFirstLine);
+                if (previewEvent?.Game == "bo2" || previewEvent?.Map?.StartsWith("zm_", StringComparison.Ordinal) == true)
+                {
+                    _activeGame = "bo2";
+                    Bo1Tab.Style = (Style)FindResource("RailButton");
+                    Bo2Tab.Style = (Style)FindResource("RailActiveButton");
+                }
                 SetPage(MissionPage);
                 await StartSource(new JsonlReplaySource(PathBox.Text, TimeSpan.FromMilliseconds(180)), "Sample preview");
                 if (captureIndex >= 0 && captureIndex + 1 < args.Length)
@@ -112,6 +121,9 @@ public partial class MainWindow : Window
     private void Refresh()
     {
         var s = _engine.State;
+        var sessionMap = _walkthroughMaps.FirstOrDefault(item => string.Equals(item.Label, s.Map, StringComparison.OrdinalIgnoreCase));
+        if (sessionMap is not null && (_activeGame != sessionMap.GameId || (FullQuestMapBox.SelectedItem as WalkthroughMapChoice)?.Label != sessionMap.Label))
+            SelectWalkthroughMapForCurrentState();
         MapTitle.Text = s.Map.ToUpperInvariant();
         QuestTitle.Text = s.QuestName.ToUpperInvariant();
         ApplyMapBanner(_activeGame, s.Map);
@@ -339,11 +351,19 @@ public partial class MainWindow : Window
     {
         var state = _engine.State;
         var game = state.Map is "TranZit" or "Die Rise" or "Buried" or "Mob of the Dead" or "Origins" ? "bo2" : _activeGame;
-        var maps = WalkthroughMaps();
+        var maps = _walkthroughMaps;
         var choice = maps.FirstOrDefault(item => item.GameId == game && string.Equals(item.Label, state.Map, StringComparison.OrdinalIgnoreCase))
             ?? maps.FirstOrDefault(item => item.GameId == game);
         if (choice is null) return;
 
+        if (_activeGame != game)
+        {
+            _activeGame = game;
+            Bo1Tab.Style = (Style)FindResource(game == "bo1" ? "RailActiveButton" : "RailButton");
+            Bo2Tab.Style = (Style)FindResource(game == "bo2" ? "RailActiveButton" : "RailButton");
+        }
+        FullQuestMapBox.ItemsSource = maps.Where(item => item.GameId == game).ToArray();
+        SideEggMapBox.ItemsSource = SideEggMaps(game);
         FullQuestMapBox.SelectedItem = FullQuestMapBox.ItemsSource is IEnumerable<WalkthroughMapChoice> full && full.Any(item => item.MapId == choice.MapId)
             ? full.First(item => item.MapId == choice.MapId)
             : choice;
@@ -539,7 +559,7 @@ public partial class MainWindow : Window
     {
         if (_activeGame == game) return;
         _activeGame = game;
-        var maps = WalkthroughMaps();
+        var maps = _walkthroughMaps;
         var selectedName = (FullQuestMapBox.SelectedItem as WalkthroughMapChoice)?.Label;
         var filtered = maps.Where(x => x.GameId == game).ToArray();
         if (filtered.Length > 0)

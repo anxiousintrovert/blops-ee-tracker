@@ -2,7 +2,29 @@
 
 A Windows desktop companion for the Black Ops Zombies main Easter Eggs on four BO1 maps and five BO2 maps. The desktop client follows Plutonium T5 and T6 game-state events written by map-scoped GSC observers.
 
-![Blops EE Tracker running on Moon](docs/screenshots/EETracker-artdirection-moon.png)
+## Screenshots
+
+These current-app captures use replay fixtures to show the tracker UI for each supported map. They demonstrate presentation and map content, not live-match observer verification.
+
+### Black Ops 1
+
+| Ascension | Call of the Dead |
+| --- | --- |
+| ![Ascension tracker](docs/screenshots/eetracker-bo1-ascension.png) | ![Call of the Dead tracker](docs/screenshots/eetracker-bo1-call-of-the-dead.png) |
+
+| Shangri-La | Moon |
+| --- | --- |
+| ![Shangri-La tracker](docs/screenshots/eetracker-bo1-shangri-la.png) | ![Moon tracker](docs/screenshots/eetracker-bo1-moon.png) |
+
+### Black Ops 2
+
+| TranZit | Die Rise | Buried |
+| --- | --- | --- |
+| ![TranZit tracker](docs/screenshots/eetracker-bo2-tranzit.png) | ![Die Rise tracker](docs/screenshots/eetracker-bo2-die-rise.png) | ![Buried tracker](docs/screenshots/eetracker-bo2-buried.png) |
+
+| Mob of the Dead | Origins | |
+| --- | --- | --- |
+| ![Mob of the Dead tracker](docs/screenshots/eetracker-bo2-mob-of-the-dead.png) | ![Origins tracker showing staff part locations](docs/screenshots/eetracker-bo2-origins.png) | |
 
 ## Install
 
