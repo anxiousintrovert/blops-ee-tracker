@@ -28,9 +28,9 @@ These current-app captures use replay fixtures to show the tracker UI for each s
 
 ## Install
 
-Download the latest portable desktop package and the separate T5/T6 GSC observer package from [GitHub Releases](https://github.com/anxiousintrovert/blops-ee-tracker/releases/latest). The desktop package is self-contained for Windows x64 and includes map data, samples, and observer scripts/install helpers.
+Download the latest portable desktop package and the separate T5/T6 GSC observer package from [GitHub Releases](https://github.com/anxiousintrovert/blops-ee-tracker/releases/latest). The desktop package is self-contained for Windows x64 and includes map data, samples, and observer installers. Follow [the install guide](INSTALL.md) for the step-by-step setup. The BO1 Any Player EE gameplay mod is a separate download from [Hadi77KSA's releases](https://github.com/Hadi77KSA/T5-Any-Player-EE-Scripts/releases); EETracker's observers do not install or include gameplay mods.
 
-Follow [INSTALL.md](INSTALL.md) to install the app and observers. Source builds and contributor notes are in [docs/development.md](docs/development.md).
+Source builds and contributor notes are in [docs/development.md](docs/development.md).
 
 ## What it tracks
 
