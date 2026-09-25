@@ -25,6 +25,7 @@ ee_tracker_highrise_inventory_if_changed(slot)
 {
     items = ""; weapons = self getweaponslist();
     for (i = 0; i < weapons.size; i++) if (weapons[i] == "slipgun_zm" || weapons[i] == "slipgun_upgraded_zm" || weapons[i] == "galvaknuckles_zm" || weapons[i] == "knife_ballistic_zm") items = items + weapons[i] + "|";
+    if (isdefined(self.navcard_grabbed) && self.navcard_grabbed == "navcard_held_zm_transit") items = items + "navcard_held_zm_transit|";
     if (isdefined(level.ee_tracker_inventory_signatures[slot]) && level.ee_tracker_inventory_signatures[slot] == items) return;
     level.ee_tracker_inventory_signatures[slot] = items;
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_inventory\",\"game\":\"bo2\",\"map\":\"zm_highrise\",\"sessionId\":\"" + level.ee_tracker_highrise_session + "\",\"playerSlot\":" + slot + ",\"inventoryItems\":\"" + items + "\",\"source\":\"gsc\"}\n");
@@ -93,10 +94,13 @@ ee_tracker_highrise_profile(player_slot)
     rich_complete = player maps\mp\zombies\_zm_stats::get_global_stat("sq_highrise_rich_complete");
     maxis_complete = player maps\mp\zombies\_zm_stats::get_global_stat("sq_highrise_maxis_complete");
     navcard = player maps\mp\zombies\_zm_stats::get_global_stat("navcard_applied_zm_highrise");
-    signature = "" + last_completed + ":" + rich_complete + ":" + maxis_complete + ":" + navcard;
+    navcard_table_built = player maps\mp\zombies\_zm_stats::get_global_stat("sq_highrise_started");
+    incoming_card = 0;
+    if (isdefined(player.navcard_grabbed) && player.navcard_grabbed == "navcard_held_zm_transit") incoming_card = 1;
+    signature = "" + last_completed + ":" + rich_complete + ":" + maxis_complete + ":" + navcard + ":" + navcard_table_built + ":" + incoming_card;
     if (isdefined(player.ee_tracker_highrise_profile_signature) && player.ee_tracker_highrise_profile_signature == signature) return;
     player.ee_tracker_highrise_profile_signature = signature;
-    printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_state\",\"game\":\"bo2\",\"map\":\"zm_highrise\",\"sessionId\":\"" + level.ee_tracker_highrise_session + "\",\"playerSlot\":" + player_slot + ",\"lastCompletedSide\":" + last_completed + ",\"richtofenCompletionCount\":" + rich_complete + ",\"maxisCompletionCount\":" + maxis_complete + ",\"navcardAppliedCount\":" + navcard + ",\"source\":\"gsc\"}\n");
+    printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_state\",\"game\":\"bo2\",\"map\":\"zm_highrise\",\"sessionId\":\"" + level.ee_tracker_highrise_session + "\",\"playerSlot\":" + player_slot + ",\"lastCompletedSide\":" + last_completed + ",\"richtofenCompletionCount\":" + rich_complete + ",\"maxisCompletionCount\":" + maxis_complete + ",\"navcardAppliedCount\":" + navcard + ",\"navcardTableBuiltCount\":" + navcard_table_built + ",\"navcardHeld\":" + incoming_card + ",\"source\":\"gsc\"}\n");
 }
 
 ee_tracker_highrise_watch_complete()

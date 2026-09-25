@@ -52,6 +52,13 @@ public sealed record TelemetryEvent
     public int? MaxisStage3Count { get; init; }
     public int? MaxisCompletionCount { get; init; }
     public int? NavcardAppliedCount { get; init; }
+    public int? NavcardTableBuiltCount { get; init; }
+    public bool? NavcardHeld { get; init; }
+    public int? Bank { get; init; }
+    public int? TileId { get; init; }
+    public int? PeerBank { get; init; }
+    public int? PeerTileId { get; init; }
+    public string? TileState { get; init; }
     public string Source { get; init; } = "unknown";
 }
 
@@ -108,7 +115,7 @@ public sealed record CompanionState
 }
 
 public sealed record TransitProfileState(int PlayerSlot, int? LastCompletedSide, int? RichtofenCompletionCount, int? MaxisCompletionCount, int? NavcardAppliedCount);
-public sealed record Bo2ProfileState(string Map, int PlayerSlot, int? LastCompletedSide, int? RichtofenCompletionCount, int? MaxisCompletionCount, int? NavcardAppliedCount);
+public sealed record Bo2ProfileState(string Map, int PlayerSlot, int? LastCompletedSide, int? RichtofenCompletionCount, int? MaxisCompletionCount, int? NavcardAppliedCount, bool? NavcardHeld = null, int? NavcardTableBuiltCount = null);
 
 public static class TelemetryJson
 {

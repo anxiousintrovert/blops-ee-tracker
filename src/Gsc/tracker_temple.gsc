@@ -9,12 +9,14 @@ main()
 
 init()
 {
+	level.ee_tracker_glyph_models = array("p_ztem_glyphs_01_unlit", "p_ztem_glyphs_02_unlit", "p_ztem_glyphs_03_unlit", "p_ztem_glyphs_04_unlit", "p_ztem_glyphs_05_unlit", "p_ztem_glyphs_06_unlit", "p_ztem_glyphs_07_unlit", "p_ztem_glyphs_08_unlit", "p_ztem_glyphs_09_unlit", "p_ztem_glyphs_10_unlit", "p_ztem_glyphs_11_unlit", "p_ztem_glyphs_12_unlit");
 	temple_tracker_begin_session();
 	status = temple_tracker_read_game_status();
 	temple_tracker_emit_snapshot(status[0], status[1], status[2]);
 	level thread temple_tracker_watch_game_status(status[0], status[1], status[2]);
 	level thread temple_tracker_watch_quest_flags();
 	level thread temple_tracker_watch_progress();
+	level thread temple_tracker_watch_tile_banks();
 	level thread temple_tracker_watch_eclipse();
 	level thread temple_tracker_watch_stage("sq_LGS_over");
 	level thread temple_tracker_watch_stage("sq_bttp2_over");
@@ -212,6 +214,80 @@ temple_tracker_watch_progress()
 		}
 		wait 0.2;
 	}
+}
+
+// Observe the stock Shangri-La tile-pair state. The quest itself assigns one
+// of twelve glyph models to each bank and compares the two picked model names.
+// Keep this informational: only stock quest flags advance the main flow.
+temple_tracker_watch_tile_banks()
+{
+	last_bank1 = 0;
+	last_bank2 = 0;
+	last_pair_state = "";
+	last_pair_signature = "";
+	for (;;)
+	{
+		bank1 = 0;
+		bank2 = 0;
+		if ( isDefined(level._picked_tile1) ) bank1 = temple_tracker_glyph_id(level._picked_tile1.tile);
+		if ( isDefined(level._picked_tile2) ) bank2 = temple_tracker_glyph_id(level._picked_tile2.tile);
+
+		if ( bank1 > 0 && bank1 != last_bank1 )
+			temple_tracker_emit_tile_state(1, bank1, 0, 0, "selected");
+		if ( bank2 > 0 && bank2 != last_bank2 )
+			temple_tracker_emit_tile_state(2, bank2, 0, 0, "selected");
+
+		if ( bank1 > 0 && bank2 > 0 )
+		{
+			signature = bank1 + ":" + bank2;
+			if ( isDefined(level._picked_tile1.matched) && level._picked_tile1.matched && isDefined(level._picked_tile2.matched) && level._picked_tile2.matched )
+			{
+				if ( last_pair_state != "matched" || signature != last_pair_signature )
+					temple_tracker_emit_tile_state(1, bank1, 2, bank2, "matched");
+				last_pair_state = "matched";
+				last_pair_signature = signature;
+			}
+			else if ( bank1 != bank2 && ( last_pair_state != "mismatch" || signature != last_pair_signature ) )
+			{
+				temple_tracker_emit_tile_state(1, bank1, 2, bank2, "mismatch");
+				last_pair_state = "mismatch";
+				last_pair_signature = signature;
+			}
+		}
+		else if ( bank1 == 0 && bank2 == 0 )
+		{
+			if ( last_bank1 > 0 && last_pair_state != "matched" ) temple_tracker_emit_tile_state(1, last_bank1, 0, 0, "cleared");
+			if ( last_bank2 > 0 && last_pair_state != "matched" ) temple_tracker_emit_tile_state(2, last_bank2, 0, 0, "cleared");
+			last_pair_state = "";
+			last_pair_signature = "";
+		}
+		else
+		{
+			if ( last_bank1 > 0 && bank1 == 0 && last_pair_state != "matched" ) temple_tracker_emit_tile_state(1, last_bank1, 0, 0, "cleared");
+			if ( last_bank2 > 0 && bank2 == 0 && last_pair_state != "matched" ) temple_tracker_emit_tile_state(2, last_bank2, 0, 0, "cleared");
+			if ( last_pair_state == "mismatch" ) { last_pair_state = ""; last_pair_signature = ""; }
+		}
+
+		last_bank1 = bank1;
+		last_bank2 = bank2;
+		wait 0.05;
+	}
+}
+
+temple_tracker_glyph_id(model_name)
+{
+	for ( i = 0; i < level.ee_tracker_glyph_models.size; i++ )
+		if ( level.ee_tracker_glyph_models[i] == model_name ) return i + 1;
+	return 0;
+}
+
+temple_tracker_emit_tile_state(bank, tile_id, peer_bank, peer_tile_id, state)
+{
+	handle = fs_fopen("ee-tracker.jsonl", "append");
+	if ( !handle ) return;
+	line = "{\"schemaVersion\":1,\"type\":\"quest_tile_state\",\"game\":\"bo1\",\"map\":\"Shangri-La\",\"signal\":\"temple.tiles\",\"bank\":" + bank + ",\"tileId\":" + tile_id + ",\"peerBank\":" + peer_bank + ",\"peerTileId\":" + peer_tile_id + ",\"tileState\":\"" + state + "\",\"source\":\"gsc\"}";
+	fs_writeline(handle, line);
+	fs_fclose(handle);
 }
 
 temple_tracker_emit_progress(signal, progress, maximum)

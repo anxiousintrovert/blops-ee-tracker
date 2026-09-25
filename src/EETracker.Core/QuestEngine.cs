@@ -97,7 +97,16 @@ public sealed class QuestEngine
         if (e.Type == "player_state" && e.Game == "bo2" && e.PlayerSlot is { } slot)
         {
             var profileMap = NormalizeMap(e.ProfileMap ?? e.Map ?? _map);
-            _bo2Profiles[$"{profileMap}:{slot}"] = new Bo2ProfileState(profileMap, slot, e.LastCompletedSide, e.RichtofenCompletionCount, e.MaxisCompletionCount, e.NavcardAppliedCount);
+            var profileKey = $"{profileMap}:{slot}";
+            var hasPriorProfile = _bo2Profiles.TryGetValue(profileKey, out var priorProfile);
+            var navcardHeld = e.NavcardHeld is { } heldValue ? heldValue : hasPriorProfile ? priorProfile!.NavcardHeld : null;
+            _bo2Profiles[profileKey] = new Bo2ProfileState(profileMap, slot, e.LastCompletedSide, e.RichtofenCompletionCount, e.MaxisCompletionCount, e.NavcardAppliedCount, navcardHeld, e.NavcardTableBuiltCount ?? (hasPriorProfile ? priorProfile!.NavcardTableBuiltCount : null));
+            if (profileMap == NormalizeMap(e.Map ?? _map))
+            {
+                var finalCheckId = profileMap switch { "TranZit" => "bo2.transit.shared.nav_table_final_check", "Die Rise" => "bo2.highrise.shared.nav_table_final_check", "Buried" => "bo2.buried.shared.nav_table_final_check", _ => null };
+                if (finalCheckId is not null && (e.NavcardTableBuiltCount is > 0 || e.NavcardHeld == true))
+                    _completed.Add(finalCheckId);
+            }
             if (profileMap == "TranZit") _transitProfiles[slot] = new TransitProfileState(slot, e.LastCompletedSide, e.RichtofenCompletionCount, e.MaxisCompletionCount, e.NavcardAppliedCount);
             if (_map == "TranZit")
             {
@@ -146,6 +155,17 @@ public sealed class QuestEngine
             var inventoryMap = NormalizeMap(e.Map ?? _map);
             var inventoryKey = $"{game}:{inventoryMap}:{inventorySlot}";
             var items = (e.InventoryItems ?? "").Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            if (game == "bo2")
+            {
+                foreach (var profileMap in new[] { "TranZit", "Die Rise", "Buried" })
+                {
+                    var profileKey = $"{profileMap}:{inventorySlot}";
+                    if (!_bo2Profiles.TryGetValue(profileKey, out var profile)) continue;
+                    var incomingCardKey = profileMap switch { "TranZit" => "navcard_held_zm_buried", "Die Rise" => "navcard_held_zm_transit", _ => "navcard_held_zm_highrise" };
+                    var held = items.Contains(incomingCardKey, StringComparer.Ordinal);
+                    _bo2Profiles[profileKey] = profile with { NavcardHeld = held };
+                }
+            }
             _playerInventories[inventoryKey] = new PlayerInventoryState(game, inventoryMap, inventorySlot, e.PlayerName, items);
         }
         if (e.Type == "quest_part" && e.Game is { Length: > 0 } partGame && !string.IsNullOrWhiteSpace(e.PartId) && !string.IsNullOrWhiteSpace(e.PartState))

@@ -106,6 +106,7 @@ ee_tracker_transit_emit_if_changed(player_slot)
     maxis_stage_3 = player maps\mp\zombies\_zm_stats::get_global_stat("sq_transit_maxis_stage_3");
     maxis_complete = player maps\mp\zombies\_zm_stats::get_global_stat("sq_transit_maxis_complete");
     navcard_applied = player maps\mp\zombies\_zm_stats::get_global_stat("navcard_applied_zm_transit");
+    navcard_table_built = player maps\mp\zombies\_zm_stats::get_global_stat("sq_transit_started");
 
     // initpersstat hydrates the match-local counters from profile stats.
     // Emit branch progress only for increments observed after match start.
@@ -132,12 +133,12 @@ ee_tracker_transit_emit_if_changed(player_slot)
     ee_tracker_transit_watch_counter(player, "sq_transit_rich_stage_3", rich_stage_3, "bo2.transit.richtofen.explosive_kills", "richtofen");
     ee_tracker_transit_watch_counter(player, "sq_transit_rich_complete", rich_complete, "bo2.transit.richtofen.complete", "richtofen");
 
-    signature = "" + last_completed + ":" + rich_stage_1 + ":" + rich_stage_2 + ":" + rich_stage_3 + ":" + rich_complete + ":" + maxis_stage_1 + ":" + maxis_stage_2 + ":" + maxis_stage_3 + ":" + maxis_complete + ":" + navcard_applied;
+    signature = "" + last_completed + ":" + rich_stage_1 + ":" + rich_stage_2 + ":" + rich_stage_3 + ":" + rich_complete + ":" + maxis_stage_1 + ":" + maxis_stage_2 + ":" + maxis_stage_3 + ":" + maxis_complete + ":" + navcard_applied + ":" + navcard_table_built;
     if (isdefined(level.ee_tracker_transit_player_signatures[player_slot]) && level.ee_tracker_transit_player_signatures[player_slot] == signature)
         return;
 
     level.ee_tracker_transit_player_signatures[player_slot] = signature;
-    printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_state\",\"game\":\"bo2\",\"map\":\"zm_transit\",\"sessionId\":\"" + session_id + "\",\"playerSlot\":" + player_slot + ",\"lastCompletedSide\":" + last_completed + ",\"richtofenStage1Count\":" + rich_stage_1 + ",\"richtofenStage2Count\":" + rich_stage_2 + ",\"richtofenStage3Count\":" + rich_stage_3 + ",\"richtofenCompletionCount\":" + rich_complete + ",\"maxisStage1Count\":" + maxis_stage_1 + ",\"maxisStage2Count\":" + maxis_stage_2 + ",\"maxisStage3Count\":" + maxis_stage_3 + ",\"maxisCompletionCount\":" + maxis_complete + ",\"navcardAppliedCount\":" + navcard_applied + ",\"source\":\"gsc\"}\n");
+    printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_state\",\"game\":\"bo2\",\"map\":\"zm_transit\",\"sessionId\":\"" + session_id + "\",\"playerSlot\":" + player_slot + ",\"lastCompletedSide\":" + last_completed + ",\"richtofenStage1Count\":" + rich_stage_1 + ",\"richtofenStage2Count\":" + rich_stage_2 + ",\"richtofenStage3Count\":" + rich_stage_3 + ",\"richtofenCompletionCount\":" + rich_complete + ",\"maxisStage1Count\":" + maxis_stage_1 + ",\"maxisStage2Count\":" + maxis_stage_2 + ",\"maxisStage3Count\":" + maxis_stage_3 + ",\"maxisCompletionCount\":" + maxis_complete + ",\"navcardAppliedCount\":" + navcard_applied + ",\"navcardTableBuiltCount\":" + navcard_table_built + ",\"source\":\"gsc\"}\n");
 }
 
 ee_tracker_transit_watch_counter(player, stat_name, current_value, signal, route)
@@ -194,6 +195,7 @@ ee_tracker_transit_inventory_if_changed(slot)
     items = ""; weapons = self getweaponslist();
     for (i = 0; i < weapons.size; i++) if (weapons[i] == "jetgun_zm") items = items + weapons[i] + "|";
     tactical = self get_player_tactical_grenade(); if (isdefined(tactical) && tactical == "emp_grenade_zm") items = items + tactical + "|";
+    if (isdefined(self.navcard_grabbed) && self.navcard_grabbed == "navcard_held_zm_buried") items = items + "navcard_held_zm_buried|";
     if (isdefined(level.ee_tracker_inventory_signatures[slot]) && level.ee_tracker_inventory_signatures[slot] == items) return;
     level.ee_tracker_inventory_signatures[slot] = items;
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_inventory\",\"game\":\"bo2\",\"map\":\"zm_transit\",\"sessionId\":\"" + level.ee_tracker_transit_session + "\",\"playerSlot\":" + slot + ",\"inventoryItems\":\"" + items + "\",\"source\":\"gsc\"}\n");

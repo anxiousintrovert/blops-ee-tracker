@@ -17,6 +17,9 @@ ee_tracker_buried_inventory_if_changed(slot)
 {
     items = ""; weapons = self getweaponslist();
     for (i = 0; i < weapons.size; i++) if (weapons[i] == "slowgun_zm" || weapons[i] == "slowgun_upgraded_zm" || weapons[i] == "time_bomb_zm" || weapons[i] == "galvaknuckles_zm") items = items + weapons[i] + "|";
+    if (isdefined(self.navcard_grabbed) && self.navcard_grabbed == "navcard_held_zm_transit") items = items + "navcard_held_zm_transit|";
+    if (isdefined(self.navcard_grabbed) && self.navcard_grabbed == "navcard_held_zm_highrise") items = items + "navcard_held_zm_highrise|";
+    if (isdefined(self.navcard_grabbed) && self.navcard_grabbed == "navcard_held_zm_buried") items = items + "navcard_held_zm_buried|";
     if (isdefined(level.ee_tracker_inventory_signatures[slot]) && level.ee_tracker_inventory_signatures[slot] == items) return;
     level.ee_tracker_inventory_signatures[slot] = items;
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_inventory\",\"game\":\"bo2\",\"map\":\"zm_buried\",\"sessionId\":\"" + level.ee_tracker_buried_session + "\",\"playerSlot\":" + slot + ",\"inventoryItems\":\"" + items + "\",\"source\":\"gsc\"}\n");
@@ -91,21 +94,28 @@ ee_tracker_buried_profile(player_slot)
 {
     player = self;
     if (!isdefined(player.ee_tracker_buried_profile_signatures)) player.ee_tracker_buried_profile_signatures = [];
-    player ee_tracker_buried_emit_profile_map(player_slot, 0, "zm_transit", "sq_transit_last_completed", "sq_transit_rich_complete", "sq_transit_maxis_complete", "navcard_applied_zm_transit");
-    player ee_tracker_buried_emit_profile_map(player_slot, 1, "zm_highrise", "sq_highrise_last_completed", "sq_highrise_rich_complete", "sq_highrise_maxis_complete", "navcard_applied_zm_highrise");
-    player ee_tracker_buried_emit_profile_map(player_slot, 2, "zm_buried", "sq_buried_last_completed", "sq_buried_rich_complete", "sq_buried_maxis_complete", "navcard_applied_zm_buried");
+    player ee_tracker_buried_emit_profile_map(player_slot, 0, "zm_transit", "sq_transit_last_completed", "sq_transit_rich_complete", "sq_transit_maxis_complete", "navcard_applied_zm_transit", "sq_transit_started");
+    player ee_tracker_buried_emit_profile_map(player_slot, 1, "zm_highrise", "sq_highrise_last_completed", "sq_highrise_rich_complete", "sq_highrise_maxis_complete", "navcard_applied_zm_highrise", "sq_highrise_started");
+    player ee_tracker_buried_emit_profile_map(player_slot, 2, "zm_buried", "sq_buried_last_completed", "sq_buried_rich_complete", "sq_buried_maxis_complete", "navcard_applied_zm_buried", "sq_buried_started");
 }
 
-ee_tracker_buried_emit_profile_map(player_slot, map_index, profile_map, last_stat, rich_stat, maxis_stat, nav_stat)
+ee_tracker_buried_emit_profile_map(player_slot, map_index, profile_map, last_stat, rich_stat, maxis_stat, nav_stat, started_stat)
 {
     last_completed = self maps\mp\zombies\_zm_stats::get_global_stat(last_stat);
     rich_complete = self maps\mp\zombies\_zm_stats::get_global_stat(rich_stat);
     maxis_complete = self maps\mp\zombies\_zm_stats::get_global_stat(maxis_stat);
     navcard = self maps\mp\zombies\_zm_stats::get_global_stat(nav_stat);
-    signature = "" + last_completed + ":" + rich_complete + ":" + maxis_complete + ":" + navcard;
+    table_built = self maps\mp\zombies\_zm_stats::get_global_stat(started_stat);
+    incoming_card = "";
+    if (profile_map == "zm_transit") incoming_card = "navcard_held_zm_buried";
+    else if (profile_map == "zm_highrise") incoming_card = "navcard_held_zm_transit";
+    else incoming_card = "navcard_held_zm_highrise";
+    held_card = 0;
+    if (isdefined(self.navcard_grabbed) && self.navcard_grabbed == incoming_card) held_card = 1;
+    signature = "" + last_completed + ":" + rich_complete + ":" + maxis_complete + ":" + navcard + ":" + table_built + ":" + held_card;
     if (isdefined(self.ee_tracker_buried_profile_signatures[map_index]) && self.ee_tracker_buried_profile_signatures[map_index] == signature) return;
     self.ee_tracker_buried_profile_signatures[map_index] = signature;
-    printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_state\",\"game\":\"bo2\",\"map\":\"zm_buried\",\"profileMap\":\"" + profile_map + "\",\"sessionId\":\"" + level.ee_tracker_buried_session + "\",\"playerSlot\":" + player_slot + ",\"lastCompletedSide\":" + last_completed + ",\"richtofenCompletionCount\":" + rich_complete + ",\"maxisCompletionCount\":" + maxis_complete + ",\"navcardAppliedCount\":" + navcard + ",\"source\":\"gsc\"}\n");
+    printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"player_state\",\"game\":\"bo2\",\"map\":\"zm_buried\",\"profileMap\":\"" + profile_map + "\",\"sessionId\":\"" + level.ee_tracker_buried_session + "\",\"playerSlot\":" + player_slot + ",\"lastCompletedSide\":" + last_completed + ",\"richtofenCompletionCount\":" + rich_complete + ",\"maxisCompletionCount\":" + maxis_complete + ",\"navcardAppliedCount\":" + navcard + ",\"navcardTableBuiltCount\":" + table_built + ",\"navcardHeld\":" + held_card + ",\"source\":\"gsc\"}\n");
 }
 
 ee_tracker_buried_stage_complete(stage)

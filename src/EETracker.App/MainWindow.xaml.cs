@@ -148,26 +148,11 @@ public partial class MainWindow : Window
         _loadingPreparation = true;
         var objectiveTracker = s.CurrentTrackers.FirstOrDefault();
         TrackerProgressPanel.Visibility = objectiveTracker is null ? Visibility.Collapsed : Visibility.Visible;
-        if (objectiveTracker is not null)
-        {
-            var hasCount = objectiveTracker.Maximum > 1;
-            var isCoastDialTracker = s.Map == "Call of the Dead" && objectiveTracker.Title == "LIGHTHOUSE DIALS SET CORRECTLY";
-            QuestRingContainer.Visibility = hasCount && objectiveTracker.Checkpoints.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-            QuestRingText.Text = hasCount ? $"{objectiveTracker.Progress} / {objectiveTracker.Maximum}" : objectiveTracker.Summary;
-            QuestRingLabel.Text = isCoastDialTracker ? "DIALS CORRECT" : hasCount ? objectiveTracker.Title : "OBJECTIVE CHECKS";
-            UpdateQuestRing(hasCount ? (double)objectiveTracker.Progress / objectiveTracker.Maximum : 0);
-        }
-        else QuestRingContainer.Visibility = Visibility.Collapsed;
         var onPressureStep = s.Map == "Ascension" && s.Progression.Any(step => step.Status == "Current" && step.Id.EndsWith(".pressure_plate", StringComparison.Ordinal));
         PressureTimerText.Visibility = onPressureStep && s.PressureSecondsRemaining is not null ? Visibility.Visible : Visibility.Collapsed;
         if (PressureTimerText.Visibility == Visibility.Visible)
         {
             TrackerProgressPanel.Visibility = Visibility.Visible;
-            QuestRingContainer.Visibility = Visibility.Visible;
-            var secondsRemaining = Math.Max(0, s.PressureSecondsRemaining!.Value);
-            QuestRingText.Text = TimeSpan.FromSeconds(secondsRemaining).ToString(@"mm\:ss");
-            QuestRingLabel.Text = s.PressureTimerActive == true ? "REMAINING" : "RESET";
-            UpdateQuestRing(1d - secondsRemaining / 120d);
         }
         if (s.PressureSecondsRemaining is { } seconds)
             PressureTimerText.Text = s.PressureTimerActive == true
@@ -260,8 +245,10 @@ public partial class MainWindow : Window
         {
             var profiles = string.Join("\n", s.Bo2Profiles.Select(profile => {
                 var side = profile.LastCompletedSide switch { 1 => "Richtofen", 2 => "Maxis", _ => "Unknown" };
-                var navcard = profile.NavcardAppliedCount switch { > 0 => "applied", 0 => "not applied", _ => "unknown" };
-                return $"{profile.Map} · Player {profile.PlayerSlot + 1}: saved side {side}; completions R {profile.RichtofenCompletionCount ?? 0} / M {profile.MaxisCompletionCount ?? 0}; map NAVcard {navcard}";
+                var navcard = profile.NavcardAppliedCount switch { > 0 => "saved applied", 0 => "not saved as applied", _ => "unknown" };
+                var held = profile.NavcardHeld switch { true => "held", false => "not held", _ => "unknown" };
+                var table = profile.NavcardTableBuiltCount switch { > 0 => "built before", 0 => "not recorded built", _ => "unknown" };
+                return $"{profile.Map} · Player {profile.PlayerSlot + 1}: saved side {side}; completions R {profile.RichtofenCompletionCount ?? 0} / M {profile.MaxisCompletionCount ?? 0}; NAV table {table}; incoming NAVcard {held}; saved card applied {navcard}";
             }));
             DiagnosticsText.Text += "\n\nBO2 PROFILE STATE (current lobby; slot identity may change)\n" + profiles;
         }
@@ -269,48 +256,11 @@ public partial class MainWindow : Window
 
     private void UpdateTrackerLayout()
     {
-        var hasRing = QuestRingContainer.Visibility == Visibility.Visible;
-        var hasCheckpoints = StepTrackers.Visibility == Visibility.Visible;
-        var stacked = ActualWidth < 1350;
-        System.Windows.Controls.Grid.SetRow(QuestRingContainer, 0);
-        System.Windows.Controls.Grid.SetColumn(QuestRingContainer, 0);
-        System.Windows.Controls.Grid.SetColumnSpan(QuestRingContainer, stacked || !hasCheckpoints ? 3 : 1);
-        System.Windows.Controls.Grid.SetRow(StepTrackers, stacked ? 1 : 0);
-        System.Windows.Controls.Grid.SetColumn(StepTrackers, stacked || !hasRing ? 0 : 2);
-        System.Windows.Controls.Grid.SetColumnSpan(StepTrackers, stacked || !hasRing ? 3 : 1);
-        QuestRingContainer.HorizontalAlignment = HorizontalAlignment.Center;
+        System.Windows.Controls.Grid.SetRow(StepTrackers, 0);
+        System.Windows.Controls.Grid.SetColumn(StepTrackers, 0);
+        System.Windows.Controls.Grid.SetColumnSpan(StepTrackers, 3);
         StepTrackers.HorizontalAlignment = HorizontalAlignment.Stretch;
         StepTrackers.MaxWidth = double.PositiveInfinity;
-        StepTrackers.Margin = stacked && hasRing && hasCheckpoints ? new Thickness(0, 14, 0, 0)
-            : !hasRing ? new Thickness(0) : new Thickness(18, 0, 0, 0);
-    }
-
-    private void UpdateQuestRing(double progress)
-    {
-        progress = Math.Clamp(progress, 0, 1);
-        if (progress <= 0)
-        {
-            QuestRingProgress.Data = Geometry.Empty;
-            return;
-        }
-        if (progress >= 0.999)
-        {
-            QuestRingProgress.Data = new EllipseGeometry(new Rect(6, 6, 144, 144));
-            return;
-        }
-        const double radius = 72;
-        var center = new Point(78, 78);
-        var start = new Point(center.X, center.Y - radius);
-        var angle = (-90 + 360 * progress) * Math.PI / 180;
-        var end = new Point(center.X + radius * Math.Cos(angle), center.Y + radius * Math.Sin(angle));
-        var geometry = new StreamGeometry();
-        using (var context = geometry.Open())
-        {
-            context.BeginFigure(start, false, false);
-            context.ArcTo(end, new Size(radius, radius), 0, progress > 0.5, SweepDirection.Clockwise, true, false);
-        }
-        geometry.Freeze();
-        QuestRingProgress.Data = geometry;
     }
 
     private void ApplyMapBanner(string game, string map)
@@ -789,8 +739,8 @@ public sealed class StepTrackerViewModel
         Summary = state.Summary;
         Progress = state.Progress;
         Maximum = state.Maximum;
-        ProgressBarVisibility = state.Maximum > 1 ? Visibility.Visible : Visibility.Collapsed;
         Checkpoints = state.Checkpoints.Select(x => new StepTrackerCheckpointViewModel(x)).ToArray();
+        ProgressBarVisibility = state.Maximum > 1 && Checkpoints.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 }
 

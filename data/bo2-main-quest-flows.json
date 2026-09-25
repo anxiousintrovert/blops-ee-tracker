@@ -44,6 +44,7 @@
       "quests": [
         {
           "displayName": "Tower of Babble",
+          "completionGuidance": "After the selected route completes, confirm this map's NAVcard table exists and a player has this map's required incoming NAVcard, then insert it at this map's table. BO2 saves the map's sidequest-started profile stat after a manual build; on later matches the stock map script can restore the table automatically. This profile stat is indirect evidence of the table build, not NAVcard possession or insertion.",
           "requirements": {
             "shared": [
               "Set difficulty to Original",
@@ -65,6 +66,24 @@
             ]
           },
           "nodes": [
+            {
+              "id": "bo2.transit.shared.nav_table",
+              "title": "Confirm TranZit NAVcard table and insert Buried card",
+              "instruction": "After Tower of Babble completes, make sure the Diner-area NAVcard table is present, check that a player has the Buried NAVcard, and insert it at the TranZit computer. The stock script can restore the table from saved sq_transit_started profile state; that does not prove the card is held or inserted.",
+              "checklists": [
+                {
+                  "title": "TranZit NAVcard table · possible piece locations",
+                  "items": [
+                    { "id": "table", "label": "Table build site", "location": "Diner area at the NAVcard computer build point." },
+                    { "id": "navigation_unit", "label": "NAV computer / table pieces", "location": "Look for the four marked common sidequest buildable pieces around the Diner area and nearby structures; piece positions are randomized." },
+                    { "id": "correct_card", "label": "Buried NAVcard", "location": "Check each player's carried NAVcards. Pick up the Buried card if nobody has it, then use it at the TranZit NAVcard computer." },
+                    { "id": "insert", "label": "Insert at TranZit computer", "location": "Use the held Buried card at the Diner-area NAVcard computer and wait for its success cue." }
+                  ]
+                }
+              ],
+              "sourceFlag": "bo2.transit.started",
+              "detection": "The observer reports the saved sq_transit_started table-built stat, live navcard_grabbed possession of the incoming Buried card, and the saved navcard_applied count. The saved applied count may predate this match."
+            },
             {
               "id": "bo2.transit.tower_of_babble.power",
               "title": "Richtofen · turn on the power",
@@ -309,6 +328,22 @@
                   "path": "richtofen"
                 }
               ]
+            },
+            {
+              "id": "bo2.transit.shared.nav_table_final_check",
+              "title": "Confirm TranZit NAVcard table and insert Buried card",
+              "instruction": "After Tower of Babble completes, confirm the TranZit table exists, verify a player is carrying the Buried NAVcard, and insert it at the Diner-area computer.",
+              "checklists": [
+                {
+                  "title": "TranZit NAVcard handoff",
+                  "items": [
+                    { "id": "table", "label": "Table present", "location": "Diner area NAVcard computer; sq_transit_started profile state may auto-restore the table." },
+                    { "id": "correct_card", "label": "Buried NAVcard held", "location": "Check live BO2 inventory for the Buried card. If no player is carrying it, pick up the Buried NAVcard before returning to TranZit." },
+                    { "id": "insert", "label": "Insert at TranZit computer", "location": "Use the held Buried card at the Diner-area computer and wait for the stock success cue." }
+                  ]
+                }
+              ],
+              "detection": "Live navcard_grabbed inventory telemetry reports the incoming card; navcardTableBuiltCount reports saved sq_transit_started. navcardAppliedCount is a persistent profile counter and may predate this match."
             }
           ],
           "paths": {
@@ -316,14 +351,16 @@
               "bo2.transit.tower_of_babble.setup",
               "bo2.transit.tower_of_babble.maxis.turbines",
               "bo2.transit.tower_of_babble.maxis.avogadro",
-              "bo2.transit.tower_of_babble.maxis.screecher_lights"
+              "bo2.transit.tower_of_babble.maxis.screecher_lights",
+              "bo2.transit.shared.nav_table_final_check"
             ],
             "richtofen": [
               "bo2.transit.tower_of_babble.setup",
               "bo2.transit.tower_of_babble.power",
               "bo2.transit.tower_of_babble.richtofen.heat_pylon",
               "bo2.transit.tower_of_babble.richtofen.explosive_kills",
-              "bo2.transit.tower_of_babble.richtofen.emp_lights"
+              "bo2.transit.tower_of_babble.richtofen.emp_lights",
+              "bo2.transit.shared.nav_table_final_check"
             ]
           }
         }
@@ -336,6 +373,7 @@
       "quests": [
         {
           "displayName": "High Maintenance",
+          "completionGuidance": "After the selected route completes, confirm the Die Rise NAVcard table exists and a player has the TranZit NAVcard, then insert it at the Die Rise computer. The saved sq_highrise_started profile stat can cause stock code to restore the table automatically; it does not prove card possession or insertion.",
           "requirements": {
             "shared": [
               "Restore power",
@@ -354,7 +392,7 @@
             {
               "id": "bo2.highrise.shared.setup",
               "title": "Start High Maintenance",
-              "instruction": "Restore power and build the NAVcard table. The stock quest first records its shared opening when the opening sequence begins.",
+              "instruction": "Restore power and build the NAVcard table. The stock quest first records its shared opening when the opening sequence begins. Check that a player has the TranZit NAVcard and insert it at this Die Rise computer; it accepts the TranZit card, not the Buried card.",
               "checklists": [
                 {
                   "title": "NAVcard table · four parts on the starting building roof",
@@ -383,6 +421,11 @@
                       "id": "new4",
                       "label": "Build table",
                       "location": "Roof wall below the catwalk ramp leading to the tower."
+                    },
+                    {
+                      "id": "correct_card",
+                      "label": "TranZit NAVcard",
+                      "location": "Check each player's carried NAVcards. Pick up the TranZit card if nobody has it, then use it at the Die Rise NAVcard computer."
                     }
                   ]
                 }
@@ -781,6 +824,22 @@
               ],
               "sourceFlag": "bo2.highrise.final.complete",
               "detection": "The stock highrise_sidequest_achieved completion notification."
+            },
+            {
+              "id": "bo2.highrise.shared.nav_table_final_check",
+              "title": "Confirm Die Rise NAVcard table and insert TranZit card",
+              "instruction": "High Maintenance is complete. Confirm the Die Rise NAVcard table exists, check that a player has the TranZit NAVcard, and insert it at this map's computer. The table's saved started stat may auto-restore the table; it does not prove card possession or insertion.",
+              "checklists": [
+                {
+                  "title": "Die Rise NAVcard handoff",
+                  "items": [
+                    { "id": "table", "label": "Table present", "location": "Starting-building rooftop table build point, below the catwalk ramp; saved sq_highrise_started can auto-restore it." },
+                    { "id": "correct_card", "label": "TranZit NAVcard held", "location": "Check each player's carried NAVcards. Pick up the TranZit card if nobody has it." },
+                    { "id": "insert", "label": "Insert at Die Rise computer", "location": "Use the held TranZit card at the Die Rise rooftop NAVcard computer and wait for the success cue." }
+                  ]
+                }
+              ],
+              "detection": "The observer reports saved sq_highrise_started table-built state and live navcard_grabbed possession of the incoming TranZit card. navcardAppliedCount is persistent profile state and may predate this match."
             }
           ],
           "paths": {
@@ -791,7 +850,8 @@
               "bo2.highrise.shared.dragon_balls",
               "bo2.highrise.maxis.ssp",
               "bo2.highrise.maxis.pts",
-              "bo2.highrise.shared.final"
+              "bo2.highrise.shared.final",
+              "bo2.highrise.shared.nav_table_final_check"
             ],
             "richtofen": [
               "bo2.highrise.shared.setup",
@@ -800,7 +860,8 @@
               "bo2.highrise.shared.dragon_balls",
               "bo2.highrise.richtofen.ssp",
               "bo2.highrise.richtofen.pts",
-              "bo2.highrise.shared.final"
+              "bo2.highrise.shared.final",
+              "bo2.highrise.shared.nav_table_final_check"
             ]
           }
         }
@@ -813,9 +874,11 @@
       "quests": [
         {
           "displayName": "Mined Games",
+          "completionGuidance": "After the selected route completes, confirm the Buried NAVcard table exists and a player has the Die Rise NAVcard, then insert it at the Buried computer. The saved sq_buried_started profile stat can cause stock code to restore the table automatically; it does not prove card possession or insertion.",
           "requirements": {
             "shared": [
-              "Start Mined Games"
+              "Start Mined Games",
+              "Build or confirm the NAVcard table and insert the Die Rise NAVcard"
             ],
             "maxis": [
               "Maxis route: Build the Gallows tower"
@@ -828,9 +891,19 @@
             {
               "id": "bo2.buried.shared.setup",
               "title": "Start Mined Games",
-              "instruction": "The stock quest has started. Its first objective is the route choice: build the Gallows tower for Maxis or the Guillotine tower for Richtofen. The tracker will follow the tower your lobby builds.",
+              "instruction": "The stock quest has started. Its first objective is the route choice: build the Gallows tower for Maxis or the Guillotine tower for Richtofen. The tracker will follow the tower your lobby builds. Check that a player has the Die Rise NAVcard and insert it at the Buried computer; Buried accepts the Die Rise card.",
+              "checklists": [
+                {
+                  "title": "NAVcard table and incoming card",
+                  "items": [
+                    { "id": "table", "label": "Build or confirm NAVcard table", "location": "Check the NAVcard computer in the starting-area candy shop. The stock script may auto-build it from saved sq_buried_started profile state." },
+                    { "id": "correct_card", "label": "Die Rise NAVcard", "location": "Check each player's carried NAVcards. Pick up the Die Rise card if nobody has it, then use it at the Buried NAVcard computer." },
+                    { "id": "insert", "label": "Insert the card", "location": "Use the card at Buried's computer and wait for the stock success cue; a failed-card cue means the wrong card or no carried card." }
+                  ]
+                }
+              ],
               "sourceFlag": "bo2.buried.started",
-              "detection": "The observer sees the stock tower-build stage begin, before either tower is built."
+              "detection": "The observer sees the stock tower-build stage begin, before either tower is built. It reports saved sq_buried_started table-built state and live navcard_grabbed possession of the incoming Die Rise card. navcardAppliedCount is persistent profile state and may predate this match."
             },
             {
               "id": "bo2.buried.shared.gl",
@@ -1122,9 +1195,9 @@
             {
               "id": "bo2.buried.maxis.complete",
               "title": "Maxis · complete Mined Games",
-              "instruction": "Finish the shared fountain sharpshooter challenge to complete Maxis’s Mined Games route.",
+              "instruction": "Finish the shared fountain sharpshooter challenge to complete Maxis’s Mined Games route. Then confirm the Buried NAVcard table exists, check that a player has the Die Rise NAVcard, and insert it at the Buried computer.",
               "sourceFlag": "bo2.buried.maxis.complete",
-              "detection": "Stock sidequest completion state.",
+              "detection": "Stock sidequest completion state. NAVcard table build, held-card state, and card insertion are separate checks; stock links the Die Rise card to Buried.",
               "playerCountGuidance": [
                 {
                   "mod": "Any Player EE",
@@ -1138,9 +1211,9 @@
             {
               "id": "bo2.buried.richtofen.complete",
               "title": "Richtofen · complete Mined Games",
-              "instruction": "Finish the shared fountain sharpshooter challenge to complete Richtofen’s Mined Games route.",
+              "instruction": "Finish the shared fountain sharpshooter challenge to complete Richtofen’s Mined Games route. Then confirm the Buried NAVcard table exists, check that a player has the Die Rise NAVcard, and insert it at the Buried computer.",
               "sourceFlag": "bo2.buried.richtofen.complete",
-              "detection": "Stock sidequest completion state.",
+              "detection": "Stock sidequest completion state. NAVcard table build, held-card state, and card insertion are separate checks; stock links the Die Rise card to Buried.",
               "playerCountGuidance": [
                 {
                   "mod": "Any Player EE",
@@ -1150,6 +1223,22 @@
                   "path": "richtofen"
                 }
               ]
+            },
+            {
+              "id": "bo2.buried.shared.nav_table_final_check",
+              "title": "Confirm Buried NAVcard table and insert Die Rise card",
+              "instruction": "After Mined Games completes, confirm the Buried table exists, check that a player carries the Die Rise NAVcard, and insert it at the Buried computer.",
+              "checklists": [
+                {
+                  "title": "Buried NAVcard handoff",
+                  "items": [
+                    { "id": "table", "label": "Table present", "location": "Starting-area candy shop NAVcard computer; saved sq_buried_started profile state may auto-restore it." },
+                    { "id": "correct_card", "label": "Die Rise NAVcard held", "location": "Check live BO2 inventory for the Die Rise card. If no player is carrying it, pick up the Die Rise NAVcard before returning to Buried." },
+                    { "id": "insert", "label": "Insert at Buried computer", "location": "Use the held Die Rise card at the candy shop computer and wait for the stock success cue." }
+                  ]
+                }
+              ],
+              "detection": "Live navcard_grabbed inventory telemetry reports the incoming card; navcardTableBuiltCount reports saved sq_buried_started. navcardAppliedCount is a persistent profile counter and may predate this match."
             },
             {
               "id": "bo2.buried.maxis.amplifiers",
@@ -1326,7 +1415,8 @@
               "bo2.buried.shared.finale1",
               "bo2.buried.shared.finale2",
               "bo2.buried.shared.final",
-              "bo2.buried.maxis.complete"
+              "bo2.buried.maxis.complete",
+              "bo2.buried.shared.nav_table_final_check"
             ],
             "richtofen": [
               "bo2.buried.shared.setup",
@@ -1339,7 +1429,8 @@
               "bo2.buried.shared.finale1",
               "bo2.buried.shared.finale2",
               "bo2.buried.shared.final",
-              "bo2.buried.richtofen.complete"
+              "bo2.buried.richtofen.complete",
+              "bo2.buried.shared.nav_table_final_check"
             ]
           }
         }
