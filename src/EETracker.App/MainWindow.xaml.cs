@@ -137,7 +137,6 @@ public partial class MainWindow : Window
         else
         {
             WaitingMatchOverlay.Visibility = Visibility.Collapsed;
-            ApplyMapBanner(_activeGame, s.Map);
             ObjectiveText.Text = s.CurrentObjective;
             InstructionText.Text = s.Instruction;
         }
@@ -218,13 +217,6 @@ public partial class MainWindow : Window
             PrepKey(_activeGame, s.Map, s.QuestName, item.Scope, s.SelectedPath, item.Id), item.Text,
             _checklistState.GetValueOrDefault(PrepKey(_activeGame, s.Map, s.QuestName, item.Scope, s.SelectedPath, item.Id)))).ToArray();
         _loadingPreparation = false;
-        NextText.Text = s.NextStep.StartsWith("After this: ", StringComparison.Ordinal)
-            ? s.NextStep["After this: ".Length..] : s.NextStep;
-        var currentStep = Array.FindIndex(s.Progression.ToArray(), step => step.Status == "Current");
-        var nextStep = currentStep >= 0 && currentStep + 1 < s.Progression.Count ? s.Progression[currentStep + 1] : null;
-        NextInstructionText.Visibility = nextStep is null ? Visibility.Collapsed : Visibility.Visible;
-        NextInstructionText.Text = nextStep?.Instruction ?? "";
-        PreviousText.Text = $"Previous: {s.PreviousStep}";
         PathChoicePanel.Visibility = s.Map == "Call of the Dead" && s.RequiresPathChoice ? Visibility.Visible : Visibility.Collapsed;
         BranchOptionsPanel.Visibility = s.BranchOptions.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         BranchOptionsItems.ItemsSource = s.BranchOptions;
@@ -263,23 +255,20 @@ public partial class MainWindow : Window
         StepTrackers.MaxWidth = double.PositiveInfinity;
     }
 
-    private void ApplyMapBanner(string game, string map)
+    private void ToggleSidebar(object sender, RoutedEventArgs e)
     {
-        BannerArtwork.Visibility = Visibility.Visible;
-        var asset = (game, map) switch
-        {
-            ("bo1", "Call of the Dead") => "call-of-the-dead-banner.png",
-            ("bo1", "Shangri-La") => "shangri-la-banner.png",
-            ("bo1", "Moon") => "moon-banner.png",
-            ("bo2", "TranZit") => "tranzit-banner.png",
-            ("bo2", "Die Rise") => "die-rise-banner.png",
-            ("bo2", "Buried") => "buried-banner.png",
-            ("bo2", "Mob of the Dead") => "mob-of-the-dead-banner.png",
-            ("bo2", "Origins") => "origins-banner.png",
-            _ => "ascension-banner.png"
-        };
-        BannerArtwork.Source = new BitmapImage(new Uri($"pack://application:,,,/Assets/{asset}", UriKind.Absolute));
+        var collapsed = SidebarColumn.Width.Value > 100;
+        SidebarColumn.Width = new GridLength(collapsed ? 62 : 202);
+        SidebarGrid.Margin = collapsed ? new Thickness(6, 12, 6, 12) : new Thickness(18, 12, 18, 12);
+        SidebarContents.Visibility = collapsed ? Visibility.Collapsed : Visibility.Visible;
+        SidebarCompactContents.Visibility = collapsed ? Visibility.Visible : Visibility.Collapsed;
+        SidebarToggle.Content = collapsed ? "☰" : "☰   COLLAPSE";
+        SidebarToggle.HorizontalContentAlignment = collapsed ? HorizontalAlignment.Center : HorizontalAlignment.Left;
+        SidebarToggle.ToolTip = collapsed ? "Expand navigation" : "Collapse navigation";
+        MainContent.Margin = collapsed ? new Thickness(10, 18, 10, 14) : new Thickness(22, 18, 22, 14);
     }
+
+    private void TogglePreparation(object sender, RoutedEventArgs e) => PreparationPopup.IsOpen = !PreparationPopup.IsOpen;
 
     private static void UpdateSoulTank(int index, System.Windows.Controls.ProgressBar bar, System.Windows.Controls.TextBlock text, CompanionState state)
     {
@@ -712,6 +701,7 @@ public sealed class WalkthroughChecklistItemViewModel : INotifyPropertyChanged
     public string Key { get; }
     public string Label { get; }
     public string Location { get; }
+    public string IconPath => ItemIconCatalog.For(Label);
     private bool _isChecked;
     public bool IsChecked
     {
@@ -749,6 +739,7 @@ public sealed class ObjectiveChecklistItemViewModel : INotifyPropertyChanged
     public string Key { get; }
     public string Label { get; }
     public string Location { get; }
+    public string IconPath => ItemIconCatalog.For(Label);
     private bool _isChecked;
     public bool IsChecked { get => _isChecked; set { if (_isChecked == value) return; _isChecked = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Marker))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MarkerBrush))); } }
     public string Marker => IsChecked ? "✓" : "○";
@@ -778,6 +769,7 @@ public sealed class PreparationItemViewModel : INotifyPropertyChanged
 {
     public string Key { get; }
     public string Text { get; }
+    public string IconPath => ItemIconCatalog.For(Text);
     private bool _isChecked;
     public bool IsChecked
     {
@@ -787,6 +779,37 @@ public sealed class PreparationItemViewModel : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public PreparationItemViewModel(string key, string text, bool isChecked) { Key = key; Text = text; IsChecked = isChecked; }
+}
+
+public static class ItemIconCatalog
+{
+    private static string Icon(string file) => $"pack://application:,,,/Assets/Items/{file}.png";
+
+    public static string For(string label)
+    {
+        var item = label.ToLowerInvariant();
+        if (item.Contains("temple tile") || item.Contains("match all twelve pairs")) return string.Empty;
+        if (item.Contains("gersh")) return Icon("gersh");
+        if (item.Contains("q.e.d") || item.Contains("quantum entanglement")) return Icon("qed");
+        if (item.Contains("thundergun")) return Icon("thundergun");
+        if (item.Contains("matryoshka") || item.Contains("monkey doll")) return Icon("dolls");
+        if (item.Contains("monkey bomb") || item.Contains("monkey bombs")) return Icon("monkey");
+        if (item.Contains("hacker") || item.Contains("hack device")) return Icon("hacker");
+        if (item.Contains("vril")) return Icon("vril");
+        if (item == "emp" || item.StartsWith("emp ", StringComparison.Ordinal) || item.Contains("emp grenade")) return Icon("emp");
+        if (item.Contains("jet gun")) return Icon("jetgun");
+        if (item.Contains("ballistic knife")) return Icon("knife");
+        if (item.Contains("spikemore") || item.Contains("claymore")) return Icon("claymore");
+        if (item.Contains("turbine")) return Icon("turbine");
+        if (item.Contains("riot shield") || item.Contains("shield")) return Icon("shield");
+        if (item.Contains("retriever") || item.Contains("hatchet")) return Icon("hatchet");
+        if (item.Contains("staff piece") || item.Contains("part") || item.Contains("navcard")) return Icon("part");
+        if (item.Contains("dynamite")) return Icon("dynamite");
+        if (item.Contains("grenade") || item.Contains("explosive") || item.Contains("g-strike") || item.Contains("time bomb")) return Icon("explosive");
+        if (item.Contains("staff") || item.Contains("gun") || item.Contains("weapon") || item.Contains("ray gun") || item.Contains("wave gun") || item.Contains("baby gun") || item.Contains("fractalizer") || item.Contains("sliquifier") || item.Contains("paralyzer") || item.Contains("v-r11")) return Icon("weapon");
+        if (item.Contains("equipment") || item.Contains("hacker") || item.Contains("pes") || item.Contains("suit") || item.Contains("device") || item.Contains("knife") || item.Contains("galvaknuckle")) return Icon("equipment");
+        return string.Empty;
+    }
 }
 
 public sealed class ProgressStepViewModel

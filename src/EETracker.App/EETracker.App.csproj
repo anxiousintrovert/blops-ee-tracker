@@ -2,7 +2,7 @@
   <PropertyGroup><OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><Version>0.2.1</Version><UseWPF>true</UseWPF><EnableWindowsTargeting>true</EnableWindowsTargeting><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><UseAppHost>true</UseAppHost></PropertyGroup>
   <ItemGroup><ProjectReference Include="..\EETracker.Core\EETracker.Core.csproj" /></ItemGroup>
   <ItemGroup><PackageReference Include="Microsoft.PowerShell.SDK" Version="7.4.2" /></ItemGroup>
-  <ItemGroup><Resource Include="Assets\*.png" /></ItemGroup>
+  <ItemGroup><Resource Include="Assets\*.png" /><Resource Include="Assets\Items\*.png" /></ItemGroup>
   <ItemGroup>
     <None Include="..\..\samples\**\*" Link="samples\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\data\bo1-main-quest-flows.json" Link="data\bo1-main-quest-flows.json" CopyToOutputDirectory="PreserveNewest" />
