@@ -55,6 +55,10 @@ With the game running on a supported map, the desktop client should show the map
 
 The feed is local to that computer. Another player's app does not receive your quest events automatically; network sharing is not part of this release.
 
+## Optional BO1 points helper
+
+Run `Install-EETrackerT5Points.ps1` from the packaged `gsc` folder to install the separate points helper on all ten round-based BO1 Zombies maps. Start a new match or restart the map, then enter `ee_tracker_test_points 1` in the Plutonium console. Each use adds 100,000 points to every connected player. Dead Ops Arcade is outside this helper's scope. Run `Uninstall-EETrackerT5Points.ps1` to remove the helper without removing the quest observers.
+
 ## Uninstall the EETracker observers
 
 Run the included `Uninstall-EETrackerObserver.ps1` from PowerShell:
@@ -67,4 +71,4 @@ The T5 uninstaller removes only the four EETracker observer files and leaves the
 
 ## Current verification status
 
-Ascension has live observer evidence. The Call of the Dead, Shangri-La, and Moon observers are packaged and source-reviewed; those maps still need live-match checks for observer loading and their newer progress signals. See [the verification record](docs/live-verification.md).
+Ascension has live observer evidence. Call of the Dead has a confirmed live load and changing lighthouse-dial telemetry; its quest transitions remain unverified. Shangri-La and Moon still need live-map checks. The BO1 points helper loaded and granted 100,000 points in a live Call of the Dead match; the other nine maps have not been checked in-game. See [the verification record](docs/live-verification.md).

@@ -10,10 +10,16 @@ public sealed class QuestEngine
     private readonly HashSet<string> _observed = new(StringComparer.Ordinal);
     private readonly HashSet<string> _sideEggSteps = new(StringComparer.Ordinal);
     private readonly Dictionary<string, (int Progress, int Maximum)> _progress = new(StringComparer.Ordinal);
+    private readonly int[] _templeTileSelection = new int[2];
+    private readonly bool[,] _templeTileMatched = new bool[2, 13];
+    private string[] _dieRiseTileSequence = Array.Empty<string>();
+    private int? _dieRiseTileProgress;
+    private int? _dieRiseFloorProgress;
     private readonly Dictionary<int, TransitProfileState> _transitProfiles = new();
     private readonly Dictionary<string, Bo2ProfileState> _bo2Profiles = new(StringComparer.Ordinal);
     private readonly Dictionary<string, PlayerInventoryState> _playerInventories = new(StringComparer.Ordinal);
     private readonly Dictionary<string, QuestPartState> _questParts = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, (bool IsOpen, int? Cost)> _doorStates = new(StringComparer.OrdinalIgnoreCase);
     private string _lastSignal = "No quest signal received";
     private string _map = "Waiting for game";
     private int? _round, _players;
@@ -46,12 +52,14 @@ public sealed class QuestEngine
         {
             _connected = true; _hasCurrentSession = true; _map = "Waiting for game"; _round = null; _players = null; _power = null;
             _variant = GameVariant.Unknown; _completed.Clear(); _observed.Clear(); _sideEggSteps.Clear(); _lastSignal = "No quest signal received";
+            Array.Clear(_templeTileSelection); Array.Clear(_templeTileMatched); _dieRiseTileSequence = Array.Empty<string>(); _dieRiseTileProgress = null; _dieRiseFloorProgress = null;
             _selectedPath = null;
             _progress.Clear();
             _transitProfiles.Clear();
             _bo2Profiles.Clear();
             _playerInventories.Clear();
             _questParts.Clear();
+            _doorStates.Clear();
             _sessionEnded = false; _connectionInterrupted = false; _pressureSecondsRemaining = null; _pressureTimerActive = null;
             _transitQuestStarted = _observed.Contains("bo2.transit.started");
             _transitMaxisActionStarted = false;
@@ -64,7 +72,9 @@ public sealed class QuestEngine
             _connected = false; _sessionEnded = true; _connectionInterrupted = false; _map = "Waiting for game";
             _round = null; _players = null; _power = null; _variant = GameVariant.Unknown;
             _completed.Clear(); _observed.Clear(); _sideEggSteps.Clear(); _progress.Clear(); _selectedPath = null;
+            Array.Clear(_templeTileSelection); Array.Clear(_templeTileMatched); _dieRiseTileSequence = Array.Empty<string>(); _dieRiseTileProgress = null; _dieRiseFloorProgress = null;
             _transitProfiles.Clear(); _bo2Profiles.Clear(); _playerInventories.Clear(); _questParts.Clear();
+            _doorStates.Clear();
             _pressureSecondsRemaining = null; _pressureTimerActive = null; _lunaLettersCollected = null; _soulTankFill = null; _soulTankMaxFill = null;
             _samanthaColors = ""; _richtofenCue = "";
         }
@@ -91,7 +101,36 @@ public sealed class QuestEngine
             _soulTankMaxFill = e.SoulTankMaxFill.ToArray();
         }
         if (e.Type == "quest_progress" && e.Signal is { Length: > 0 } progressKey && e.Progress is >= 0 && e.ProgressMax is > 0)
+        {
             _progress[progressKey] = (Math.Min(e.Progress.Value, e.ProgressMax.Value), e.ProgressMax.Value);
+            if (progressKey == "bo2.highrise.tower_tile_progress") _dieRiseTileProgress = Math.Min(e.Progress.Value, 4);
+            if (progressKey == "bo2.highrise.floor_symbol_progress") _dieRiseFloorProgress = Math.Min(e.Progress.Value, 4);
+        }
+        if (e.Type == "quest_tile_state" && (NormalizeMap(e.Map ?? _map) == "Shangri-La") && e.Signal == "temple.tiles"
+            && e.Bank is >= 1 and <= 2 && e.TileId is >= 1 and <= 12 && e.TileState is { } tileState)
+        {
+            var bank = e.Bank.Value - 1;
+            var tile = e.TileId.Value;
+            if (tileState == "selected") _templeTileSelection[bank] = tile;
+            else if (tileState == "cleared" && _templeTileSelection[bank] == tile) _templeTileSelection[bank] = 0;
+            else if (tileState == "matched" && e.PeerBank is >= 1 and <= 2 && e.PeerTileId is >= 1 and <= 12)
+            {
+                _templeTileMatched[bank, tile] = true;
+                _templeTileMatched[e.PeerBank.Value - 1, e.PeerTileId.Value] = true;
+                _templeTileSelection[0] = _templeTileSelection[1] = 0;
+            }
+            else if (tileState == "mismatch" && e.PeerBank is >= 1 and <= 2 && e.PeerTileId is >= 1 and <= 12)
+            {
+                _templeTileSelection[bank] = tile;
+                _templeTileSelection[e.PeerBank.Value - 1] = e.PeerTileId.Value;
+            }
+        }
+        if (e.Type == "quest_tile_sequence" && NormalizeMap(e.Map ?? _map) == "Die Rise" && e.Signal == "bo2.highrise.tower_tiles" && !string.IsNullOrWhiteSpace(e.SignalValue))
+        {
+            var sequence = e.SignalValue.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => x.ToLowerInvariant()).Where(x => x is "north" or "south" or "east" or "west").Take(4).ToArray();
+            if (sequence.Length == 4) _dieRiseTileSequence = sequence;
+        }
         if (e.Type == "side_egg_step" && !string.IsNullOrWhiteSpace(e.Map) && !string.IsNullOrWhiteSpace(e.EggId) && e.StepIndex is >= 0)
             _sideEggSteps.Add($"{e.Map}|{e.EggId}|{e.StepIndex.Value}");
         if (e.Type == "player_state" && e.Game == "bo2" && e.PlayerSlot is { } slot)
@@ -124,6 +163,11 @@ public sealed class QuestEngine
         if (e.Map is not null)
         {
             var nextMap = NormalizeMap(e.Map);
+            if (!string.Equals(_map, nextMap, StringComparison.OrdinalIgnoreCase))
+            {
+                Array.Clear(_templeTileSelection); Array.Clear(_templeTileMatched);
+                _dieRiseTileSequence = Array.Empty<string>(); _dieRiseTileProgress = null; _dieRiseFloorProgress = null;
+            }
             if (!string.Equals(_map, nextMap, StringComparison.OrdinalIgnoreCase)) _selectedPath = null;
             if (!string.Equals(_map, nextMap, StringComparison.OrdinalIgnoreCase) && nextMap != "TranZit") _transitQuestStarted = false;
             _map = nextMap;
@@ -190,6 +234,12 @@ public sealed class QuestEngine
             var partKey = prefix + ownerKey;
             _questParts[partKey] = new QuestPartState(partGame, partMap, e.PartId, e.PartState, e.PartState == "carried" ? partSlot : null, e.PartState == "carried" ? e.PlayerName : null, e.PartAreas, e.PartLabel, e.PartOrigin);
         }
+        if (e.Type == "door_state" && !string.IsNullOrWhiteSpace(e.Map) && !string.IsNullOrWhiteSpace(e.DoorId))
+        {
+            var doorMap = NormalizeMap(e.Map);
+            var knownCost = e.DoorCost ?? (_doorStates.TryGetValue($"{doorMap}:{e.DoorId}", out var previousDoor) ? previousDoor.Cost : null);
+            _doorStates[$"{doorMap}:{e.DoorId}"] = (e.DoorState == "open", knownCost);
+        }
         if (e.VariantEvidence is { } evidence) ApplyVariantEvidence(evidence);
         if (e.Type == "session_started") { _selectedPath = null; _hasCurrentSession = true; _transitQuestStarted = _observed.Contains("bo2.transit.started"); }
         if (e.Type == "quest_path_selected" && !string.IsNullOrWhiteSpace(e.SignalValue))
@@ -206,7 +256,8 @@ public sealed class QuestEngine
             }
             if (e.Signal.StartsWith("bo2.mob.", StringComparison.Ordinal))
                 _observed.Add(e.Signal);
-            if (e.Signal.StartsWith("coast.dial.", StringComparison.Ordinal) && e.Signal.EndsWith(".incorrect", StringComparison.Ordinal))
+            if ((e.Signal.StartsWith("coast.dial.", StringComparison.Ordinal) || e.Signal.StartsWith("coast.control.", StringComparison.Ordinal))
+                && e.Signal.EndsWith(".incorrect", StringComparison.Ordinal))
                 _observed.Remove(e.Signal[..^"incorrect".Length] + "correct");
             else
                 _observed.Add(e.Signal);
@@ -320,6 +371,11 @@ public sealed class QuestEngine
             SoulTankFill = _soulTankFill, SoulTankMaxFill = _soulTankMaxFill,
             SamanthaColors = _samanthaColors, RichtofenCue = _richtofenCue,
             CurrentTrackers = trackers,
+            TempleTileBanks = Enumerable.Range(1, 2).SelectMany(bank => Enumerable.Range(1, 12).Select(tile => new TempleTileCellState(
+                bank, tile, _templeTileSelection[bank - 1] == tile, _templeTileMatched[bank - 1, tile]))).ToArray(),
+            DieRiseTileSequence = _dieRiseTileSequence,
+            DieRiseTileProgress = _dieRiseTileProgress,
+            DieRiseFloorProgress = _dieRiseFloorProgress,
             CurrentObjective = objective, Instruction = instruction, Preparation = preparation,
             NextStep = next, Progression = progression, LastEventUtc = _lastEvent,
             QuestName = quest?.DisplayName ?? "Main quest", StepCount = ordered.Count,
@@ -333,7 +389,24 @@ public sealed class QuestEngine
             SideEggProgress = _sideEggSteps.Select(key => key.Split('|')).Where(parts => parts.Length == 3 && int.TryParse(parts[2], out _)).Select(parts => new SideEggStepProgress(parts[0], parts[1], int.Parse(parts[2]))).ToArray(),
             PlayerInventories = _playerInventories.Values.Where(item => string.Equals(item.Map, _map, StringComparison.OrdinalIgnoreCase)).OrderBy(item => item.PlayerSlot).ToArray(),
             QuestParts = _questParts.Values.Where(item => string.Equals(item.Map, _map, StringComparison.OrdinalIgnoreCase)).OrderBy(item => item.PartId, StringComparer.Ordinal).ToArray()
+            ,Doors = BuildDoorGuide(map, current)
         };
+    }
+
+    private IReadOnlyList<DoorGuideState> BuildDoorGuide(MapFlow? map, FlowNode? current)
+    {
+        if (map is null || current is null) return Array.Empty<DoorGuideState>();
+        var rows = map.Doors.Select(door => {
+            var isOpen = _doorStates.TryGetValue($"{map.DisplayName}:{door.Id}", out var state) ? state.IsOpen : (bool?)null;
+            return new DoorGuideState(door.Id, door.Label, state.Cost ?? door.Cost, door.GateType, isOpen, current.RequiredDoors.Contains(door.Id, StringComparer.OrdinalIgnoreCase));
+        }).ToList();
+        foreach (var observed in _doorStates.Where(pair => pair.Key.StartsWith(map.DisplayName + ":", StringComparison.OrdinalIgnoreCase)))
+        {
+            var id = observed.Key[(map.DisplayName.Length + 1)..];
+            if (rows.Any(row => string.Equals(row.DoorId, id, StringComparison.OrdinalIgnoreCase))) continue;
+            rows.Add(new DoorGuideState(id, id, observed.Value.Cost, "paid", observed.Value.IsOpen, current.RequiredDoors.Contains(id, StringComparer.OrdinalIgnoreCase)));
+        }
+        return rows.OrderByDescending(row => row.RequiredOpen).ThenBy(row => row.Label, StringComparer.OrdinalIgnoreCase).ToArray();
     }
 
     private IReadOnlyList<PreparationRequirement> ResolveRequirements(QuestFlow? quest, string? pathName)
@@ -447,11 +520,12 @@ public sealed class QuestEngine
     };
 }
 
-public sealed record FlowNode(string Id, string Title, string Instruction, string? SourceFlag, string Detection, IReadOnlyList<StepProgressTracker> Trackers, IReadOnlyList<FlowChecklist> Checklists, IReadOnlyList<FlowPlayerCountGuidance> PlayerCountGuidance);
+public sealed record FlowNode(string Id, string Title, string Instruction, string? SourceFlag, string Detection, IReadOnlyList<StepProgressTracker> Trackers, IReadOnlyList<FlowChecklist> Checklists, IReadOnlyList<FlowPlayerCountGuidance> PlayerCountGuidance, IReadOnlyList<string> RequiredDoors);
 public sealed record FlowChecklist(string Title, IReadOnlyList<FlowChecklistItem> Items);
 public sealed record FlowChecklistItem(string Id, string Label, string Location);
 public sealed record QuestFlow(string DisplayName, IReadOnlyList<FlowNode> Nodes, Dictionary<string, string[]> Requirements, string[]? DefaultPath, Dictionary<string, string[]> Paths);
-public sealed record MapFlow(string DisplayName, string[] Aliases, IReadOnlyList<QuestFlow> Quests);
+public sealed record FlowDoor(string Id, string Label, int? Cost, string GateType);
+public sealed record MapFlow(string DisplayName, string[] Aliases, IReadOnlyList<QuestFlow> Quests, IReadOnlyList<FlowDoor> Doors);
 
 public static class QuestFlowCatalog
 {
@@ -509,7 +583,8 @@ public static class QuestFlowCatalog
                                 guidance.GetProperty("instruction").GetString()!));
                     return new FlowNode(n.GetProperty("id").GetString()!, n.GetProperty("title").GetString()!,
                         n.GetProperty("instruction").GetString()!, n.TryGetProperty("sourceFlag", out var flag) ? flag.GetString() : null,
-                        n.TryGetProperty("detection", out var detection) ? detection.GetString() ?? "manual" : "manual", trackers, checklists, playerCountGuidance);
+                        n.TryGetProperty("detection", out var detection) ? detection.GetString() ?? "manual" : "manual", trackers, checklists, playerCountGuidance,
+                        n.TryGetProperty("requiredDoors", out var requiredDoors) ? requiredDoors.EnumerateArray().Select(d => d.GetString()!).ToArray() : Array.Empty<string>());
                 }).ToArray();
                 var requirements = new Dictionary<string, string[]>(StringComparer.Ordinal);
                 if (q.TryGetProperty("requirements", out var req))
@@ -525,7 +600,11 @@ public static class QuestFlowCatalog
                         paths[p.Name] = p.Value.EnumerateArray().Select(v => v.GetString()!).ToArray();
                 return new QuestFlow(q.GetProperty("displayName").GetString()!, nodes, requirements, defaultPath, paths);
             }).ToArray();
-            return new MapFlow(m.GetProperty("displayName").GetString()!, aliases, quests);
+            var doors = m.TryGetProperty("doors", out var doorArray) ? doorArray.EnumerateArray().Select(d => new FlowDoor(
+                d.GetProperty("id").GetString()!, d.GetProperty("label").GetString()!,
+                d.TryGetProperty("cost", out var cost) && cost.ValueKind == JsonValueKind.Number ? cost.GetInt32() : null,
+                d.TryGetProperty("gateType", out var gateType) ? gateType.GetString() ?? "paid" : "paid")).ToArray() : Array.Empty<FlowDoor>();
+            return new MapFlow(m.GetProperty("displayName").GetString()!, aliases, quests, doors);
         }).ToArray();
     }
 }

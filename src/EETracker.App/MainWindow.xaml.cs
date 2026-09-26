@@ -109,7 +109,11 @@ public partial class MainWindow : Window
         _engine = new QuestEngine();
         _sourceName = label;
         _lastEvent = "Waiting for game activity";
-        source.EventReceived += e => Dispatcher.Invoke(() => { if (!ReferenceEquals(_run, run)) return; _engine.Apply(e); ApplySideEggEvent(e); _lastEvent = $"{e.TimestampUtc:HH:mm:ss}  {FriendlyActivity(e)}"; SettingsStatus.Text = $"Receiving {label.ToLowerInvariant()} data"; Refresh(); });
+        source.EventReceived += e =>
+        {
+            if (e.Type == "heartbeat") return;
+            Dispatcher.Invoke(() => { if (!ReferenceEquals(_run, run)) return; _engine.Apply(e); ApplySideEggEvent(e); _lastEvent = $"{e.TimestampUtc:HH:mm:ss}  {FriendlyActivity(e)}"; SettingsStatus.Text = $"Receiving {label.ToLowerInvariant()} data"; Refresh(); });
+        };
         SettingsStatus.Text = label.Contains("game session", StringComparison.OrdinalIgnoreCase) ? $"Waiting for game data at {PathBox.Text}" : $"Source: {label}";
         Refresh();
         try { await source.StartAsync(run.Token); }
@@ -198,7 +202,33 @@ public partial class MainWindow : Window
         if (!string.IsNullOrEmpty(s.RichtofenCue)) RichtofenCueText.Text = "RICHTOFEN'S CUE · " + s.RichtofenCue;
         StepTrackers.ItemsSource = s.CurrentTrackers.Select(tracker => new StepTrackerViewModel(tracker)).ToArray();
         StepTrackers.Visibility = s.CurrentTrackers.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        DoorGuideItems.ItemsSource = s.Doors.Select(door => new DoorGuideViewModel(door)).ToArray();
+        DoorGuidePanel.Visibility = s.Doors.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
         var currentFlowStep = s.Progression.FirstOrDefault(step => step.Status == "Current");
+        var currentIdForTiles = currentFlowStep?.Id ?? "";
+        var onTempleTiles = s.Map == "Shangri-La" && currentIdForTiles.EndsWith(".symbol_tiles", StringComparison.Ordinal);
+        var onDieRiseFloorSymbols = s.Map == "Die Rise" && currentIdForTiles.EndsWith(".shared.floor_symbols", StringComparison.Ordinal);
+        var onDieRiseTowerTiles = s.Map == "Die Rise" && (currentIdForTiles.EndsWith(".richtofen.pts", StringComparison.Ordinal)
+            || currentIdForTiles.EndsWith(".maxis.pts", StringComparison.Ordinal) || currentIdForTiles.EndsWith(".shared.final", StringComparison.Ordinal));
+        TempleTilePanel.Visibility = onTempleTiles || onDieRiseTowerTiles || onDieRiseFloorSymbols ? Visibility.Visible : Visibility.Collapsed;
+        TempleGlyphBanks.Visibility = onTempleTiles ? Visibility.Visible : Visibility.Collapsed;
+        DieRiseTileSequencePanel.Visibility = onDieRiseTowerTiles ? Visibility.Visible : Visibility.Collapsed;
+        DieRiseFloorSymbolsPanel.Visibility = onDieRiseFloorSymbols ? Visibility.Visible : Visibility.Collapsed;
+        TempleTilePanelTitle.Text = onTempleTiles ? "TEMPLE GLYPH MATCHER · 12 PAIRS" : onDieRiseFloorSymbols ? "DIE RISE FLOOR SYMBOLS · LIVE COUNT" : "BUDDHA ROOM PYLON · STOCK TILE ORDER";
+        TempleTilePanelHelp.Text = onTempleTiles
+            ? "Match the numbered game glyphs across the two banks. A selected tile lights one half; a confirmed pair lights both halves. Wrong attempts clear."
+            : onDieRiseFloorSymbols ? "Four randomized floor symbols are tracked by valid count only; the game provides their identities and order. Wrong steps normally reset progress."
+            : "The four randomized directions are read from the game. Hit them with Galvaknuckles in order; a wrong hit resets progress.";
+        TempleTileBanksItems.ItemsSource = Enumerable.Range(1, 2).Select(bank => new TempleTileBankViewModel(
+            bank == 1 ? "MINE-CART BANK" : "ROPE-BRIDGE BANK", s.TempleTileBanks.Where(tile => tile.Bank == bank).ToArray())).ToArray();
+        DieRiseTileSequenceItems.ItemsSource = Enumerable.Range(0, 4).Select(index => new DieRiseTileCueViewModel(
+            index + 1, s.DieRiseTileSequence.ElementAtOrDefault(index), s.DieRiseTileProgress is { } progress && index < progress)).ToArray();
+        DieRiseTileSequenceStatus.Text = s.DieRiseTileSequence.Count == 4
+            ? $"{s.DieRiseTileProgress ?? 0} / 4 accepted · wrong hits reset the count"
+            : "Waiting for the game observer to read the four randomized directions.";
+        DieRiseFloorSymbolItems.ItemsSource = Enumerable.Range(1, 4).Select(index => new DieRiseFloorSymbolViewModel(
+            index, s.DieRiseFloorProgress is { } floorProgress && index <= floorProgress)).ToArray();
+        DieRiseFloorSymbolStatus.Text = $"{s.DieRiseFloorProgress ?? 0} / 4 valid steps";
         var currentMapFlow = _flowCatalog.FirstOrDefault(map => map.DisplayName == s.Map);
         var currentQuestFlow = currentMapFlow?.Quests.FirstOrDefault(quest => quest.DisplayName == s.QuestName)
             ?? currentMapFlow?.Quests.FirstOrDefault();
@@ -244,6 +274,7 @@ public partial class MainWindow : Window
             }));
             DiagnosticsText.Text += "\n\nBO2 PROFILE STATE (current lobby; slot identity may change)\n" + profiles;
         }
+        if (FullQuestPage.Visibility == Visibility.Visible) RefreshFullQuest();
     }
 
     private void UpdateTrackerLayout()
@@ -366,8 +397,11 @@ public partial class MainWindow : Window
             ? $"Complete walkthrough · {_fullQuestRoute.Replace('_', ' ')} route · checkmarks are saved on this PC."
             : "Complete walkthrough · checkmarks are saved on this PC.";
         FullQuestRouteTabs.ItemsSource = routeNames.Select(route => new WalkthroughRouteChoice(route, FriendlyRoute(route))).ToArray();
+        var autoCompleted = string.Equals(map.DisplayName, _engine.State.Map, StringComparison.OrdinalIgnoreCase)
+            ? _engine.State.Progression.Where(step => step.Status == "Complete").Select(step => step.Id).ToHashSet(StringComparer.Ordinal)
+            : new HashSet<string>(StringComparer.Ordinal);
         FullQuestSteps.ItemsSource = steps.Select((step, index) => new WalkthroughStepViewModel(
-            step, index, _checklistState.GetValueOrDefault(CheckKey(_activeGame, map.DisplayName, quest.DisplayName, _fullQuestRoute, step.Id)),
+            step, index, _checklistState.GetValueOrDefault(CheckKey(_activeGame, map.DisplayName, quest.DisplayName, _fullQuestRoute, step.Id)) || autoCompleted.Contains(step.Id),
             _activeGame, map.DisplayName, quest.DisplayName, _fullQuestRoute,
             item => _checklistState.GetValueOrDefault($"{_activeGame}|{map.DisplayName}|{quest.DisplayName}|{step.Id}|item|{item.Id}"))).ToArray();
         _loadingWalkthrough = false;
@@ -636,6 +670,19 @@ public partial class MainWindow : Window
     }
 }
 
+public sealed class DoorGuideViewModel
+{
+    public string Display { get; }
+    public Brush Brush { get; }
+    public DoorGuideViewModel(DoorGuideState door)
+    {
+        var cost = door.Cost is { } value ? $"{value:N0} pts" : door.GateType switch { "power" => "POWER", "quest" => "QUEST GATE", "bus" => "BUS / ROUTE", _ => door.GateType.ToUpperInvariant() };
+        var state = door.IsOpen switch { true => "OPEN", false => "CLOSED", _ => "STATE UNKNOWN" };
+        Display = $"{(door.RequiredOpen ? "● REQUIRED" : "○ OPTIONAL")} · {door.Label} · {cost} · {state}";
+        Brush = door.RequiredOpen && door.IsOpen == false ? Brushes.OrangeRed : door.RequiredOpen ? (Brush)Application.Current.MainWindow.FindResource("AccentOlive") : Brushes.Gray;
+    }
+}
+
 public sealed record WalkthroughMapChoice(string Label, int Index, string GameId, string MapId)
 {
     public override string ToString() => Label;
@@ -652,25 +699,35 @@ public sealed class SideEggViewModel
     { Title = title; Evidence = evidence; Steps = steps; }
 }
 
-public sealed class SideEggStepViewModel
+public sealed class SideEggStepViewModel : INotifyPropertyChanged
 {
     public string Key { get; }
     public string Label { get; }
     public string Location { get; }
-    public bool IsChecked { get; set; }
+    private bool _isChecked;
+    public bool IsChecked { get => _isChecked; set { if (_isChecked == value) return; _isChecked = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDecorations))); } }
+    public TextDecorationCollection TextDecorations => IsChecked ? System.Windows.TextDecorations.Strikethrough : new TextDecorationCollection();
+    public event PropertyChangedEventHandler? PropertyChanged;
     public bool Observed { get; }
     public string TrackingStatus { get; }
     public SideEggStepViewModel(string key, string label, string location, bool isChecked, bool observed, bool observerSupported)
     { Key = key; Label = label; Location = location; IsChecked = isChecked || observed; Observed = observed; TrackingStatus = observed ? "OBSERVED" : observerSupported ? "AUTO" : "MANUAL"; }
 }
 
-public sealed class WalkthroughStepViewModel
+public sealed class WalkthroughStepViewModel : INotifyPropertyChanged
 {
     public FlowNode Step { get; }
     public string Title { get; }
     public string Instruction { get; }
     public string Detection { get; }
-    public bool IsChecked { get; set; }
+    private bool _isChecked;
+    public bool IsChecked
+    {
+        get => _isChecked;
+        set { if (_isChecked == value) return; _isChecked = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDecorations))); }
+    }
+    public TextDecorationCollection TextDecorations => IsChecked ? System.Windows.TextDecorations.Strikethrough : new TextDecorationCollection();
+    public event PropertyChangedEventHandler? PropertyChanged;
     public IReadOnlyList<WalkthroughChecklistViewModel> Checklists { get; }
 
     public WalkthroughStepViewModel(FlowNode step, int number, bool isChecked, string game, string map, string quest, string route, Func<FlowChecklistItem, bool> isItemChecked)
@@ -681,6 +738,52 @@ public sealed class WalkthroughStepViewModel
         Detection = string.IsNullOrWhiteSpace(step.Detection) ? "" : $"TRACKER SIGNAL · {step.Detection}";
         IsChecked = isChecked;
         Checklists = step.Checklists.Select(group => new WalkthroughChecklistViewModel(group, step.Id, game, map, quest, route, isItemChecked)).ToArray();
+    }
+}
+
+public sealed class TempleTileBankViewModel
+{
+    public string Label { get; }
+    public IReadOnlyList<TempleTileCellViewModel> Tiles { get; }
+    public TempleTileBankViewModel(string label, IReadOnlyList<TempleTileCellState> tiles)
+    { Label = label; Tiles = tiles.Select(tile => new TempleTileCellViewModel(tile)).ToArray(); }
+}
+
+public sealed class TempleTileCellViewModel
+{
+    public string Label { get; }
+    public string IconPath { get; }
+    public Brush LeftBrush { get; }
+    public Brush RightBrush { get; }
+    public Brush BorderBrush { get; }
+    public TempleTileCellViewModel(TempleTileCellState tile)
+    {
+        Label = tile.TileId.ToString("00");
+        IconPath = $"pack://application:,,,/Assets/Items/shangri_tile_{Label}.png";
+        LeftBrush = tile.Matched ? Brushes.DarkSeaGreen : tile.Selected ? Brushes.Goldenrod : Brushes.Transparent;
+        RightBrush = tile.Matched ? Brushes.DarkSeaGreen : Brushes.Transparent;
+        BorderBrush = tile.Matched ? Brushes.DarkSeaGreen : tile.Selected ? Brushes.Goldenrod : new SolidColorBrush(Color.FromRgb(65, 76, 70));
+    }
+}
+
+public sealed class DieRiseTileCueViewModel
+{
+    public string Position { get; }
+    public string Direction { get; }
+    public string Marker { get; }
+    public Brush Brush { get; }
+    public TextDecorationCollection TextDecorations { get; }
+    public DieRiseTileCueViewModel(int position, string? direction, bool complete)
+    {
+        Position = $"{position:00}";
+        Direction = direction?.ToUpperInvariant() switch
+        {
+            "NORTH" => "↑  NORTH", "EAST" => "→  EAST", "SOUTH" => "↓  SOUTH", "WEST" => "←  WEST",
+            _ => "—"
+        };
+        Marker = complete ? "✓" : "○";
+        Brush = complete ? Brushes.DarkSeaGreen : Brushes.Goldenrod;
+        TextDecorations = complete ? System.Windows.TextDecorations.Strikethrough : new TextDecorationCollection();
     }
 }
 
@@ -740,8 +843,9 @@ public sealed class ObjectiveChecklistItemViewModel : INotifyPropertyChanged
     public string Label { get; }
     public string Location { get; }
     public string IconPath => ItemIconCatalog.For(Label);
+    public TextDecorationCollection TextDecorations => IsChecked ? System.Windows.TextDecorations.Strikethrough : new TextDecorationCollection();
     private bool _isChecked;
-    public bool IsChecked { get => _isChecked; set { if (_isChecked == value) return; _isChecked = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Marker))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MarkerBrush))); } }
+    public bool IsChecked { get => _isChecked; set { if (_isChecked == value) return; _isChecked = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Marker))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MarkerBrush))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDecorations))); } }
     public string Marker => IsChecked ? "✓" : "○";
     public Brush MarkerBrush => IsChecked ? Brushes.DarkSeaGreen : Brushes.Gray;
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -755,6 +859,7 @@ public sealed class StepTrackerCheckpointViewModel
     public string Marker { get; }
     public string Status { get; }
     public Brush MarkerBrush { get; }
+    public TextDecorationCollection TextDecorations { get; }
 
     public StepTrackerCheckpointViewModel(StepCheckpointState state)
     {
@@ -762,6 +867,7 @@ public sealed class StepTrackerCheckpointViewModel
         Marker = state.Complete ? "✓" : "○";
         Status = state.Complete ? "COMPLETE" : "WAITING";
         MarkerBrush = state.Complete ? new SolidColorBrush(Color.FromRgb(128, 219, 160)) : new SolidColorBrush(Color.FromRgb(164, 176, 172));
+        TextDecorations = state.Complete ? System.Windows.TextDecorations.Strikethrough : new TextDecorationCollection();
     }
 }
 
@@ -770,11 +876,12 @@ public sealed class PreparationItemViewModel : INotifyPropertyChanged
     public string Key { get; }
     public string Text { get; }
     public string IconPath => ItemIconCatalog.For(Text);
+    public TextDecorationCollection TextDecorations => IsChecked ? System.Windows.TextDecorations.Strikethrough : new TextDecorationCollection();
     private bool _isChecked;
     public bool IsChecked
     {
         get => _isChecked;
-        set { if (_isChecked == value) return; _isChecked = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked))); }
+        set { if (_isChecked == value) return; _isChecked = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsChecked))); PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TextDecorations))); }
     }
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -822,17 +929,36 @@ public sealed class ProgressStepViewModel
     public double Width { get; }
     public Brush MarkerFill { get; }
     public Brush ConnectorBrush { get; }
+    public TextDecorationCollection TextDecorations { get; }
 
     public ProgressStepViewModel(QuestStep step, int number, int columns)
     {
         Width = 220;
         ShortTitle = step.Title.Replace("Node ", "", StringComparison.Ordinal).Replace(" — ", " · ");
         Status = step.Status.ToUpperInvariant();
+        TextDecorations = step.Status == "Complete" ? System.Windows.TextDecorations.Strikethrough : new TextDecorationCollection();
         Marker = step.Status switch { "Complete" => "✓", "Current" => $"{number:00}", _ => "·" };
         MarkerBrush = step.Status switch { "Complete" => Brushes.LightGreen, "Current" => Brushes.Gold, _ => Brushes.DimGray };
         TitleBrush = step.Status == "Current" ? Brushes.White : Brushes.LightGray;
         MarkerFill = step.Status switch { "Complete" => new SolidColorBrush(Color.FromRgb(41, 74, 48)), "Current" => new SolidColorBrush(Color.FromRgb(70, 57, 28)), _ => new SolidColorBrush(Color.FromRgb(31, 38, 34)) };
         ConnectorBrush = step.Status == "Upcoming" ? new SolidColorBrush(Color.FromRgb(55, 64, 58)) : new SolidColorBrush(Color.FromRgb(105, 150, 106));
+    }
+}
+
+public sealed class DieRiseFloorSymbolViewModel
+{
+    public int Position { get; }
+    public string State { get; }
+    public string Marker { get; }
+    public Brush Brush { get; }
+    public TextDecorationCollection TextDecorations { get; }
+    public DieRiseFloorSymbolViewModel(int position, bool complete)
+    {
+        Position = position;
+        State = complete ? "VALID" : "WAITING";
+        Marker = complete ? "✓" : "○";
+        Brush = complete ? Brushes.DarkSeaGreen : Brushes.Goldenrod;
+        TextDecorations = complete ? System.Windows.TextDecorations.Strikethrough : new TextDecorationCollection();
     }
 }
 

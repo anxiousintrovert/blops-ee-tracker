@@ -21,26 +21,6 @@ init()
 	level thread coast_tracker_watch_side_music_completion();
 	level thread coast_tracker_watch_end_game();
 	level thread coast_tracker_emit_heartbeat();
-	level thread coast_tracker_watch_player_inventory();
-}
-
-coast_tracker_watch_player_inventory()
-{
-	level endon("end_game");
-	level.ee_tracker_inventory_signatures = [];
-	for (;;) { players = getPlayers(); for ( i = 0; i < players.size; i++ ) players[i] thread coast_tracker_inventory_if_changed(i); wait 1; }
-}
-
-coast_tracker_inventory_if_changed(slot)
-{
-	items = ""; weapons = self GetWeaponsListPrimaries();
-	for ( i = 0; i < weapons.size; i++ ) if ( weapons[i] == "vr11_zm" || weapons[i] == "vr11_upgraded_zm" ) items = items + weapons[i] + "|";
-	tactical = self get_player_tactical_grenade();
-	if ( isDefined(tactical) && (tactical == "zombie_black_hole_bomb" || tactical == "zombie_nesting_dolls") ) items = items + tactical + "|";
-	if ( isDefined(level.ee_tracker_inventory_signatures[slot]) && level.ee_tracker_inventory_signatures[slot] == items ) return;
-	level.ee_tracker_inventory_signatures[slot] = items;
-	handle = fs_fopen("ee-tracker.jsonl", "append"); if ( !handle ) return;
-	fs_writeline(handle, "{\"schemaVersion\":1,\"type\":\"player_inventory\",\"game\":\"bo1\",\"map\":\"zombie_coast\",\"playerSlot\":" + slot + ",\"inventoryItems\":\"" + items + "\",\"source\":\"gsc\"}"); fs_fclose(handle);
 }
 
 coast_tracker_watch_side_music_completion()
@@ -168,9 +148,54 @@ coast_tracker_watch_progress()
 {
 	last_beacons = "";
 	last_dials = "";
+	last_radios = "";
 	last_dial_states = array(false, false, false, false);
+	last_control_states = array(false, false, false);
+	control_seen = array(false, false, false);
+	ship_wheel = undefined;
+	port_lever = undefined;
+	starboard_lever = undefined;
 	for (;;)
 	{
+		if ( flag("ke") && isDefined(level.contact) && level.contact.size > 0 )
+		{
+			radios = 0;
+			if ( isDefined(level._reach) ) radios = level._reach.size;
+			if ( flag("aca") ) radios = level.contact.size;
+			if ( radios > level.contact.size ) radios = level.contact.size;
+			key = radios + "/" + level.contact.size;
+			if ( key != last_radios )
+			{
+				coast_tracker_emit_progress("coast.radio_sequence", radios, level.contact.size);
+				last_radios = key;
+			}
+		}
+		if ( flag("aca") && isDefined(level.mermaid) && level.mermaid.size >= 3 )
+		{
+			if ( !isDefined(ship_wheel) )
+			{
+				ship_wheel = GetEnt("sm_ship_wheel", "targetname");
+				port_trigger = GetEnt("trig_eot_left_switch", "targetname");
+				starboard_trigger = GetEnt("trig_eot_right_switch", "targetname");
+				port_lever = GetEnt(port_trigger.target, "targetname");
+				starboard_lever = GetEnt(starboard_trigger.target, "targetname");
+			}
+			if ( isDefined(ship_wheel.spot) && isDefined(port_lever.spot) && isDefined(starboard_lever.spot) )
+			{
+				control_states = array(ship_wheel.spot == level.mermaid[0], port_lever.spot == level.mermaid[1], starboard_lever.spot == level.mermaid[2]);
+				control_signals = array("coast.control.wheel", "coast.control.port", "coast.control.starboard");
+				for ( j = 0; j < 3; j++ )
+				{
+					if ( !control_seen[j] || control_states[j] != last_control_states[j] )
+					{
+						if ( control_states[j] ) coast_tracker_emit_event(control_signals[j] + ".correct");
+						else coast_tracker_emit_event(control_signals[j] + ".incorrect");
+						last_control_states[j] = control_states[j];
+						control_seen[j] = true;
+					}
+				}
+			}
+		}
 		if ( isDefined(level._serenade) && isDefined(level.mermaid) && level.mermaid.size > 0 )
 		{
 			progress = level._serenade.size;
@@ -194,7 +219,10 @@ coast_tracker_watch_progress()
 					correct++;
 				if ( i < 4 && is_correct != last_dial_states[i] )
 				{
-					coast_tracker_emit_event("coast.dial." + i + (is_correct ? ".correct" : ".incorrect"));
+					if ( is_correct )
+						coast_tracker_emit_event("coast.dial." + i + ".correct");
+					else
+						coast_tracker_emit_event("coast.dial." + i + ".incorrect");
 					last_dial_states[i] = is_correct;
 				}
 			}

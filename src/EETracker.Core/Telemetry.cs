@@ -59,6 +59,9 @@ public sealed record TelemetryEvent
     public int? PeerBank { get; init; }
     public int? PeerTileId { get; init; }
     public string? TileState { get; init; }
+    public string? DoorId { get; init; }
+    public string? DoorState { get; init; }
+    public int? DoorCost { get; init; }
     public string Source { get; init; } = "unknown";
 }
 
@@ -73,6 +76,7 @@ public sealed record SideEggStepProgress(string Map, string EggId, int StepIndex
 public sealed record PlayerInventoryState(string Game, string Map, int PlayerSlot, string? PlayerName, IReadOnlyList<string> Items);
 public sealed record QuestPartState(string Game, string Map, string PartId, string State, int? PlayerSlot, string? PlayerName, string? PossibleAreas, string? Label, string? Origin);
 public sealed record PreparationRequirement(string Id, string Scope, string Text);
+public sealed record DoorGuideState(string DoorId, string Label, int? Cost, string GateType, bool? IsOpen, bool RequiredOpen);
 
 public sealed record CompanionState
 {
@@ -93,6 +97,10 @@ public sealed record CompanionState
     public string SamanthaColors { get; init; } = "";
     public string RichtofenCue { get; init; } = "";
     public IReadOnlyList<StepTrackerState> CurrentTrackers { get; init; } = Array.Empty<StepTrackerState>();
+    public IReadOnlyList<TempleTileCellState> TempleTileBanks { get; init; } = Array.Empty<TempleTileCellState>();
+    public IReadOnlyList<string> DieRiseTileSequence { get; init; } = Array.Empty<string>();
+    public int? DieRiseTileProgress { get; init; }
+    public int? DieRiseFloorProgress { get; init; }
     public string CurrentObjective { get; init; } = "Waiting for Ascension telemetry";
     public string Instruction { get; init; } = "Start a replay or connect the GSC log source.";
     public IReadOnlyList<PreparationRequirement> Preparation { get; init; } = Array.Empty<PreparationRequirement>();
@@ -112,10 +120,12 @@ public sealed record CompanionState
     public IReadOnlyList<SideEggStepProgress> SideEggProgress { get; init; } = Array.Empty<SideEggStepProgress>();
     public IReadOnlyList<PlayerInventoryState> PlayerInventories { get; init; } = Array.Empty<PlayerInventoryState>();
     public IReadOnlyList<QuestPartState> QuestParts { get; init; } = Array.Empty<QuestPartState>();
+    public IReadOnlyList<DoorGuideState> Doors { get; init; } = Array.Empty<DoorGuideState>();
 }
 
 public sealed record TransitProfileState(int PlayerSlot, int? LastCompletedSide, int? RichtofenCompletionCount, int? MaxisCompletionCount, int? NavcardAppliedCount);
 public sealed record Bo2ProfileState(string Map, int PlayerSlot, int? LastCompletedSide, int? RichtofenCompletionCount, int? MaxisCompletionCount, int? NavcardAppliedCount, bool? NavcardHeld = null, int? NavcardTableBuiltCount = null);
+public sealed record TempleTileCellState(int Bank, int TileId, bool Selected, bool Matched);
 
 public static class TelemetryJson
 {

@@ -1,5 +1,10 @@
 # Live verification ledger
 
+## BO1 points helper (2026-09-25)
+
+- Installed the separate `ee_tracker_test_points.gsc` helper under all ten round-based BO1 Zombies map folders. Each installed file matched the source SHA-256, and the Release desktop build packaged the helper plus its installer and uninstaller.
+- After a fresh Call of the Dead load, the user confirmed that `ee_tracker_test_points 1` added 100,000 points in-game. The other nine maps have installed copies but no live score check yet. Dead Ops Arcade is outside the helper's scope.
+
 ## Side Easter Egg observer tracking (2026-09-25)
 
 - Added `side_egg_step` telemetry consumption to the Side Easter Eggs checklist. Observed rows are saved as checked on this PC and cannot be manually unchecked during the current app session.
@@ -10,6 +15,7 @@
 ## Quest inventory and confirmed part flags (2026-09-25)
 
 - The mission panel filters inventory telemetry through map-specific BO1/BO2 quest item catalogs. Player inventory snapshots are keyed by game, map, and current lobby slot; slots are not durable player identity.
+- Call of the Dead map loading failed on the optional inventory watcher (`unknown function` from the T5 script linker). With that watcher removed, the user confirmed the map loaded and the fresh `ee-tracker.jsonl` session recorded a `zombie_coast` snapshot, heartbeats, player count changing from zero to one, and lighthouse dial progress changing from zero to one and back. In the later solo match, telemetry also recorded `power_on`, `ffs`, `ffd`, all four generator flags, `hgd`, then `aca`, `shs`, `sr`, `bp`, and `mcs`. CoTD inventory telemetry remains disabled pending a compatible implementation. Finale flags remain unverified.
 - The Mob observer polls stock key_found, plane-part *_found, and plane_built flags. These confirm team-level found/built state and do not identify the player who carried a loose part.
 - T6 buildable/craftable pickup and drop callbacks are wrapped for player attribution on TranZit, Die Rise, Buried, Mob, and Origins. These wrappers duplicate stock callback behavior to preserve stats, voice cues, drops, and inventory/client fields. They compile, but loading and callback parity need private-match verification. Mob's plane/key flags remain team-level signals.
 - Origins staff weapons remain attributable through per-player inventory polling; static dig/spawn hints are guide areas, not pickup confirmation. Stock all-pieces-found notifications are not treated as flags.
@@ -23,7 +29,7 @@
 - Call of the Dead Pure Harmony displays the observed count of correctly positioned lighthouse dials out of four and a floor-by-floor checklist. Dial numbers are match-randomized, so the checklist reports whether each floor's dial is correct rather than showing a fixed target. Its stage still advances only on the stock Pure Harmony success flag.
 - Release build: `dotnet build EETracker.sln -c Release` succeeded with 0 warnings and 0 errors during development. The updated app, replay fixtures, data, GSC, and sample files were staged together in a local test build.
 - Updated Ascension, Call of the Dead, Shangri-La, and Moon observers were installed into Plutonium's map-scoped raw-script folders for development checks. The edited coast, temple, and Moon scripts matched their installed copies by SHA-256 at that time.
-- New Call of the Dead, Shangri-La, and Moon substep signals are source-derived from extracted scripts but not live-match verified. T5 compilation, map loading, progress changes, and reset behavior for each new tracker remain to be checked in-game.
+- Call of the Dead lighthouse-dial count and per-floor correct/incorrect signals were captured in a live match. Its other substep signals, and the Shangri-La and Moon trackers, still need live-match checks.
 
 ## Verified from supplied materials and local files
 
@@ -38,7 +44,7 @@
 - An independent T5 mod author documents the sandboxed data location as `storage\\t5\\raw\\scriptdata`, not `storage\\t5\\scriptdata`. The companion's live path and installer were corrected.
 - In a fresh Ascension match, Plutonium logged the observer's `main()` and `init()`, followed by successful session-file opening and initial status writing. The real JSONL feed recorded `session_started`, positive standard `any_player_ee` variant evidence, and valid Ascension snapshots for round 1 with player count moving from 0 to 1 and power off. The companion was restarted with `--connect-game`; the user confirmed its live Ascension mission screen updated.
 - During that match, the same feed recorded round changes from 1 to 2 to 3 and a power transition from off to on at round 3. Ongoing map status telemetry is therefore live. A quest completion event is still outstanding.
-- The Call of the Dead flow is connected to its offline-confirmed map signals. Its observer reports the `zombie_coast` map code, session state, status snapshots, reviewed quest success flags, and the final `coast_easter_egg_achieved` notification. The reducer selects Stand-In for one player and Ensemble Cast for more than one player, matching the stock map script. Live Call of the Dead loading and quest signals remain unverified.
+- The Call of the Dead flow is connected to its offline-confirmed map signals. Live loading, the `zombie_coast` snapshot, session start, player count update, heartbeats, changing lighthouse-dial signals, and solo quest flags through the submarine sequence (`aca`, `shs`, `sr`, `bp`, `mcs`) are confirmed. The observer also watches reviewed quest success flags and `coast_easter_egg_achieved`; the finale flags remain unverified. The reducer selects Stand-In for one player and Ensemble Cast for more than one player, matching the stock map script.
 - Shangri-La and Moon have map-scoped observers. Shangri-La reports reviewed flags and matching stock stage notifications. Moon reports reviewed stage/flag signals, four active soul-tank fill/max counters, stable Samantha Says color displays, the Richtofen-near-Vril-Device dialogue trigger, and the final Big Bang notification. Shangri-La and Moon still need live checks, including GSC compilation, Samantha color capture, and correct mapping/order of the four tank entities.
 
 ## Live checks still required
@@ -46,8 +52,8 @@
 1. Complete the first Ascension quest step in a private match. Confirm the matching stock success flag appears in the file and the objective advances once.
 2. Confirm the active Any Player EE profile is classified only when the observer finds the mod hook and an exact known profile; otherwise it must remain Unknown.
 3. Reconnect/restart the map and check session reset behavior. Multiplayer sharing to another player's companion remains a separate feature.
-4. Load Call of the Dead and confirm its map-scoped observer starts, reports the `zombie_coast` map code, follows player count to the correct quest branch, and records the door/fuse/generator flags.
+4. In Call of the Dead, confirm the player-count branch in the companion UI, per-control alignment signals, and finale completion transitions.
 5. Load Shangri-La and confirm its observer records Eclipse entry, stock stage flags, and final completion against the displayed steps.
 6. Load Moon and confirm observer load, Samantha Says displayed colors, step progression, four soul-tank counters against the in-game tanks, Richtofen's dialogue cue, and the final rocket event.
 
-Ascension observer compilation, `main()` and `init()` execution, session-file writes, status updates, and live mission-screen updates are confirmed. Call of the Dead, Shangri-La, and Moon have source-reviewed observers, but their live load and quest signals remain unverified.
+Ascension observer compilation, `main()` and `init()` execution, session-file writes, status updates, and live mission-screen updates are confirmed. Call of the Dead live loading, dial telemetry, and quest flags through the solo submarine sequence are confirmed; its finale remains unverified. Shangri-La and Moon remain source-reviewed without a live load check.

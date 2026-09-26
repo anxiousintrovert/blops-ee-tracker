@@ -18,9 +18,7 @@ main()
 }
 
 init()
-{
-    level thread ee_tracker_transit_monitor();
-}
+{level thread ee_tracker_transit_monitor(); }
 
 ee_tracker_transit_monitor()
 {
@@ -249,3 +247,5 @@ ee_tracker_transit_emit_progress_value(signal, progress, maximum)
     level.ee_tracker_transit_progress_values[signal] = progress;
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"quest_progress\",\"game\":\"bo2\",\"map\":\"zm_transit\",\"sessionId\":\"" + level.ee_tracker_transit_session + "\",\"signal\":\"" + signal + "\",\"progress\":" + progress + ",\"progressMax\":" + maximum + ",\"source\":\"gsc\"}\n");
 }
+
+

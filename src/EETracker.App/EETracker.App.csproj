@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup><OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><Version>0.2.1</Version><UseWPF>true</UseWPF><EnableWindowsTargeting>true</EnableWindowsTargeting><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><UseAppHost>true</UseAppHost></PropertyGroup>
+  <PropertyGroup><OutputType>WinExe</OutputType><TargetFramework>net8.0-windows</TargetFramework><Version>0.3.0</Version><UseWPF>true</UseWPF><EnableWindowsTargeting>true</EnableWindowsTargeting><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><UseAppHost>true</UseAppHost></PropertyGroup>
   <ItemGroup><ProjectReference Include="..\EETracker.Core\EETracker.Core.csproj" /></ItemGroup>
   <ItemGroup><PackageReference Include="Microsoft.PowerShell.SDK" Version="7.4.2" /></ItemGroup>
   <ItemGroup><Resource Include="Assets\*.png" /><Resource Include="Assets\Items\*.png" /></ItemGroup>
@@ -15,6 +15,9 @@
     <None Include="..\Gsc\tracker_moon.gsc" Link="gsc\tracker_moon.gsc" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\Gsc\Install-EETrackerObserver.ps1" Link="gsc\Install-EETrackerObserver.ps1" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\Gsc\Uninstall-EETrackerObserver.ps1" Link="gsc\Uninstall-EETrackerObserver.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\ee_tracker_test_points.gsc" Link="gsc\ee_tracker_test_points.gsc" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\Install-EETrackerT5Points.ps1" Link="gsc\Install-EETrackerT5Points.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Gsc\Uninstall-EETrackerT5Points.ps1" Link="gsc\Uninstall-EETrackerT5Points.ps1" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\GscT6\tracker_transit.gsc" Link="gsc\t6\tracker_transit.gsc" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\GscT6\tracker_highrise.gsc" Link="gsc\t6\tracker_highrise.gsc" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\GscT6\tracker_buried.gsc" Link="gsc\t6\tracker_buried.gsc" CopyToOutputDirectory="PreserveNewest" />

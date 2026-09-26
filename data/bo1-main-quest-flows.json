@@ -439,26 +439,28 @@
             {
               "id": "bo1.call_of_the_dead.ensemble.06.art_critic",
               "title": "Ensemble Cast — complete Art Critic",
-              "instruction": "Four portraits show four places. Have one player stand on each matching pressure plate; the lighthouse signal advances when all required positions are occupied.",
+              "instruction": "After delivering the vodka and speaking to the crew, activate the four radios in the required order. The stock radio sequence advances the lighthouse signal when accepted.",
               "completionCue": "Art Critic stage completes and the lighthouse signal sequence begins.",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "appliesTo": [
                 "ensemble_cast"
               ],
               "sourceFlag": "aca",
+              "trackers": [
+                {
+                  "title": "RADIO SEQUENCE ENTRIES",
+                  "signal": "coast.radio_sequence",
+                  "maximum": 4
+                }
+              ],
               "checklists": [
                 {
-                  "title": "Portrait positions",
+                  "title": "Four-radio sequence",
                   "items": [
                     {
-                      "id": "a1",
-                      "label": "Read the four portrait clues",
-                      "location": "Crew room by the sealed Ultimis door."
-                    },
-                    {
-                      "id": "a2",
-                      "label": "Occupy the four matching pressure plates together",
-                      "location": "Map locations indicated by the portraits: lighthouse, ship, Stamin-Up area and spawn/landing area; keep all four occupied until the signal advances."
+                      "id": "radio_order",
+                      "label": "Activate the four radios in order",
+                      "location": "Cabinet below Power Room; barrel in Stamin-Up room; inside a boat container; under stairs in the Ultimis room."
                     }
                   ]
                 }
@@ -467,7 +469,7 @@
             {
               "id": "bo1.call_of_the_dead.main.07.bring_up_sub",
               "title": "Bring up the submarine",
-              "instruction": "Read the lighthouse Morse signal, set the ship wheel and telegraph operator as shown, then listen for the horn and submarine response.",
+              "instruction": "After destroying the four generators, return to the sealed Ultimis door below PhD Flopper and knife it again to start Bring Up the Sub. Then follow the lighthouse Morse signal to align the ship wheel and both telegraph levers; listen for the horn and submarine response.",
               "completionCue": "The submarine surfaces and answers with its horn.",
               "detection": "stock-GSC-flag-confirmed-offline; live-observer-unverified",
               "variantNotes": {
@@ -479,6 +481,24 @@
                 "stand_in"
               ],
               "trackers": [
+                {
+                  "title": "SHIP CONTROLS ALIGNED",
+                  "signal": "coast.ship_controls",
+                  "checkpoints": [
+                    {
+                      "label": "Steering wheel aligned",
+                      "signal": "coast.control.wheel.correct"
+                    },
+                    {
+                      "label": "Left telegraph lever aligned",
+                      "signal": "coast.control.port.correct"
+                    },
+                    {
+                      "label": "Right telegraph lever aligned",
+                      "signal": "coast.control.starboard.correct"
+                    }
+                  ]
+                },
                 {
                   "title": "SUBMARINE RESPONSE",
                   "signal": "coast.submarine",
@@ -501,12 +521,12 @@
               ],
               "checklists": [
                 {
-                  "title": "Radio, steering controls, and submarine response",
+                  "title": "Ship controls and submarine response",
                   "items": [
                     {
                       "id": "r1",
-                      "label": "Activate the four radios in order",
-                      "location": "1) Cabinet below Power Room. 2) Barrel in Stamin-Up room. 3) Inside a boat container. 4) Under stairs in Ultimis room."
+                      "label": "Knife the sealed Ultimis door again after the generators",
+                      "location": "Below PhD Flopper. This triggers the solo Bring Up the Sub stage."
                     },
                     {
                       "id": "r2",
@@ -538,6 +558,24 @@
               ],
               "sourceFlag": "mcs",
               "trackers": [
+                {
+                  "title": "SHIP CONTROLS ALIGNED",
+                  "signal": "coast.ship_controls",
+                  "checkpoints": [
+                    {
+                      "label": "Steering wheel aligned",
+                      "signal": "coast.control.wheel.correct"
+                    },
+                    {
+                      "label": "Left telegraph lever aligned",
+                      "signal": "coast.control.port.correct"
+                    },
+                    {
+                      "label": "Right telegraph lever aligned",
+                      "signal": "coast.control.starboard.correct"
+                    }
+                  ]
+                },
                 {
                   "title": "SUBMARINE AND BEACON SEQUENCE",
                   "signal": "coast.beacon_sequence",

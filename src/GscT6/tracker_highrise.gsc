@@ -13,7 +13,28 @@ main()
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"observer_loaded\",\"game\":\"bo2\",\"map\":\"zm_highrise\",\"source\":\"gsc\"}\n");
 }
 
-init() { level thread ee_tracker_highrise_monitor(); level thread ee_tracker_highrise_watch_inventory(); }
+init() { level thread ee_tracker_highrise_monitor(); level thread ee_tracker_highrise_watch_inventory(); level thread ee_tracker_highrise_watch_tile_progress(); }
+
+ee_tracker_highrise_watch_tile_progress()
+{
+    level endon("end_game");
+    last_tower_progress = -1;
+    last_floor_progress = -1;
+    while (true)
+    {
+        if (isdefined(level.n_cur_leg) && level.n_cur_leg != last_tower_progress)
+        {
+            last_tower_progress = level.n_cur_leg;
+            ee_tracker_highrise_progress("bo2.highrise.tower_tile_progress", level.n_cur_leg, 4);
+        }
+        if (isdefined(level.sq_atd_cur_drg) && level.sq_atd_cur_drg != last_floor_progress)
+        {
+            last_floor_progress = level.sq_atd_cur_drg;
+            ee_tracker_highrise_progress("bo2.highrise.floor_symbol_progress", level.sq_atd_cur_drg, 4);
+        }
+        wait 0.1;
+    }
+}
 
 ee_tracker_highrise_watch_inventory()
 {
@@ -66,6 +87,8 @@ ee_tracker_highrise_monitor()
             ee_tracker_highrise_signal_once("elevators", "bo2.highrise.shared.elevators");
         if (flag("sq_atd_drg_puzzle_complete"))
             ee_tracker_highrise_signal_once("floor_symbols", "bo2.highrise.shared.floor_symbols");
+        if (!isdefined(level.ee_tracker_highrise_tile_sequence_sent) && isdefined(level.a_wind_order) && level.a_wind_order.size == 4)
+            ee_tracker_highrise_emit_tile_sequence();
         if (stage == "slb")
             ee_tracker_highrise_emit_ball_progress();
         elevator_count = int(flag("sq_atd_elevator0")) + int(flag("sq_atd_elevator1")) + int(flag("sq_atd_elevator2")) + int(flag("sq_atd_elevator3"));
@@ -157,6 +180,13 @@ ee_tracker_highrise_progress(signal, progress, maximum)
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"quest_progress\",\"game\":\"bo2\",\"map\":\"zm_highrise\",\"sessionId\":\"" + level.ee_tracker_highrise_session + "\",\"signal\":\"" + signal + "\",\"progress\":" + progress + ",\"progressMax\":" + maximum + ",\"source\":\"gsc\"}\n");
 }
 
+ee_tracker_highrise_emit_tile_sequence()
+{
+    level.ee_tracker_highrise_tile_sequence_sent = 1;
+    sequence = level.a_wind_order[0] + "," + level.a_wind_order[1] + "," + level.a_wind_order[2] + "," + level.a_wind_order[3];
+    printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"quest_tile_sequence\",\"game\":\"bo2\",\"map\":\"zm_highrise\",\"sessionId\":\"" + level.ee_tracker_highrise_session + "\",\"signal\":\"bo2.highrise.tower_tiles\",\"signalValue\":\"" + sequence + "\",\"source\":\"gsc\"}\n");
+}
+
 ee_tracker_highrise_emit_ball_progress()
 {
     balls = getentarray("sq_dragon_lion_ball", "targetname");
@@ -184,3 +214,5 @@ ee_tracker_highrise_signal(signal)
 {
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"quest_signal\",\"game\":\"bo2\",\"map\":\"zm_highrise\",\"sessionId\":\"" + level.ee_tracker_highrise_session + "\",\"signal\":\"" + signal + "\",\"source\":\"gsc\"}\n");
 }
+
+

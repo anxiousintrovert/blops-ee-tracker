@@ -4,7 +4,7 @@
 #include quest_part_hooks;
 
 main() { level.ee_tracker_part_map = "zm_prison"; level.ee_tracker_part_session = randomint(1000000000); level.ee_tracker_prison_session = level.ee_tracker_part_session; ee_tracker_install_quest_part_hooks(); printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"observer_loaded\",\"game\":\"bo2\",\"map\":\"zm_prison\",\"source\":\"gsc\"}\n"); }
-init() { level thread ee_tracker_prison_monitor(); level thread ee_tracker_prison_watch_inventory(); level thread ee_tracker_prison_watch_parts(); }
+init() {level thread ee_tracker_prison_monitor(); level thread ee_tracker_prison_watch_inventory(); level thread ee_tracker_prison_watch_parts(); }
 
 ee_tracker_prison_watch_parts()
 {
@@ -159,3 +159,5 @@ ee_tracker_prison_emit_side_egg_step(egg_id, step_index)
 {
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"side_egg_step\",\"game\":\"bo2\",\"map\":\"zm_prison\",\"eggId\":\"" + egg_id + "\",\"stepIndex\":" + step_index + ",\"source\":\"gsc\"}\n");
 }
+
+

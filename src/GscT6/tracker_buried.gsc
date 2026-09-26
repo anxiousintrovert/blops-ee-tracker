@@ -5,7 +5,7 @@
 #include quest_part_hooks;
 
 main() { level.ee_tracker_part_map = "zm_buried"; level.ee_tracker_part_session = randomint(1000000000); level.ee_tracker_buried_session = level.ee_tracker_part_session; ee_tracker_install_quest_part_hooks(); printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"observer_loaded\",\"game\":\"bo2\",\"map\":\"zm_buried\",\"source\":\"gsc\"}\n"); }
-init() { level thread ee_tracker_buried_monitor(); level thread ee_tracker_buried_watch_inventory(); }
+init() {level thread ee_tracker_buried_monitor(); level thread ee_tracker_buried_watch_inventory(); }
 
 ee_tracker_buried_watch_inventory()
 {
@@ -161,3 +161,5 @@ ee_tracker_buried_signal(signal)
 {
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"quest_signal\",\"game\":\"bo2\",\"map\":\"zm_buried\",\"sessionId\":\"" + level.ee_tracker_buried_session + "\",\"signal\":\"" + signal + "\",\"source\":\"gsc\"}\n");
 }
+
+

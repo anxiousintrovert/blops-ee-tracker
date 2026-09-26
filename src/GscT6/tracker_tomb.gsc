@@ -4,7 +4,7 @@
 #include quest_part_hooks;
 
 main() { level.ee_tracker_part_map = "zm_tomb"; level.ee_tracker_part_session = randomint(1000000000); level.ee_tracker_tomb_session = level.ee_tracker_part_session; ee_tracker_install_quest_part_hooks(); printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"observer_loaded\",\"game\":\"bo2\",\"map\":\"zm_tomb\",\"source\":\"gsc\"}\n"); }
-init() { level thread ee_tracker_tomb_monitor(); level thread ee_tracker_tomb_watch_inventory(); }
+init() {level thread ee_tracker_tomb_monitor(); level thread ee_tracker_tomb_watch_inventory(); }
 
 ee_tracker_tomb_watch_inventory()
 {
@@ -85,3 +85,5 @@ ee_tracker_tomb_emit_side_egg_step(egg_id, step_index)
 {
     printf("[EETrackerT6] {\"schemaVersion\":1,\"type\":\"side_egg_step\",\"game\":\"bo2\",\"map\":\"zm_tomb\",\"eggId\":\"" + egg_id + "\",\"stepIndex\":" + step_index + ",\"source\":\"gsc\"}\n");
 }
+
+

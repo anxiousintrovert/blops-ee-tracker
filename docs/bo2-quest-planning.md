@@ -22,6 +22,22 @@ Do not interpret “two paths in BO2” as a global choice for every map. The fa
 
 ## Proposed tracker model
 
+### Door-cost and access guidance
+
+Keep door routing as map-scoped guidance attached to the current quest step. The same named door may be irrelevant to one objective and required for another, so the active step should identify which routes must already be open. Use observer state to show `open`, `closed`, or `unknown`; do not infer an individual door from the aggregate `doors_purchased` statistic. Door prices should come from verified stock entity cost fields or an in-game prompt capture. Leave a cost unknown when neither source is available, and mark power, bus, and quest gates by gate type instead of assigning a points value.
+
+The decompiled map scripts expose useful route identifiers, but do not by themselves establish a complete numeric price table or a stable observer contract for every runtime door entity. Initial source-backed route groups to audit are:
+
+| Map | Route identifiers / areas | Gate classes to distinguish |
+| --- | --- | --- |
+| TranZit | Bus Depot, Diner, Farmhouse, Town bank/bar, Power Station/Warehouse, Bus Depot-to-station adjacency | Paid blockers, bus-stop adjacency, farmhouse/bank quest flags, power-station doors |
+| Die Rise | Green start/level doors; Blue level 2 and 4 doors; Power Room | Paid blockers, always-open elevator/shaft adjacencies, power/quest blockers |
+| Buried | General Store, Mansion lawn/maze, Gun Store, Courthouse, Jail, Candy Shop, Church, tunnel connectors | Paid doors, always-open adjacencies, tunnel/maze routes |
+| Mob of the Dead | Cellblocks, Cafeteria, Infirmary, Roof, Citadel, Docks | Paid doors plus Afterlife shock-gates and gondola/quest routes |
+| Origins | Church, Tank Station, Excavation Site, Bunker, Generator 5, Crazy Place | Paid doors, generator/robot access, quest portal |
+
+Before enabling live per-step door checks, add a private-match capture for stable door IDs, cost values, opening transitions, and map-specific aliasing. Do not call this runtime-verified until the installed T6 observers emit those states and the UI shows the expected open/closed condition for each active step.
+
 Keep the active match walkthrough and persistent completion ledger as separate state:
 
 1. **Active quest flow:** Map-scoped ordered nodes with shared nodes referenced by both route sequences. Each Victis quest has explicit `maxis` and `richtofen` paths. A route choice is unset until the team reaches and makes that choice; do not infer the selected route from player profile history.
